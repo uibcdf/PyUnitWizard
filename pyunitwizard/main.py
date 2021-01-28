@@ -1,6 +1,9 @@
 import simtk.unit as simtk_unit
-from ._private_tools.forms import digest_form
+import pint as pint
+from ._private_tools.forms import digest_form, digest_to_form
 from ._private_tools.unit_names import digest_unit_name
+from .forms import dict_translator
+
 
 def get_form(quantity):
 
@@ -8,8 +11,10 @@ def get_form(quantity):
 
     quantity_type = type(quantity)
 
-    if quantity_type == simtk_unit:
+    if quantity_type == simtk_unit.Quantity:
         output = 'simtk.unit'
+    elif quantity_type == pint.Quantity:
+        output = 'Pint'
     else:
         raise NotImplementedError("This quantity form was not implemented yet. Please open an issue to suggest its inclusion.")
 
@@ -54,7 +59,10 @@ def translate(quantity, to_form=None):
     if (to_form is None) or (to_form==form_in):
         output = quantity
     else:
-        raise NotImplementedError
+        try:
+            output = dict_translator[form_in][to_form](quantity)
+        except:
+            raise NotImplementedError("This translation has not been implemented yet.")
 
     return output
 
@@ -69,7 +77,7 @@ def convert(quantity, unit_name, to_form=None):
     try:
 
         if form_in == 'simtk.unit':
-            output = output.in_units_of(unit(unit_name,'simtk.unit'))
+            output = quantity.in_units_of(unit(unit_name,'simtk.unit'))
         else:
             raise NotImplementedError
 

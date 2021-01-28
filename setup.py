@@ -6,17 +6,17 @@ from numpy.distutils.extension import Extension
 extensions_list=[]
 
 setup(
-    name='openexplorer',
+    name='pyunitwizard',
     version='0.0.1',
     author='UIBCDF Lab',
     author_email='uibcdf@gmail.com',
-    package_dir={'openexplorer': 'openexplorer'},
+    package_dir={'pyunitwizard': 'pyunitwizard'},
     packages=find_packages(),
     ext_modules=extensions_list,
-    package_data={'openexplorer': []},
+    package_data={'pyunitwizard': []},
     scripts=[],
     url='http://uibcdf.org',
-    download_url ='https://github.com/uibcdf/OpenExplorer',
+    download_url ='https://github.com/uibcdf/PyUnitWizard',
     license='MIT',
     description="---",
     long_description="---",
