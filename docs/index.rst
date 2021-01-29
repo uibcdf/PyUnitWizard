@@ -17,13 +17,22 @@ PyUnitWizard
 
 .. toctree::
    :name: installation
-   :caption: Installation
+   :caption: Installation and Quick tutorial
    :maxdepth: 1
+
+   contents/Installation.md
+   contents/Quick_Tutorial.ipynb
 
 .. toctree::
    :name: user_guide
    :caption: User guide
    :maxdepth: 2
+
+   contents/Forms.ipynb
+   contents/Quantity_and_Units.ipynb
+   contents/Get.ipynb
+   contents/Convert.ipynb
+   contents/Translate.ipynb
 
 .. toctree::
    :caption: API Documentation

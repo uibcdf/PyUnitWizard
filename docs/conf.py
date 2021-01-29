@@ -67,6 +67,11 @@ autosummary_generate = True
 autodoc_default_options = {'members':True, 'inherited-members':True}
 numpydoc_class_members_toctree = False
 
+# sphinxcontrib-bibtex
+bibtex_bibfiles = ['bibliography.bib'] # list of *.bib files
+bibtex_default_style = 'alpha'
+bibtex_encoding = 'utf-8-sig'
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
