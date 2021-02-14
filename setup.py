@@ -20,5 +20,7 @@ setup(
     license='MIT',
     description="---",
     long_description="---",
+    install_requires=[
+      ],
 )
 

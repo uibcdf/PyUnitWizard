@@ -1,6 +1,7 @@
 forms = {
     'simtk.unit': 'simtk.unit',
-    'pint': 'Pint',
+    'pint': 'pint',
+    'unyt': 'unyt'
 }
 
 def digest_form(form):

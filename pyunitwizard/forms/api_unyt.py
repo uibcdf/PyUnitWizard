@@ -5,11 +5,27 @@ form_name = 'unyt'
 is_form={
     }
 
+def is_quantity(quantity_or_unit):
+
+    raise NotImplementedError
+
+def is_unit(quantity_or_unit):
+
+    raise NotImplementedError
+
 def make_quantity(value, unit_name):
 
     raise NotImplementedError
 
-def make_unit(unit_name):
+def string_to_quantity(string):
+
+    raise NotImplementedError
+
+def string_to_unit(string):
+
+    raise NotImplementedError
+
+def to_string(unit):
 
     raise NotImplementedError
 
@@ -18,10 +34,6 @@ def convert(quantity, unit_name):
     raise NotImplementedError
 
 def get_value(quantity):
-
-    raise NotImplementedError
-
-def get_unit_name(quantity):
 
     raise NotImplementedError
 
