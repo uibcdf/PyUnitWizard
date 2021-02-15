@@ -1,0 +1,42 @@
+pyunitwizard.main
+=================
+
+.. automodule:: pyunitwizard.main
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      convert
+      get_default_form
+      get_form
+      get_unit
+      get_value
+      is_quantity
+      is_unit
+      quantity
+      set_default_form
+      string_to_quantity
+      string_to_unit
+      to_string
+      translate
+      unit
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
