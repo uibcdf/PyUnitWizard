@@ -1,15 +1,15 @@
-forms = {
-    'simtk.unit': 'simtk.unit',
-    'pint': 'pint',
-    'unyt': 'unyt'
-}
+from . import default
+
+forms = ['simtk.unit', 'pint', 'unyt']
 
 def digest_form(form):
 
     output = None
 
-    if form.lower() in forms:
-        output = forms[form.lower()]
+    if form is None:
+        output=default.form
+    elif form.lower() in forms:
+        output = form.lower()
     else:
         raise ValueError
 

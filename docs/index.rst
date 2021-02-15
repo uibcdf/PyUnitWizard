@@ -1,4 +1,3 @@
-
 .. pyunitwizard documentation master file
 
 ============
@@ -28,11 +27,13 @@ PyUnitWizard
    :caption: User guide
    :maxdepth: 2
 
+   contents/Importing.ipynb
    contents/Forms.ipynb
    contents/Quantity_and_Units.ipynb
-   contents/Get.ipynb
    contents/Convert.ipynb
    contents/Translate.ipynb
+   contents/Strings.ipynb
+   contents/In_Your_Library.ipynb
 
 .. toctree::
    :caption: API Documentation

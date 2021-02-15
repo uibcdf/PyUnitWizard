@@ -22,7 +22,7 @@ def is_quantity(quantity_or_unit):
 
 def is_unit(quantity_or_unit):
 
-    output = (type(quantity_or_item)==simtk_unit.Unit)
+    output = (type(quantity_or_unit)==simtk_unit.Unit)
 
     return output
 
@@ -37,7 +37,7 @@ def string_to_quantity(string):
         raise PintNotFoundError()
 
     pint_quantity = string_to_pint_quantity(string)
-    parser = PintParserHelper(pint_quantity.__str__())
+    parser = PintParserHelper.from_string(pint_quantity.__str__())
     tmp_quantity = parser.scale
     for unit_name, exponent in parser.items():
         tmp_quantity *= getattr(simtk_unit, unit_name)**exponent
