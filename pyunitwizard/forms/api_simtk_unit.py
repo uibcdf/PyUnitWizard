@@ -26,6 +26,38 @@ def is_unit(quantity_or_unit):
 
     return output
 
+_dimensions_translator={
+    'length' : '[L]',
+    'mass' : '[M]',
+    'time' : '[T]',
+    'temperature' : '[K]',
+    'amount' : '[mol]',
+    'luminous intensity' : '[Cd]'
+}
+
+def dimensionality(quantity_or_unit):
+
+    output = {'[L]':0, '[M]':0, '[T]':0, '[K]':0, '[mol]':0, '[A]':0, '[Cd]':0}
+
+    tmp_unit = None
+
+    if is_quantity(quantity_or_unit):
+        tmp_unit = quantity_or_unit.unit
+    elif is_unit(quantity_or_unit):
+        tmp_unit = quantity_or_unit
+    else:
+        raise ValueError
+
+    for base, exponent in tmp_unit.iter_base_dimensions():
+        if base.name == 'charge':
+            output['[A]'] += exponent
+            output['[T]'] += exponent
+        else:
+            output[_dimensions_translator[base.name]]=exponent
+
+    return output
+
+
 def make_quantity(value, unit_name):
 
     unit=string_to_unit(unit_name)

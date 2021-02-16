@@ -32,6 +32,25 @@ def is_unit(quantity_or_unit):
 
     return output
 
+_dimensions_translator={
+    '[length]' : '[L]',
+    '[mass]' : '[M]',
+    '[time]' : '[T]',
+    '[temperature]' : '[K]',
+    '[substance]' : '[mol]',
+    '[current]' : '[A]',
+    '[luminosity]' : '[Cd]'
+}
+
+def dimensionality(quantity_or_unit):
+
+    output = {'[L]':0, '[M]':0, '[T]':0, '[K]':0, '[mol]':0, '[A]':0, '[Cd]':0}
+
+    for dim, exponent in quantity_or_unit.dimensionality.items():
+        output[_dimensions_translator[dim]]=exponent
+
+    return output
+
 def make_quantity(value, unit_name):
 
     return Q_(value, unit_name)

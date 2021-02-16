@@ -2,19 +2,38 @@ import simtk.unit as simtk_unit
 import pint as pint
 from ._private_tools.forms import digest_form, digest_to_form
 from ._private_tools.parsers import digest_parser
-from .forms import dict_is_form, dict_is_unit, dict_is_quantity
+from .forms import dict_is_form, dict_is_unit, dict_is_quantity, dict_dimensionality
 from .forms import dict_get_unit, dict_get_value, dict_make_quantity
 from .forms import dict_convert, dict_translate, dict_string_to_quantity, dict_string_to_unit, dict_to_string
 from ._private_tools import default
 
-def get_default_form():
+def get_default_standards():
 
-    return default.form
+    return default.standards
 
-def set_default_form(form):
+def get_standard(quantity_or_unit):
 
-    form = digest_form(form)
-    default.form = form
+    dim = dimensionality(quantity_or_unit)
+    dim = default.hashabledict(dim)
+
+    try:
+        output = default.standards[dim]
+    except:
+        output = None
+
+    return output
+
+def set_default_standards(standards):
+
+    if type(standards) is str:
+        standards=[standards]
+    elif type(standards) not in [list, tuple]:
+        raise ValueError
+
+    for standard in standards:
+        dim = dimensionality(string_to_unit(standard))
+        dim = default.hashabledict(dim)
+        default.standards[dim] = standard
 
     pass
 
@@ -77,6 +96,22 @@ def get_unit(quantity, to_form=None):
             output = make_unit(unit_name)
     except:
         raise NotImplementedError
+
+    return output
+
+def dimensionality(quantity_or_unit):
+
+    output = None
+    form = get_form(quantity_or_unit)
+    output = dict_dimensionality[form](quantity_or_unit)
+
+    return output
+
+def compatibility(quantity_or_unit_1, quantity_or_unit_2):
+
+    d1 = dimensionality(quantity_or_unit_1)
+    d2 = dimensionality(quantity_or_unit_2)
+    output = (d1==d2)
 
     return output
 
@@ -147,6 +182,25 @@ def convert(quantity_or_unit, unit_name, to_form=None, parser=None):
             output = dict_translate[form_in](quantity_or_unit, to_form=parser)
             output = dict_convert[parser](output, unit_name)
 
+        output = translate(output, to_form=to_form)
+
+    return output
+
+def standardize(quantity_or_unit, to_form=None):
+
+    to_form = digest_form(to_form)
+
+    try:
+        output = translate(quantity_or_unit, to_form=to_form)
+        standard = get_standard(output)
+        if standard is None:
+            raise ValueError("The input quantity or unit has no standard.")
+        output = convert(output, standard)
+    except:
+        standard = get_standard(quantity_or_unit)
+        if standard is None:
+            raise ValueError("The input quantity or unit has no standard.")
+        output = convert(quantity_or_unit, standard)
         output = translate(output, to_form=to_form)
 
     return output

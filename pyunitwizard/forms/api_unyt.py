@@ -13,6 +13,10 @@ def is_unit(quantity_or_unit):
 
     raise NotImplementedError
 
+def dimensionality(quantity_or_unit):
+
+    raise NotImplementedError
+
 def make_quantity(value, unit_name):
 
     raise NotImplementedError
