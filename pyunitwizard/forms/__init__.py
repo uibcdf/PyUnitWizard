@@ -14,6 +14,7 @@ dict_string_to_quantity={}
 dict_string_to_unit={}
 dict_to_string={}
 dict_dimensionality={}
+dict_compatibility={}
 
 _base_package = __name__.replace('.base','')
 _forms_apis_modules = {'simtk.unit':'api_simtk_unit', 'pint':'api_pint', 'unyt':'api_unyt'}
@@ -35,6 +36,7 @@ def load_library(library):
     dict_string_to_unit[library] = api.string_to_unit
     dict_to_string[library] = api.to_string
     dict_dimensionality[library] = api.dimensionality
+    dict_compatibility[library] = api.compatibility
 
     for method in api.__dict__.keys():
         if method.startswith('to_'):

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Translate forms &mdash; PyUnitWizard 0.1 documentation</title>
+  <title>Dimensionality and Compatibility &mdash; PyUnitWizard 0.1 documentation</title>
   
 
   
@@ -42,8 +42,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Working with strings" href="Strings.html" />
-    <link rel="prev" title="Convert quantities" href="Convert.html" /> 
+    <link rel="next" title="Convert quantities" href="Convert.html" />
+    <link rel="prev" title="Quantity and Unit" href="Quantity_and_Units.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -106,9 +106,9 @@
 <li class="toctree-l1"><a class="reference internal" href="Importing.html">How to import the library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Forms.html">Quantity forms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Quantity_and_Units.html">Quantity and Unit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Dimensionality.html">Dimensionality and Compatibility</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Dimensionality and Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Convert.html">Convert quantities</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Translate forms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Translate.html">Translate forms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Strings.html">Working with strings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Standardize.html">Standardize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="In_Your_Library.html">PyUnitWizard in your library</a></li>
@@ -177,13 +177,13 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Translate forms</li>
+      <li>Dimensionality and Compatibility</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/contents/Translate.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/contents/Dimensionality.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -466,18 +466,231 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Translate-forms">
-<h1>Translate forms<a class="headerlink" href="#Translate-forms" title="Permalink to this headline">¶</a></h1>
-<p><em>Text</em></p>
-<p>Text here</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
+<span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
 </pre></div>
 </div>
+</div>
+<div class="section" id="Dimensionality-and-Compatibility">
+<h1>Dimensionality and Compatibility<a class="headerlink" href="#Dimensionality-and-Compatibility" title="Permalink to this headline">¶</a></h1>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 69%" />
+<col style="width: 31%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Fundamental Quantity</p></th>
+<th class="head"><p>Dimension</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Length</p></td>
+<td><p>[L]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mass</p></td>
+<td><p>[M]</p></td>
+</tr>
+<tr class="row-even"><td><p>Time</p></td>
+<td><p>[T]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Temperature</p></td>
+<td><p>[K]</p></td>
+</tr>
+<tr class="row-even"><td><p>Substance</p></td>
+<td><p>[mol]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Electric Current</p></td>
+<td><p>[A]</p></td>
+</tr>
+<tr class="row-even"><td><p>Luminous Intensity</p></td>
+<td><p>[Cd]</p></td>
+</tr>
+</tbody>
+</table>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pyunitwizard</span> <span class="k">as</span> <span class="nn">puw</span>
+<span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">load_libraries</span><span class="p">([</span><span class="s1">&#39;pint&#39;</span><span class="p">,</span> <span class="s1">&#39;simtk.unit&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="mf">1.4</span><span class="p">,</span> <span class="s1">&#39;kJ/mol&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+<span class="n">puw</span><span class="o">.</span><span class="n">dimensionality</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;[L]&#39;: 2.0,
+ &#39;[M]&#39;: 1.0,
+ &#39;[T]&#39;: -2.0,
+ &#39;[K]&#39;: 0,
+ &#39;[mol]&#39;: -1.0,
+ &#39;[A]&#39;: 0,
+ &#39;[Cd]&#39;: 0}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">string_to_quantity</span><span class="p">(</span><span class="s1">&#39;3.5N/(2.0nm**2)&#39;</span><span class="p">)</span>
+<span class="n">puw</span><span class="o">.</span><span class="n">dimensionality</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;[L]&#39;: -1, &#39;[M]&#39;: 1, &#39;[T]&#39;: -2, &#39;[K]&#39;: 0, &#39;[mol]&#39;: 0, &#39;[A]&#39;: 0, &#39;[Cd]&#39;: 0}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q1</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;meter&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+<span class="n">q2</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;centimeter&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+
+<span class="n">puw</span><span class="o">.</span><span class="n">compatibility</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q1</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;kJ/mol&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+<span class="n">q2</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;kcal/mol&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+
+<span class="n">puw</span><span class="o">.</span><span class="n">compatibility</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q1</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;nm**3&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+<span class="n">q2</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;litre&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+
+<span class="n">puw</span><span class="o">.</span><span class="n">compatibility</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q1</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;nm**3&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+<span class="n">q2</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;ps&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+
+<span class="n">puw</span><span class="o">.</span><span class="n">compatibility</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+False
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q1</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;degrees&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">)</span>
+<span class="n">q2</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;radians&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">)</span>
+
+<span class="n">puw</span><span class="o">.</span><span class="n">compatibility</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q1</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;degrees&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">)</span>
+<span class="n">q2</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;hertzs&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">)</span>
+
+<span class="n">puw</span><span class="o">.</span><span class="n">compatibility</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+False
+</pre></div></div>
 </div>
 </div>
 
@@ -487,8 +700,8 @@ div.rendered_html tbody tr:hover {
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="Strings.html" class="btn btn-neutral float-right" title="Working with strings" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="Convert.html" class="btn btn-neutral float-left" title="Convert quantities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Convert.html" class="btn btn-neutral float-right" title="Convert quantities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Quantity_and_Units.html" class="btn btn-neutral float-left" title="Quantity and Unit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

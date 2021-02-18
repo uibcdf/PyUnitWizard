@@ -27,7 +27,7 @@
    :toctree:
    :recursive:
 
+   pyunitwizard.configure
    pyunitwizard.forms
-   pyunitwizard.loader
    pyunitwizard.main
 

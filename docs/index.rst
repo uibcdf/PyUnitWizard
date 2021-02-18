@@ -30,9 +30,11 @@ PyUnitWizard
    contents/Importing.ipynb
    contents/Forms.ipynb
    contents/Quantity_and_Units.ipynb
+   contents/Dimensionality.ipynb
    contents/Convert.ipynb
    contents/Translate.ipynb
    contents/Strings.ipynb
+   contents/Standardize.ipynb
    contents/In_Your_Library.ipynb
 
 .. toctree::

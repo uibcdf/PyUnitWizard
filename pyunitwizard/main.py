@@ -2,40 +2,11 @@ import simtk.unit as simtk_unit
 import pint as pint
 from ._private_tools.forms import digest_form, digest_to_form
 from ._private_tools.parsers import digest_parser
-from .forms import dict_is_form, dict_is_unit, dict_is_quantity, dict_dimensionality
+from .forms import dict_is_form, dict_is_unit, dict_is_quantity, dict_dimensionality, dict_compatibility
 from .forms import dict_get_unit, dict_get_value, dict_make_quantity
 from .forms import dict_convert, dict_translate, dict_string_to_quantity, dict_string_to_unit, dict_to_string
 from ._private_tools import default
-
-def get_default_standards():
-
-    return default.standards
-
-def get_standard(quantity_or_unit):
-
-    dim = dimensionality(quantity_or_unit)
-    dim = default.hashabledict(dim)
-
-    try:
-        output = default.standards[dim]
-    except:
-        output = None
-
-    return output
-
-def set_default_standards(standards):
-
-    if type(standards) is str:
-        standards=[standards]
-    elif type(standards) not in [list, tuple]:
-        raise ValueError
-
-    for standard in standards:
-        dim = dimensionality(string_to_unit(standard))
-        dim = default.hashabledict(dim)
-        default.standards[dim] = standard
-
-    pass
+import numpy as np
 
 def get_form(quantity_or_unit):
 
@@ -99,19 +70,45 @@ def get_unit(quantity, to_form=None):
 
     return output
 
-def dimensionality(quantity_or_unit):
+def dimensionality(quantity_or_unit, output='dict'):
 
-    output = None
+    dim = None
     form = get_form(quantity_or_unit)
-    output = dict_dimensionality[form](quantity_or_unit)
+    dim = dict_dimensionality[form](quantity_or_unit)
 
-    return output
+    if output is 'array':
+        dim = np.array([dim[ii] for ii in default.order_fundamental_units], dtype=float)
+
+    return dim
 
 def compatibility(quantity_or_unit_1, quantity_or_unit_2):
 
-    d1 = dimensionality(quantity_or_unit_1)
-    d2 = dimensionality(quantity_or_unit_2)
-    output = (d1==d2)
+    d1 = dimensionality(quantity_or_unit_1, output='array')
+    d2 = dimensionality(quantity_or_unit_2, output='array')
+
+    n_fundamental_units = len(default.order_fundamental_units)
+
+    if (np.sum(np.isclose(d1, 0.0)) == n_fundamental_units) and (np.sum(np.isclose(d2, 0.0)) == n_fundamental_units):
+
+        form1 = get_form(quantity_or_unit_1)
+        form2 = get_form(quantity_or_unit_2)
+
+        if form1!=form2:
+
+            try:
+                tmp = translate(quantity_or_unit_1, to_form=form2)
+                output = dict_compatibility[form2](tmp, quantity_or_unit_2)
+            except:
+                tmp = translate(quantity_or_unit_2, to_form=form1)
+                output = dict_compatibility[form1](tmp, quantity_or_unit_1)
+
+        else:
+
+            output = dict_compatibility[form1](quantity_or_unit_1, quantity_or_unit_2)
+
+    else:
+
+        output = np.all(d1==d2)
 
     return output
 
@@ -186,18 +183,119 @@ def convert(quantity_or_unit, unit_name, to_form=None, parser=None):
 
     return output
 
+def get_standard_units(quantity_or_unit):
+
+    dim = dimensionality(quantity_or_unit)
+    solution = np.array([dim[ii] for ii in default.order_fundamental_units], dtype=float)
+    n_dims_solution = len(default.order_fundamental_units) - np.sum(np.isclose(solution, 0.0))
+
+    output = None
+
+    if n_dims_solution == 0:
+
+        for standard_unit, _ in default.adimensional_standards.items():
+            if compatibility(quantity_or_unit, standard_unit):
+                output = standard_unit
+                break
+
+    elif n_dims_solution == 1:
+
+        for standard_unit, dim_array in default.dimensional_fundamental_standards.items():
+            if np.allclose(solution, dim_array):
+                output = standard_unit
+                break
+
+        if output is None:
+
+            matrix = []
+            standard_units = []
+
+            for aux_unit, aux_dim_array in default.tentative_base_standards.items():
+                standard_units.append(string_to_unit(aux_unit))
+                matrix.append(aux_dim_array)
+
+            matrix = np.array(matrix)
+
+            x, _, _, _ = np.linalg.lstsq(matrix.T, solution, rcond=None)
+
+            x = x.round(4)
+
+            if np.allclose(np.dot(matrix.T, x), solution):
+                output = 1
+                for u, exponent in zip(standard_units, x):
+                    if not np.isclose(0.0, exponent):
+                        output *= u**exponent
+
+                output = to_string(get_unit(output))
+
+    else:
+
+        for standard_units, dim_array in default.dimensional_combinations_standards.items():
+            if np.allclose(solution, dim_array):
+                output = standard_units
+                break
+
+        if output is None:
+
+            matrix = []
+            standard_units = []
+
+            for aux_unit, aux_dim_array in default.dimensional_fundamental_standards.items():
+                standard_units.append(string_to_unit(aux_unit))
+                matrix.append(aux_dim_array)
+
+            matrix = np.array(matrix)
+
+            x, _, _, _ = np.linalg.lstsq(matrix.T, solution, rcond=None)
+
+            x = x.round(4)
+
+            if np.allclose(np.dot(matrix.T, x), solution):
+                output = 1
+                for u, exponent in zip(standard_units, x):
+                    if not np.isclose(0.0, exponent):
+                        output *= u**exponent
+
+                output = to_string(get_unit(output))
+
+        if output is None:
+
+            matrix = []
+            standard_units = []
+
+            for aux_unit, aux_dim_array in default.tentative_base_standards.items():
+                standard_units.append(string_to_unit(aux_unit))
+                matrix.append(aux_dim_array)
+
+            matrix = np.array(matrix)
+
+            x, _, _, _ = np.linalg.lstsq(matrix.T, solution, rcond=None)
+
+            x = x.round(4)
+
+            if np.allclose(np.dot(matrix.T, x), solution):
+                output = 1
+                for u, exponent in zip(standard_units, x):
+                    if not np.isclose(0.0, exponent):
+                        output *= u**exponent
+
+                output = to_string(get_unit(output))
+
+
+    return output
+
 def standardize(quantity_or_unit, to_form=None):
 
     to_form = digest_form(to_form)
 
     try:
         output = translate(quantity_or_unit, to_form=to_form)
-        standard = get_standard(output)
+        standard = get_standard_units(output)
         if standard is None:
             raise ValueError("The input quantity or unit has no standard.")
         output = convert(output, standard)
     except:
-        standard = get_standard(quantity_or_unit)
+        standard = get_standard_units(quantity_or_unit)
         if standard is None:
             raise ValueError("The input quantity or unit has no standard.")
         output = convert(quantity_or_unit, standard)

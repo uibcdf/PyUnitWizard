@@ -1,7 +1,7 @@
-pyunitwizard.loader
-===================
+pyunitwizard.configure
+======================
 
-.. automodule:: pyunitwizard.loader
+.. automodule:: pyunitwizard.configure
 
    
    
@@ -13,10 +13,14 @@ pyunitwizard.loader
 
    .. autosummary::
    
+      get_default_form
+      get_standard_units
       libraries_found
       libraries_loaded
       libraries_supported
       load_libraries
+      set_default_form
+      set_standard_units
    
    
 

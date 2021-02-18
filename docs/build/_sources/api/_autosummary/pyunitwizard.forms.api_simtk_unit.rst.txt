@@ -13,7 +13,9 @@ pyunitwizard.forms.api\_simtk\_unit
 
    .. autosummary::
    
+      compatibility
       convert
+      dimensionality
       get_unit
       get_value
       is_quantity
@@ -21,7 +23,7 @@ pyunitwizard.forms.api\_simtk\_unit
       make_quantity
       string_to_quantity
       string_to_unit
-      to_Pint
+      to_pint
       to_string
    
    

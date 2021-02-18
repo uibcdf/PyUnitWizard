@@ -96,7 +96,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#Let’s-create-a-quantity-to-play-a-bit-with-it">Let’s create a quantity to play a bit with it</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Let’s-now-create-a-unit-to-play-with-it">Let’s now create a unit to play with it</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Some-methods-to-work-with-quantities,-units-and-strings">Some methods to work with quantities, units and strings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Finnally,-PyUnitWizard-has-a-default-quantity-form-you-can-change">Finnally, PyUnitWizard has a default quantity form you can change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#The-default-quantity">The default quantity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#The-standards">The standards</a></li>
 </ul>
 </li>
 </ul>
@@ -105,22 +106,24 @@
 <li class="toctree-l1"><a class="reference internal" href="Importing.html">How to import the library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Forms.html">Quantity forms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Quantity_and_Units.html">Quantity and Unit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Dimensionality.html">Dimensionality and Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Convert.html">Convert quantities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Translate.html">Translate forms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Strings.html">Working with strings</a></li>
-<li class="toctree-l1"><a class="reference internal" href="In_Your_Library.html">Using PyUnitWizard in your own library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Standardize.html">Standardize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="In_Your_Library.html">PyUnitWizard in your library</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api/index.html">All methods</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/_autosummary/pyunitwizard.html">pyunitwizard</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/_autosummary/pyunitwizard.configure.html">pyunitwizard.configure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_autosummary/pyunitwizard.forms.html">pyunitwizard.forms</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/_autosummary/pyunitwizard.forms.api_pint.html">pyunitwizard.forms.api_pint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/_autosummary/pyunitwizard.forms.api_simtk_unit.html">pyunitwizard.forms.api_simtk_unit</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/_autosummary/pyunitwizard.forms.api_unyt.html">pyunitwizard.forms.api_unyt</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../api/_autosummary/pyunitwizard.loader.html">pyunitwizard.loader</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_autosummary/pyunitwizard.main.html">pyunitwizard.main</a></li>
 </ul>
 </li>
@@ -493,7 +496,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">puw</span><span class="o">.</span><span class="n">libraries_supported</span><span class="p">()</span>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">libraries_supported</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -511,7 +514,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">puw</span><span class="o">.</span><span class="n">libraries_found</span><span class="p">()</span>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">libraries_found</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -529,7 +532,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">puw</span><span class="o">.</span><span class="n">load_libraries</span><span class="p">([</span><span class="s1">&#39;pint&#39;</span><span class="p">,</span> <span class="s1">&#39;simtk.unit&#39;</span><span class="p">])</span>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">load_libraries</span><span class="p">([</span><span class="s1">&#39;pint&#39;</span><span class="p">,</span> <span class="s1">&#39;simtk.unit&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -538,7 +541,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">puw</span><span class="o">.</span><span class="n">libraries_loaded</span><span class="p">()</span>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">libraries_loaded</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -652,9 +655,27 @@ True
 <div class="output_area rendered_html docutils container">
 nanometer/picosecond</div>
 </div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">dimensionality</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;[L]&#39;: 1, &#39;[M]&#39;: 0, &#39;[T]&#39;: -1, &#39;[K]&#39;: 0, &#39;[mol]&#39;: 0, &#39;[A]&#39;: 0, &#39;[Cd]&#39;: 0}
+</pre></div></div>
+</div>
 <p>We can now translate <strong>q</strong> from Pint to simtk.unit:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -663,7 +684,7 @@ nanometer/picosecond</div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -672,7 +693,7 @@ nanometer/picosecond</div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -681,7 +702,7 @@ nanometer/picosecond</div>
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -690,7 +711,7 @@ nanometer/picosecond</div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -700,7 +721,7 @@ Quantity(value=2.5, unit=nanometer/picosecond)
 </div>
 <p>Finally, lets convert <code class="docutils literal notranslate"><span class="pre">q2</span></code> into other units:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -717,12 +738,48 @@ Quantity(value=2.5, unit=nanometer/picosecond)
 2.5 nm/ps was converted to angstroms/picoseconds as 25.0 A/ps
 </pre></div></div>
 </div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">dimensionality</span><span class="p">(</span><span class="n">q3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;[L]&#39;: 1.0, &#39;[M]&#39;: 0, &#39;[T]&#39;: -1.0, &#39;[K]&#39;: 0, &#39;[mol]&#39;: 0, &#39;[A]&#39;: 0, &#39;[Cd]&#39;: 0}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">compatibility</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">q3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
 </div>
 <div class="section" id="Let’s-now-create-a-unit-to-play-with-it">
 <h2>Let’s now create a unit to play with it<a class="headerlink" href="#Let’s-now-create-a-unit-to-play-with-it" title="Permalink to this headline">¶</a></h2>
 <p>Let’s make a quantity from its unit name or symbol:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -731,7 +788,7 @@ Quantity(value=2.5, unit=nanometer/picosecond)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -740,7 +797,7 @@ Quantity(value=2.5, unit=nanometer/picosecond)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -750,7 +807,7 @@ Unit({BaseUnit(base_dim=BaseDimension(&#34;amount&#34;), name=&#34;mole&#34;, sy
 </div>
 <p>We can check that <code class="docutils literal notranslate"><span class="pre">u</span></code> is in deed a simtk.unit unit.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -759,7 +816,7 @@ Unit({BaseUnit(base_dim=BaseDimension(&#34;amount&#34;), name=&#34;mole&#34;, sy
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -768,7 +825,7 @@ Unit({BaseUnit(base_dim=BaseDimension(&#34;amount&#34;), name=&#34;mole&#34;, sy
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -777,7 +834,7 @@ Unit({BaseUnit(base_dim=BaseDimension(&#34;amount&#34;), name=&#34;mole&#34;, sy
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -785,9 +842,33 @@ Unit({BaseUnit(base_dim=BaseDimension(&#34;amount&#34;), name=&#34;mole&#34;, sy
 True
 </pre></div></div>
 </div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">dimensionality</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;[L]&#39;: 2.0,
+ &#39;[M]&#39;: 1.0,
+ &#39;[T]&#39;: -2.0,
+ &#39;[K]&#39;: 0,
+ &#39;[mol]&#39;: -1.0,
+ &#39;[A]&#39;: 0,
+ &#39;[Cd]&#39;: 0}
+</pre></div></div>
+</div>
 <p>Units and quantities can be turned into strings:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -796,7 +877,7 @@ True
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -809,7 +890,7 @@ True
 <h2>Some methods to work with quantities, units and strings<a class="headerlink" href="#Some-methods-to-work-with-quantities,-units-and-strings" title="Permalink to this headline">¶</a></h2>
 <p>Quantities and units can also be created from algebraical expressions mixing values and units:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -818,7 +899,7 @@ True
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -827,7 +908,7 @@ True
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -836,7 +917,7 @@ Quantity(value=1.75, unit=newton/(nanometer**2))
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -845,7 +926,7 @@ Quantity(value=1.75, unit=newton/(nanometer**2))
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -854,7 +935,7 @@ Quantity(value=1.75, unit=newton/(nanometer**2))
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -863,7 +944,7 @@ Quantity(value=1.75, unit=newton/(nanometer**2))
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -872,14 +953,14 @@ Quantity(value=1.75, unit=newton/(nanometer**2))
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 kelvin</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -888,7 +969,7 @@ kelvin</div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -897,20 +978,20 @@ kelvin</div>
 </pre></div></div>
 </div>
 </div>
-<div class="section" id="Finnally,-PyUnitWizard-has-a-default-quantity-form-you-can-change">
-<h2>Finnally, PyUnitWizard has a default quantity form you can change<a class="headerlink" href="#Finnally,-PyUnitWizard-has-a-default-quantity-form-you-can-change" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="The-default-quantity">
+<h2>The default quantity<a class="headerlink" href="#The-default-quantity" title="Permalink to this headline">¶</a></h2>
 <p>PyUnitWizard takes the first unit library loaded as the default quantity form:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">puw</span><span class="o">.</span><span class="n">libraries_loaded</span><span class="p">()</span>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">libraries_loaded</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -919,16 +1000,16 @@ kelvin</div>
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">puw</span><span class="o">.</span><span class="n">get_default_form</span><span class="p">()</span>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">get_default_form</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -938,7 +1019,7 @@ kelvin</div>
 </div>
 <p>The default form is taken when a method is invoked with out specifying the quantity or unit form:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -961,16 +1042,16 @@ q2 is a pint quantity
 </div>
 <p>The default form can be changed with the following method:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">puw</span><span class="o">.</span><span class="n">set_default_form</span><span class="p">(</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">set_default_form</span><span class="p">(</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -989,6 +1070,225 @@ q2 is a pint quantity
 <div class="highlight"><pre>
 q1 is a simtk.unit quantity
 q2 is a simtk.unit quantity
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="The-standards">
+<h2>The standards<a class="headerlink" href="#The-standards" title="Permalink to this headline">¶</a></h2>
+<p>PyUnitWizard includes the possibility to define standard units for you library or python script. Let’s suppose your quantities will be always expressed in ‘nm’, ‘ps’ and ‘kcal/mol’ as Pint quantities. This two next lines sets this election as the default standards and form:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">set_standard_units</span><span class="p">([</span><span class="s1">&#39;nm&#39;</span><span class="p">,</span> <span class="s1">&#39;ps&#39;</span><span class="p">,</span> <span class="s1">&#39;kcal&#39;</span><span class="p">,</span> <span class="s1">&#39;mole&#39;</span><span class="p">])</span>
+<span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">set_default_form</span><span class="p">(</span><span class="s1">&#39;pint&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We can check that these values were indeed stored:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">get_standard_units</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;nm&#39;: {&#39;[L]&#39;: 1.0,
+  &#39;[M]&#39;: 0,
+  &#39;[T]&#39;: 0,
+  &#39;[K]&#39;: 0,
+  &#39;[mol]&#39;: 0,
+  &#39;[A]&#39;: 0,
+  &#39;[Cd]&#39;: 0},
+ &#39;ps&#39;: {&#39;[L]&#39;: 0,
+  &#39;[M]&#39;: 0,
+  &#39;[T]&#39;: 1.0,
+  &#39;[K]&#39;: 0,
+  &#39;[mol]&#39;: 0,
+  &#39;[A]&#39;: 0,
+  &#39;[Cd]&#39;: 0},
+ &#39;kcal&#39;: {&#39;[L]&#39;: 2.0,
+  &#39;[M]&#39;: 1.0,
+  &#39;[T]&#39;: -2.0,
+  &#39;[K]&#39;: 0,
+  &#39;[mol]&#39;: 0,
+  &#39;[A]&#39;: 0,
+  &#39;[Cd]&#39;: 0},
+ &#39;mole&#39;: {&#39;[L]&#39;: 0,
+  &#39;[M]&#39;: 0,
+  &#39;[T]&#39;: 0,
+  &#39;[K]&#39;: 0,
+  &#39;[mol]&#39;: 1.0,
+  &#39;[A]&#39;: 0,
+  &#39;[Cd]&#39;: 0}}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">get_default_form</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;pint&#39;
+</pre></div></div>
+</div>
+<p>The method <code class="docutils literal notranslate"><span class="pre">pyunitwizard.get_standard()</span></code> shows the standardized compatible units of a quantity:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">string_to_quantity</span><span class="p">(</span><span class="s1">&#39;2.0 pm&#39;</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">get_standard_units</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The standard of q is:&#39;</span><span class="p">,</span> <span class="n">puw</span><span class="o">.</span><span class="n">get_standard_units</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The standard of q is: nm
+</pre></div></div>
+</div>
+<p>And the method <code class="docutils literal notranslate"><span class="pre">pyunitwizard.standardize()</span></code> converts and translates the input quantity into the defined defined default standard compatible units and form:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q2</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">standardize</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;q2 is now a </span><span class="si">{}</span><span class="s1"> quantity expressed in </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">puw</span><span class="o">.</span><span class="n">get_form</span><span class="p">(</span><span class="n">q2</span><span class="p">),</span> <span class="n">puw</span><span class="o">.</span><span class="n">get_unit</span><span class="p">(</span><span class="n">q2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+q2 is now a pint quantity expressed in nanometer.
+</pre></div></div>
+</div>
+<p>Other output forms can be specified with the input argument <code class="docutils literal notranslate"><span class="pre">to_form</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q2</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">standardize</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;q2 is now a </span><span class="si">{}</span><span class="s1"> quantity expressed in </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">puw</span><span class="o">.</span><span class="n">get_form</span><span class="p">(</span><span class="n">q2</span><span class="p">),</span> <span class="n">puw</span><span class="o">.</span><span class="n">get_unit</span><span class="p">(</span><span class="n">q2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+q2 is now a simtk.unit quantity expressed in nanometer.
+</pre></div></div>
+</div>
+<p>As you noticed, we have mention that <code class="docutils literal notranslate"><span class="pre">pyunitwizard.get_standard</span></code> and <code class="docutils literal notranslate"><span class="pre">pyunitwizard.standardize</span></code> results with the compatible default standard units. This is combination of standard units are also considered:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">string_to_quantity</span><span class="p">(</span><span class="s1">&#39;100 angstroms**3&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The standard of q is:&#39;</span><span class="p">,</span> <span class="n">puw</span><span class="o">.</span><span class="n">get_standard_units</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The standard of q is: nanometer ** 3
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">string_to_quantity</span><span class="p">(</span><span class="s1">&#39;3000.0 pm/ns&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The standard of q is:&#39;</span><span class="p">,</span> <span class="n">puw</span><span class="o">.</span><span class="n">get_standard_units</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The standard of q is: nanometer / picosecond
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">string_to_quantity</span><span class="p">(</span><span class="s1">&#39;1.4 kJ/mol&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The standard of q is:&#39;</span><span class="p">,</span> <span class="n">puw</span><span class="o">.</span><span class="n">get_standard_units</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The standard of q is: kilocalorie / mole
+</pre></div></div>
+</div>
+<p>Again, and finnally, <code class="docutils literal notranslate"><span class="pre">pyunitwizard.standardize</span></code> can help you to have homogeneous outputs in you library:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="mf">1.4</span><span class="p">,</span> <span class="s1">&#39;kJ/mol&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">standardize</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> as </span><span class="si">{}</span><span class="s1"> quantity&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">puw</span><span class="o">.</span><span class="n">get_form</span><span class="p">(</span><span class="n">output</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.3346080305927342 kilocalorie / mole as pint quantity
 </pre></div></div>
 </div>
 </div>

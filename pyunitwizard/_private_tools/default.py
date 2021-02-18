@@ -1,11 +1,13 @@
 def initialize():
     global form
-    global standards
+    global fundamental_units
+    global combination_units
     form = None
     standards = {}
+    dimensional_fundamental_standards = {}
+    dimensional_combinations_standards = {}
+    adimensional_standards = {}
+    tentative_base_standards = {}
 
-class hashabledict(dict):
-    def __hash__(self):
-        return hash(tuple(sorted(self.items())))
-
+order_fundamental_units = ['[L]', '[M]', '[T]', '[K]', '[mol]', '[A]', '[Cd]']
 

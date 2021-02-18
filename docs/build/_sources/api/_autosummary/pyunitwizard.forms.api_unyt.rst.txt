@@ -13,7 +13,9 @@ pyunitwizard.forms.api\_unyt
 
    .. autosummary::
    
+      compatibility
       convert
+      dimensionality
       get_unit
       get_value
       is_quantity

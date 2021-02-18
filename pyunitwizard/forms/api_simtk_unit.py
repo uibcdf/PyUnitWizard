@@ -53,9 +53,23 @@ def dimensionality(quantity_or_unit):
             output['[A]'] += exponent
             output['[T]'] += exponent
         else:
-            output[_dimensions_translator[base.name]]=exponent
+            if base.name in _dimensions_translator:
+                output[_dimensions_translator[base.name]]=exponent
 
     return output
+
+def compatibility(quantity_or_unit_1, quantity_or_unit_2):
+
+    tmp_unit_1 = None
+    tmp_unit_2 = None
+
+    if is_quantity(quantity_or_unit_1):
+        tmp_unit_1 = get_unit(quantity_or_unit_1)
+
+    if is_quantity(quantity_or_unit_2):
+        tmp_unit_2 = get_unit(quantity_or_unit_2)
+
+    return tmp_unit_1.is_compatible(tmp_unit_2)
 
 
 def make_quantity(value, unit_name):
@@ -99,7 +113,7 @@ def get_unit(quantity):
 
     return quantity.unit
 
-def to_Pint(quantity):
+def to_pint(quantity):
 
     from .api_pint import make_quantity as make_pint_quantity
 

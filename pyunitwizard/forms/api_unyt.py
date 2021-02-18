@@ -17,6 +17,10 @@ def dimensionality(quantity_or_unit):
 
     raise NotImplementedError
 
+def compatibility(quantity_or_unit_1, quantity_or_unit_2):
+
+    raise NotImplementedError
+
 def make_quantity(value, unit_name):
 
     raise NotImplementedError
