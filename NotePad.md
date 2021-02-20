@@ -10,13 +10,16 @@ http://slidedeck.io/tbekolay/scipy2013-quantities
 https://github.com/MolSSI/QCElemental
 http://docs.qcarchive.molssi.org/projects/qcelemental/en/latest/#
 http://docs.qcarchive.molssi.org/projects/QCElemental/en/stable/
-
+https://ian-r-rose.github.io/automated-dimensional-analysis.html
 
 ## Where a note can be published
 
 Journal of Scientific Computing 
 Journal of Open Source Software https://joss.theoj.org/about
 International Journal of Open Source Software and Processes
+Software: Practice and Experience
+ver: https://doi.org/10.1002/spe.2926
+
 
 
 Where are simtk.unit, unyt or Pint published?

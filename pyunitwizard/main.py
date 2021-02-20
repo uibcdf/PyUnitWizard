@@ -26,29 +26,36 @@ def get_form(quantity_or_unit):
 
 def is_quantity(quantity_or_unit):
 
-    output = None
-    form = get_form(quantity_or_unit)
-
-    output = dict_is_quantity[form](quantity_or_unit)
+    if type(quantity_or_unit) in [str, np.ndarray, list, tuple, int, float]:
+        output = False
+    else:
+        form = get_form(quantity_or_unit)
+        output = dict_is_quantity[form](quantity_or_unit)
 
     return output
 
 def is_unit(quantity_or_unit):
 
-    output = None
-    form = get_form(quantity_or_unit)
-
-    output = dict_is_unit[form](quantity_or_unit)
+    if type(quantity_or_unit) in [str, np.ndarray, list, tuple, int, float]:
+        output = False
+    else:
+        form = get_form(quantity_or_unit)
+        output = dict_is_unit[form](quantity_or_unit)
 
     return output
 
-def get_value(quantity):
+def get_value(quantity, in_units=None):
 
     output = None
     form =get_form(quantity)
 
+    if in_units is not None:
+        tmp_quantity = convert(quantity, in_units=in_units)
+    else:
+        tmp_quantity = quantity
+
     try:
-        output = dict_get_value[form](quantity)
+        output = dict_get_value[form](tmp_quantity)
     except:
         raise NotImplementedError
 
@@ -144,7 +151,7 @@ def translate(quantity_or_unit, to_form=None):
 
     return output
 
-def convert(quantity_or_unit, unit_name, to_form=None, parser=None):
+def convert(quantity_or_unit, in_units=unit_name, to_form=None, parser=None):
 
     output = None
 
@@ -161,10 +168,10 @@ def convert(quantity_or_unit, unit_name, to_form=None, parser=None):
             parser = form_in
 
         if parser == form_in:
-            output = dict_convert[form_in](quantity_or_unit, unit_name)
+            output = dict_convert[form_in](quantity_or_unit, in_units)
         else:
             output = dict_translate[form_in](quantity_or_unit, to_form=parser)
-            output = dict_convert[parser](output, unit_name)
+            output = dict_convert[parser](output, in_units)
 
         output = translate(output, to_form=to_form)
 
@@ -174,10 +181,10 @@ def convert(quantity_or_unit, unit_name, to_form=None, parser=None):
             parser = to_form
 
         if parser == form_in:
-            output = dict_convert[form_in](quantity_or_unit, unit_name)
+            output = dict_convert[form_in](quantity_or_unit, in_units)
         else:
             output = dict_translate[form_in](quantity_or_unit, to_form=parser)
-            output = dict_convert[parser](output, unit_name)
+            output = dict_convert[parser](output, in_units)
 
         output = translate(output, to_form=to_form)
 
