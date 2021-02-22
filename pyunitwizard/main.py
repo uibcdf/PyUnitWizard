@@ -151,7 +151,7 @@ def translate(quantity_or_unit, to_form=None):
 
     return output
 
-def convert(quantity_or_unit, in_units=unit_name, to_form=None, parser=None):
+def convert(quantity_or_unit, in_units, to_form=None, parser=None):
 
     output = None
 
