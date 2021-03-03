@@ -26,11 +26,17 @@ def get_form(quantity_or_unit):
 
 def is_quantity(quantity_or_unit):
 
-    if type(quantity_or_unit) in [str, np.ndarray, list, tuple, int, float]:
-        output = False
-    else:
+    try:
         form = get_form(quantity_or_unit)
         output = dict_is_quantity[form](quantity_or_unit)
+    except:
+        output = False
+
+#    if type(quantity_or_unit) in [str, np.ndarray, list, tuple, int, float]:
+#        output = False
+#    else:
+#        form = get_form(quantity_or_unit)
+#        output = dict_is_quantity[form](quantity_or_unit)
 
     return output
 
