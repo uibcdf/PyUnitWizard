@@ -26,33 +26,37 @@ def get_form(quantity_or_unit):
 
 def is_quantity(quantity_or_unit):
 
-    try:
-        form = get_form(quantity_or_unit)
-        output = dict_is_quantity[form](quantity_or_unit)
-    except:
-        output = False
-
-#    if type(quantity_or_unit) in [str, np.ndarray, list, tuple, int, float]:
-#        output = False
-#    else:
-#        form = get_form(quantity_or_unit)
-#        output = dict_is_quantity[form](quantity_or_unit)
+    if type(quantity_or_unit)=='str':
+        output = string_is_quantity(quantity_or_unit)
+    else:
+        try:
+            form = get_form(quantity_or_unit)
+            output = dict_is_quantity[form](quantity_or_unit)
+        except:
+            output = False
 
     return output
 
 def is_unit(quantity_or_unit):
 
-    if type(quantity_or_unit) in [str, np.ndarray, list, tuple, int, float]:
-        output = False
+    if type(quantity_or_unit)=='str':
+        output = string_is_unit(quantity_or_unit)
     else:
-        form = get_form(quantity_or_unit)
-        output = dict_is_unit[form](quantity_or_unit)
+        try:
+            form = get_form(quantity_or_unit)
+            output = dict_is_unit[form](quantity_or_unit)
+        except:
+            output = False
 
     return output
 
 def get_value(quantity, in_units=None):
 
     output = None
+
+    if type(quantity) is str:
+        quantity = string_to_quantity(quantity)
+
     form =get_form(quantity)
 
     if in_units is not None:
@@ -70,6 +74,10 @@ def get_value(quantity, in_units=None):
 def get_unit(quantity, to_form=None):
 
     output = None
+
+    if type(quantity) is str:
+        quantity = string_to_quantity(quantity)
+
     form =get_form(quantity)
     to_form = digest_to_form(to_form)
 
@@ -86,6 +94,13 @@ def get_unit(quantity, to_form=None):
 def dimensionality(quantity_or_unit, output='dict'):
 
     dim = None
+
+    if type(quantity_or_unit) is str:
+        if string_is_quantity(quantity_or_unit):
+            quantity_or_unit = string_to_quantity(quantity_or_unit)
+        elif string_is_unit(quantity_or_unit):
+            quantity_or_unit = string_to_unit(quantity_or_unit)
+
     form = get_form(quantity_or_unit)
     dim = dict_dimensionality[form](quantity_or_unit)
 
@@ -125,16 +140,30 @@ def compatibility(quantity_or_unit_1, quantity_or_unit_2):
 
     return output
 
-def quantity(value, unit_name, form=None, parser=None):
+def quantity(value, unit=None, form=None, parser=None):
 
     output = None
 
-    form = digest_form(form)
+    if type(value) is str:
+        if unit is None:
+            output = string_to_quantity(value, form=form, parser=parser)
+        elif type(unit) is str:
+            output = string_to_quantity(value+' '+unit, form=form, parser=parser)
+        elif is_unit(unit):
+            unit = to_string(unit)
+            output = string_to_quantity(value+' '+unit, form=form, parser=parser)
+    else:
+        if unit is None:
+            raise ValueError('The input argument "unit" is required.')
+        elif type(unit) is not str:
+            unit = to_string(unit)
 
-    try:
-        output = dict_make_quantity[form](value, unit_name)
-    except:
-        raise NotImplementedError
+        form = digest_form(form)
+
+        try:
+            output = dict_make_quantity[form](value, unit_name)
+        except:
+            raise NotImplementedError
 
     return output
 
@@ -143,6 +172,14 @@ def unit(unit_name, form=None, parser=None):
     return string_to_unit(unit_name, to_form=form, parser=parser)
 
 def translate(quantity_or_unit, to_form=None):
+
+    output=None
+
+    if type(quantity_or_unit) is str:
+        if string_is_quantity(quantity_or_unit):
+            quantity_or_unit = string_to_quantity(quantity_or_unit)
+        elif string_is_unit(quantity_or_unit):
+            quantity_or_unit = string_to_unit(quantity_or_unit)
 
     form_in = get_form(quantity_or_unit)
     to_form = digest_form(to_form)
@@ -160,6 +197,12 @@ def translate(quantity_or_unit, to_form=None):
 def convert(quantity_or_unit, in_units, to_form=None, parser=None):
 
     output = None
+
+    if type(quantity_or_unit) is str:
+        if string_is_quantity(quantity_or_unit):
+            quantity_or_unit = string_to_quantity(quantity_or_unit)
+        elif string_is_unit(quantity_or_unit):
+            quantity_or_unit = string_to_unit(quantity_or_unit)
 
     form_in = get_form(quantity_or_unit)
     to_form = digest_to_form(to_form)
@@ -315,6 +358,35 @@ def standardize(quantity_or_unit, to_form=None):
         output = translate(output, to_form=to_form)
 
     return output
+
+def string_is_quantity(string):
+
+    if type(string)!=str:
+        raise ValueError("Input argument of string_is_quantity is not string.")
+
+    try:
+        quantity = string_to_quantity(string)
+        form = get_form(quantity_or_unit)
+        output = dict_is_quantity[form](quantity_or_unit)
+    except:
+        output = False
+
+    return output
+
+def string_is_unit(string):
+
+    if type(string)!=str:
+        raise ValueError("Input argument of string_is_quantity is not string.")
+
+    try:
+        quantity = string_to_unit(string)
+        form = get_form(quantity_or_unit)
+        output = dict_is_quantity[form](quantity_or_unit)
+    except:
+        output = False
+
+    return output
+
 
 def string_to_quantity(string, to_form=None, parser=None):
 
