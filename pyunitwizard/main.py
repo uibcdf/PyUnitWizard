@@ -161,7 +161,7 @@ def quantity(value, unit=None, form=None, parser=None):
         form = digest_form(form)
 
         try:
-            output = dict_make_quantity[form](value, unit_name)
+            output = dict_make_quantity[form](value, unit)
         except:
             raise NotImplementedError
 
