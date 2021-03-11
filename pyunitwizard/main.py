@@ -365,7 +365,7 @@ def string_is_quantity(string):
         raise ValueError("Input argument of string_is_quantity is not string.")
 
     try:
-        quantity = string_to_quantity(string)
+        quantity_or_unit = string_to_quantity(string)
         form = get_form(quantity_or_unit)
         output = dict_is_quantity[form](quantity_or_unit)
     except:
@@ -379,7 +379,7 @@ def string_is_unit(string):
         raise ValueError("Input argument of string_is_quantity is not string.")
 
     try:
-        quantity = string_to_unit(string)
+        quantity_or_unit = string_to_unit(string)
         form = get_form(quantity_or_unit)
         output = dict_is_quantity[form](quantity_or_unit)
     except:
