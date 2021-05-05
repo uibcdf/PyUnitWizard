@@ -7,7 +7,7 @@ extensions_list=[]
 
 setup(
     name='pyunitwizard',
-    version='0.0.1',
+    version='0.1',
     author='UIBCDF Lab',
     author_email='uibcdf@gmail.com',
     package_dir={'pyunitwizard': 'pyunitwizard'},
