@@ -24,6 +24,8 @@ pyunitwizard.main
       is_unit
       quantity
       standardize
+      string_is_quantity
+      string_is_unit
       string_to_quantity
       string_to_unit
       to_string

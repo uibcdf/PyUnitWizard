@@ -4,15 +4,11 @@
 PyUnitWizard
 ============
 
-.. warning:: |IntroWarningText|
-
-.. |IntroWarningText| replace::
-        Highly Unstable - Work in progress
-
 .. note:: |IntroNoteText|
 
 .. |IntroNoteText| replace::
-        This library is at its early firsts baby steps.
+        This library has no stable version yet. It is functional as it is described here, but the
+        library is currently under testing and developing.
 
 .. toctree::
    :name: installation

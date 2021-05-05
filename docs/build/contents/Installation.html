@@ -34,8 +34,6 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -90,7 +88,12 @@
             
               <p class="caption"><span class="caption-text">Installation and Quick tutorial</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#last-stable-version">Last stable version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#last-testing-version">Last testing version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#developing-version-from-the-source-code">Developing version from the source code</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Quick_Tutorial.html">Quick Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Quick_Tutorial.html#Import-PyUnitWizard-and-choose-the-libraries-you-are-going-to-work-with.">Import PyUnitWizard and choose the libraries you are going to work with.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Quick_Tutorial.html#Let’s-create-a-quantity-to-play-a-bit-with-it">Let’s create a quantity to play a bit with it</a></li>
@@ -121,7 +124,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/_autosummary/pyunitwizard.forms.html">pyunitwizard.forms</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/_autosummary/pyunitwizard.forms.api_pint.html">pyunitwizard.forms.api_pint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/_autosummary/pyunitwizard.forms.api_simtk_unit.html">pyunitwizard.forms.api_simtk_unit</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/_autosummary/pyunitwizard.forms.api_unyt.html">pyunitwizard.forms.api_unyt</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_autosummary/pyunitwizard.main.html">pyunitwizard.main</a></li>
@@ -222,27 +224,33 @@
 </style>
 <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>The latest “stable” version of MolModMT can be installed from the UIBCDF Anaconda channel:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda -c uibcdf pyunitwizard <span class="c1"># Not working yet</span>
+<div class="section" id="last-stable-version">
+<h2>Last stable version<a class="headerlink" href="#last-stable-version" title="Permalink to this headline">¶</a></h2>
+<p>There is no stable version yet</p>
+</div>
+<div class="section" id="last-testing-version">
+<h2>Last testing version<a class="headerlink" href="#last-testing-version" title="Permalink to this headline">¶</a></h2>
+<p>If you want to work with the last testing version, the installation command is the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install -c uibcdf/label/dev pytunitwizard
 </pre></div>
 </div>
-<p>If you want to work with the not so tested last beta version, the installation command is the following:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install -c uibcdf/label/dev pytunitwizard <span class="c1"># Not working yet</span>
+<p>To uninstall this library:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda remove pyunitwizard
 </pre></div>
 </div>
-<p>The former beta version is nothing but a quenched version from the main github repository of this project which it is done from time to time with few scruples. The raw code fully alive can be installed from this github repo as follows:</p>
+</div>
+<div class="section" id="developing-version-from-the-source-code">
+<h2>Developing version from the source code<a class="headerlink" href="#developing-version-from-the-source-code" title="Permalink to this headline">¶</a></h2>
+<p>The raw code fully alive can be installed from this github repo as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/uibcdf/PyUnitWizard.git
 <span class="nb">cd</span> PyUnitWizard
 python setup.py develop
 </pre></div>
 </div>
-<p>In the first two cases, PyUnitWizard can be uninstalled with conda:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda remove pyunitwizard
-</pre></div>
-</div>
-<p>But if you installed PyUnitWizard straight from its github central repository, do the following to uninstall it:</p>
+<p>In this case, do the following to uninstall it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip uninstall pyunitwizard
 </pre></div>
+</div>
 </div>
 </div>
 
