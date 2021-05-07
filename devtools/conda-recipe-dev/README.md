@@ -9,8 +9,8 @@ conda install conda-build anaconda-client
 ## Building and pushing to https://anaconda.org/uibcdf
 
 ```bash
-conda build . --no-anaconda-upload
-PACKAGE_OUTPUT=`conda build . --output`
+#conda build . --no-anaconda-upload
+PACKAGE_OUTPUT=`conda build . --no-anaconda-upload --output`
 anaconda login
 anaconda upload --user uibcdf $PACKAGE_OUTPUT --label dev
 conda build purge

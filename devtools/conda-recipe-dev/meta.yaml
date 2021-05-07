@@ -6,17 +6,17 @@ source:
   path: ../../
 
 build:
-  number: 1
+  number: 2
 
 requirements:
   build:
     - python  {{ python }}
     - setuptools
-    - numpy >=1.16
 
   run:
     - python  {{ python }}
     - numpy >=1.16
+    - pint >=0.17
 
 about:
   home: https://uibcdf.org
