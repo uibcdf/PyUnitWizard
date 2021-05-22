@@ -50,7 +50,7 @@ def is_unit(quantity_or_unit):
 
     return output
 
-def get_value(quantity, in_units=None):
+def get_value(quantity, to_unit=None):
 
     output = None
 
@@ -60,7 +60,7 @@ def get_value(quantity, in_units=None):
     form =get_form(quantity)
 
     if in_units is not None:
-        tmp_quantity = convert(quantity, in_units=in_units)
+        tmp_quantity = convert(quantity, to_unit=to_unit)
     else:
         tmp_quantity = quantity
 
@@ -124,10 +124,10 @@ def compatibility(quantity_or_unit_1, quantity_or_unit_2):
         if form1!=form2:
 
             try:
-                tmp = translate(quantity_or_unit_1, to_form=form2)
+                tmp = convert(quantity_or_unit_1, to_form=form2)
                 output = dict_compatibility[form2](tmp, quantity_or_unit_2)
             except:
-                tmp = translate(quantity_or_unit_2, to_form=form1)
+                tmp = convert(quantity_or_unit_2, to_form=form1)
                 output = dict_compatibility[form1](tmp, quantity_or_unit_1)
 
         else:
@@ -171,75 +171,37 @@ def unit(unit_name, form=None, parser=None):
 
     return string_to_unit(unit_name, to_form=form, parser=parser)
 
-def translate(quantity_or_unit, to_form=None):
-
-    if (to_form is None) or (to_form==form_in):
-        output = quantity_or_unit
-    else:
-        try:
-            output = dict_translate[form_in][to_form](quantity_or_unit)
-        except:
-            raise NotImplementedError("This translation has not been implemented yet.")
-
-    return output
-
-def convert(quantity_or_unit, to_units=None, to_form=None, parser=None):
+def convert(quantity_or_unit, to_unit=None, to_form=None, parser=None):
 
     output = None
-
-    if type(quantity_or_unit) is str:
-        if string_is_quantity(quantity_or_unit):
-            quantity_or_unit = string_to_quantity(quantity_or_unit)
-        elif string_is_unit(quantity_or_unit):
-            quantity_or_unit = string_to_unit(quantity_or_unit)
 
     form_in = get_form(quantity_or_unit)
     to_form = digest_to_form(to_form)
     parser = digest_parser(parser)
 
-    try:
+    if parser is None:
+        parser = form_in
 
-        if parser is None:
-            parser = form_in
+    if type(quantity_or_unit) is str:
+        if string_is_quantity(quantity_or_unit):
+            quantity_or_unit = string_to_quantity(quantity_or_unit, parser=parser)
+        elif string_is_unit(quantity_or_unit):
+            quantity_or_unit = string_to_unit(quantity_or_unit, parser=parser)
 
-        if to_units is not None:
-            if parser == form_in:
-                output = dict_convert[form_in](quantity_or_unit, in_units)
-            else:
-                output = dict_translate[form_in](quantity_or_unit, to_form=parser)
-                output = dict_convert[parser](output, in_units)
+    tmp_quantity_or_unit = quantity_or_unit
+    tmp_form = form_in
 
+    if parser != form_in:
+        tmp_quantity_or_unit = dict_translate[tmp_form][parser](tmp_quantity_or_unit)
+        tmp_form = parser
 
-    if to_form is None:
-        to_form = form_in
+    if to_unit is not None:
+        tmp_quantity_or_unit = dict_convert[tmp_form](tmp_quantity_or_unit, to_unit)
 
-    try:
+    if to_form is not None:
+        tmp_quantity_or_unit = dict_translate[tmp_form][to_form](tmp_quantity_or_unit)
 
-        if parser is None:
-            parser = form_in
-
-        if parser == form_in:
-            output = dict_convert[form_in](quantity_or_unit, in_units)
-        else:
-            output = dict_translate[form_in](quantity_or_unit, to_form=parser)
-            output = dict_convert[parser](output, in_units)
-
-        output = translate(output, to_form=to_form)
-
-    except:
-
-        if parser is None:
-            parser = to_form
-
-        if parser == form_in:
-            output = dict_convert[form_in](quantity_or_unit, in_units)
-        else:
-            output = dict_translate[form_in](quantity_or_unit, to_form=parser)
-            output = dict_convert[parser](output, in_units)
-
-        output = translate(output, to_form=to_form)
-
-    return output
+    return tmp_quantity_or_unit
 
 def get_standard_units(quantity_or_unit):
 
@@ -347,7 +309,7 @@ def standardize(quantity_or_unit, to_form=None):
     to_form = digest_form(to_form)
 
     try:
-        output = translate(quantity_or_unit, to_form=to_form)
+        output = convert(quantity_or_unit, to_form=to_form)
         standard = get_standard_units(output)
         if standard is None:
             raise ValueError("The input quantity or unit has no standard.")
@@ -356,8 +318,7 @@ def standardize(quantity_or_unit, to_form=None):
         standard = get_standard_units(quantity_or_unit)
         if standard is None:
             raise ValueError("The input quantity or unit has no standard.")
-        output = convert(quantity_or_unit, standard)
-        output = translate(output, to_form=to_form)
+        output = convert(quantity_or_unit, to_unit=standard, to_form=to_form)
 
     return output
 
