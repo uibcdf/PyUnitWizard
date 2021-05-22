@@ -8,7 +8,7 @@
 
 import os
 import sys
-import sphinx_rtd_theme
+#import sphinx_rtd_theme
 
 # -- Path setup --------------------------------------------------------------
 
@@ -21,21 +21,21 @@ import sphinx_rtd_theme
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
-sys.path.insert(0, os.path.abspath('.'))
-sys.path.insert(0, os.path.abspath('./../pyunitwizard'))
+sys.path.insert(0, os.path.abspath('..'))
 
-print(sys.path)
+import pyunitwizard
 
 # -- Project information -----------------------------------------------------
 
 project = 'PyUnitWizard'
-copyright = '2021, UIBCDF Lab at the Mexico City Childrens Hospital Federico Gomez and authors'
+copyright = ('2021, UIBCDF Lab at the Mexico City Childrens Hospital Federico Gomez and authors.'
+        'Project structure based on the Computational Molecular Science Python Cookiecutter version 1.5')
 author = 'Liliana M. Moreno Vargas & Diego Prada Gracia'
 
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '0.1'
+release = ''
 
 
 # -- General configuration ---------------------------------------------------
@@ -55,17 +55,19 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
-    'numpydoc',
+    'sphinx.ext.napoleon',
     'sphinx.ext.githubpages',
     'sphinxcontrib.bibtex',
     'nbsphinx',
     'recommonmark',
-    'sphinx_markdown_tables'
+    'sphinx_markdown_tables',
+    'sphinx.ext.extlinks'
 ]
 
 autosummary_generate = True
-autodoc_default_options = {'members':True, 'inherited-members':True}
-numpydoc_class_members_toctree = False
+napoleon_google_docstring = False
+napoleon_use_param = False
+napoleon_use_ivar = True
 
 # sphinxcontrib-bibtex
 bibtex_bibfiles = ['bibliography.bib'] # list of *.bib files
@@ -95,18 +97,15 @@ master_doc = 'index'
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
 # language was edited to use sphinx-intl
-language = 'en'
-# These next two variables were incluede to use sphinx-intl
-locale_dirs =  ['locale/']
-gettext_compact = False
+language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path .
-exclude_patterns = ['build', 'Thumbs.db', '.DS_Store', '**.ipynb_checkpoints']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**.ipynb_checkpoints']
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = 'default'
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -121,32 +120,28 @@ html_theme = 'sphinx_rtd_theme'
 # documentation.
 #
 # html_theme_options = {}
-html_theme_options = {
-    'canonical_url': '',
-    'analytics_id': '',
-    'logo_only': False,
-    'display_version': True,
-    'prev_next_buttons_location': 'bottom',
-    'style_external_links': False,
-    # Toc options
-    'collapse_navigation': False,
-    'sticky_navigation': True,
-    'navigation_depth': 4,
-    'includehidden': True,
-    'titles_only': False
-}
+#html_theme_options = {
+#    'canonical_url': '',
+#    'analytics_id': '',
+#    'logo_only': False,
+#    'display_version': True,
+#    'prev_next_buttons_location': 'bottom',
+#    'style_external_links': False,
+#    # Toc options
+#    'collapse_navigation': False,
+#    'sticky_navigation': True,
+#    'navigation_depth': 4,
+#    'includehidden': True,
+#    'titles_only': False
+#}
 
 # Add any paths that contain custom themes here, relative to this directory.
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+#html_theme_path = []
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['static']
-
-#### I should check
-#### https://github.com/lotharschulz/sphinx-pages/blob/master/conf.py for more
-#### options
+html_static_path = ['_static']
 
 # Custom css
 
@@ -195,6 +190,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
+        (master_doc, 'pyunitwizard.tex', 'PyUnitWizard Documentation',
+            'pyunitwizard', 'manual'),
 ]
 
 
@@ -203,6 +200,9 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
+        (master_doc, 'pyunitwizard', 'PyUnitWizard Documentation',
+            [author], 1)
+
 ]
 
 
@@ -212,6 +212,10 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
+    (master_doc, 'pyunitwizard', 'PyUnitWizard Documentation',
+        author, 'pyunitwizard', 'This must be a short description of the project',
+        'Miscellaneous'),
+
 ]
 
 
@@ -221,9 +225,6 @@ texinfo_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 #intersphinx_mapping = {'https://docs.python.org/': None}
-
-# stackoverflow.com/questions/12206334
-numpydoc_show_class_members = False
 
 # -- Options for todo extension ----------------------------------------------
 

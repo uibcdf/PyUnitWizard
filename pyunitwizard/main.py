@@ -173,17 +173,6 @@ def unit(unit_name, form=None, parser=None):
 
 def translate(quantity_or_unit, to_form=None):
 
-    output=None
-
-    if type(quantity_or_unit) is str:
-        if string_is_quantity(quantity_or_unit):
-            quantity_or_unit = string_to_quantity(quantity_or_unit)
-        elif string_is_unit(quantity_or_unit):
-            quantity_or_unit = string_to_unit(quantity_or_unit)
-
-    form_in = get_form(quantity_or_unit)
-    to_form = digest_form(to_form)
-
     if (to_form is None) or (to_form==form_in):
         output = quantity_or_unit
     else:
@@ -194,7 +183,7 @@ def translate(quantity_or_unit, to_form=None):
 
     return output
 
-def convert(quantity_or_unit, in_units, to_form=None, parser=None):
+def convert(quantity_or_unit, to_units=None, to_form=None, parser=None):
 
     output = None
 
@@ -207,6 +196,19 @@ def convert(quantity_or_unit, in_units, to_form=None, parser=None):
     form_in = get_form(quantity_or_unit)
     to_form = digest_to_form(to_form)
     parser = digest_parser(parser)
+
+    try:
+
+        if parser is None:
+            parser = form_in
+
+        if to_units is not None:
+            if parser == form_in:
+                output = dict_convert[form_in](quantity_or_unit, in_units)
+            else:
+                output = dict_translate[form_in](quantity_or_unit, to_form=parser)
+                output = dict_convert[parser](output, in_units)
+
 
     if to_form is None:
         to_form = form_in

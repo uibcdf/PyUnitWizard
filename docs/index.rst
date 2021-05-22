@@ -1,6 +1,5 @@
 .. pyunitwizard documentation master file
 
-============
 PyUnitWizard
 ============
 
@@ -35,9 +34,9 @@ PyUnitWizard
 
 .. toctree::
    :caption: API Documentation
-   :maxdepth: 1
+   :maxdepth: 2
 
-   api/index
+   api
 
 Glossary, indices and tables
 ============================
