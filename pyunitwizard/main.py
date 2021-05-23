@@ -9,7 +9,18 @@ from ._private_tools import default
 import numpy as np
 
 def get_form(quantity_or_unit):
-
+    """
+    Placeholder function to show example docstring (NumPy format)
+    Replace this function and doc string for your own project
+    Parameters
+    ----------
+    with_attribution : bool, Optional, default: True
+        Set whether or not to display who the quote is from
+    Returns
+    -------
+    quote : str
+        Compiled string including quote and optional attribution
+    """
     # quantity_or_unit is quantity or unit
 
     output = None
@@ -59,7 +70,7 @@ def get_value(quantity, to_unit=None):
 
     form =get_form(quantity)
 
-    if in_units is not None:
+    if to_unit is not None:
         tmp_quantity = convert(quantity, to_unit=to_unit)
     else:
         tmp_quantity = quantity
@@ -199,7 +210,8 @@ def convert(quantity_or_unit, to_unit=None, to_form=None, parser=None):
         tmp_quantity_or_unit = dict_convert[tmp_form](tmp_quantity_or_unit, to_unit)
 
     if to_form is not None:
-        tmp_quantity_or_unit = dict_translate[tmp_form][to_form](tmp_quantity_or_unit)
+        if to_form != tmp_form:
+            tmp_quantity_or_unit = dict_translate[tmp_form][to_form](tmp_quantity_or_unit)
 
     return tmp_quantity_or_unit
 
@@ -362,7 +374,7 @@ def string_to_quantity(string, to_form=None, parser=None):
     output = dict_string_to_quantity[parser](string)
 
     if parser != to_form:
-        output = translate(output, to_form=to_form)
+        output = convert(output, to_form=to_form)
 
     return output
 
@@ -377,7 +389,7 @@ def string_to_unit(string, to_form=None, parser=None):
     output = dict_string_to_unit[parser](string)
 
     if parser != to_form:
-        output = translate(output, to_form=to_form)
+        output = convert(output, to_form=to_form)
 
     return output
 
@@ -388,7 +400,7 @@ def to_string(quantity_or_unit, parser=None):
     if parser is None:
         parser= get_form(quantity_or_unit)
 
-    tmp_quantity_or_unit = translate(quantity_or_unit, to_form=parser)
+    tmp_quantity_or_unit = convert(quantity_or_unit, to_form=parser)
     output = dict_to_string[parser](tmp_quantity_or_unit)
 
     return output

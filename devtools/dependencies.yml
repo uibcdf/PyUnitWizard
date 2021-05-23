@@ -1,0 +1,13 @@
+development:
+        jupyterlab
+        openmm
+        pint
+        unyt
+        sphinx
+        sphinxcontrib-bibtex
+        nbsphinx
+        recommonmark
+        sphinx-markdown-tables
+        sphinx_rtd_theme
+
+

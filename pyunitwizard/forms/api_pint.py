@@ -103,7 +103,3 @@ def to_simtk_unit(quantity):
 
     return make_simtk_unit_quantity(value, unit_name)
 
-def to_pint(quantity):
-
-    return quantity
-

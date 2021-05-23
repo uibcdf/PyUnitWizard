@@ -1,0 +1,33 @@
+﻿pyunitwizard
+============
+
+.. automodule:: pyunitwizard
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   pyunitwizard.configure
+   pyunitwizard.forms
+   pyunitwizard.main
+

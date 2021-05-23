@@ -1,0 +1,626 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pyunitwizard.main &mdash; PyUnitWizard  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> PyUnitWizard
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation and Quick tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contents/Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contents/Quick_Tutorial.html">Quick Tutorial</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contents/Importing.html">How to import the library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contents/Forms.html">Quantity forms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contents/Quantity_and_Units.html">Quantity and Unit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contents/Dimensionality.html">Dimensionality and Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contents/Convert.html">Convert quantities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contents/Strings.html">Working with strings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contents/Standardize.html">Standardize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contents/In_Your_Library.html">PyUnitWizard in your library</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyUnitWizard</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyunitwizard.main</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyunitwizard.main</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">simtk.unit</span> <span class="k">as</span> <span class="nn">simtk_unit</span>
+<span class="kn">import</span> <span class="nn">pint</span> <span class="k">as</span> <span class="nn">pint</span>
+<span class="kn">from</span> <span class="nn">._private_tools.forms</span> <span class="kn">import</span> <span class="n">digest_form</span><span class="p">,</span> <span class="n">digest_to_form</span>
+<span class="kn">from</span> <span class="nn">._private_tools.parsers</span> <span class="kn">import</span> <span class="n">digest_parser</span>
+<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">dict_is_form</span><span class="p">,</span> <span class="n">dict_is_unit</span><span class="p">,</span> <span class="n">dict_is_quantity</span><span class="p">,</span> <span class="n">dict_dimensionality</span><span class="p">,</span> <span class="n">dict_compatibility</span>
+<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">dict_get_unit</span><span class="p">,</span> <span class="n">dict_get_value</span><span class="p">,</span> <span class="n">dict_make_quantity</span>
+<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">dict_convert</span><span class="p">,</span> <span class="n">dict_translate</span><span class="p">,</span> <span class="n">dict_string_to_quantity</span><span class="p">,</span> <span class="n">dict_string_to_unit</span><span class="p">,</span> <span class="n">dict_to_string</span>
+<span class="kn">from</span> <span class="nn">._private_tools</span> <span class="kn">import</span> <span class="n">default</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="get_form"><a class="viewcode-back" href="../../autosummary/pyunitwizard.get_form.html#pyunitwizard.get_form">[docs]</a><span class="k">def</span> <span class="nf">get_form</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Placeholder function to show example docstring (NumPy format)</span>
+<span class="sd">    Replace this function and doc string for your own project</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    with_attribution : bool, Optional, default: True</span>
+<span class="sd">        Set whether or not to display who the quote is from</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    quote : str</span>
+<span class="sd">        Compiled string including quote and optional attribution</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># quantity_or_unit is quantity or unit</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">dict_is_form</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">dict_is_form</span><span class="p">[</span><span class="n">quantity_or_unit</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;This quantity form was not implemented yet. Please open an issue to suggest its inclusion.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<span class="k">def</span> <span class="nf">is_quantity</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span><span class="o">==</span><span class="s1">&#39;str&#39;</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">string_is_quantity</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">get_form</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">dict_is_quantity</span><span class="p">[</span><span class="n">form</span><span class="p">](</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">is_unit</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span><span class="o">==</span><span class="s1">&#39;str&#39;</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">string_is_unit</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">get_form</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">dict_is_unit</span><span class="p">[</span><span class="n">form</span><span class="p">](</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="n">quantity</span><span class="p">,</span> <span class="n">to_unit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">quantity</span> <span class="o">=</span> <span class="n">string_to_quantity</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span>
+
+    <span class="n">form</span> <span class="o">=</span><span class="n">get_form</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tmp_quantity</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">quantity</span><span class="p">,</span> <span class="n">to_unit</span><span class="o">=</span><span class="n">to_unit</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tmp_quantity</span> <span class="o">=</span> <span class="n">quantity</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">dict_get_value</span><span class="p">[</span><span class="n">form</span><span class="p">](</span><span class="n">tmp_quantity</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">get_unit</span><span class="p">(</span><span class="n">quantity</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">quantity</span> <span class="o">=</span> <span class="n">string_to_quantity</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span>
+
+    <span class="n">form</span> <span class="o">=</span><span class="n">get_form</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span>
+    <span class="n">to_form</span> <span class="o">=</span> <span class="n">digest_to_form</span><span class="p">(</span><span class="n">to_form</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">dict_get_unit</span><span class="p">[</span><span class="n">form</span><span class="p">](</span><span class="n">quantity</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">to_form</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">unit_name</span> <span class="o">=</span> <span class="n">get_unit_name</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">make_unit</span><span class="p">(</span><span class="n">unit_name</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">dimensionality</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;dict&#39;</span><span class="p">):</span>
+
+    <span class="n">dim</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">string_is_quantity</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">):</span>
+            <span class="n">quantity_or_unit</span> <span class="o">=</span> <span class="n">string_to_quantity</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">string_is_unit</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">):</span>
+            <span class="n">quantity_or_unit</span> <span class="o">=</span> <span class="n">string_to_unit</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+
+    <span class="n">form</span> <span class="o">=</span> <span class="n">get_form</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+    <span class="n">dim</span> <span class="o">=</span> <span class="n">dict_dimensionality</span><span class="p">[</span><span class="n">form</span><span class="p">](</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="s1">&#39;array&#39;</span><span class="p">:</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dim</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">default</span><span class="o">.</span><span class="n">order_fundamental_units</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dim</span>
+
+<span class="k">def</span> <span class="nf">compatibility</span><span class="p">(</span><span class="n">quantity_or_unit_1</span><span class="p">,</span> <span class="n">quantity_or_unit_2</span><span class="p">):</span>
+
+    <span class="n">d1</span> <span class="o">=</span> <span class="n">dimensionality</span><span class="p">(</span><span class="n">quantity_or_unit_1</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;array&#39;</span><span class="p">)</span>
+    <span class="n">d2</span> <span class="o">=</span> <span class="n">dimensionality</span><span class="p">(</span><span class="n">quantity_or_unit_2</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;array&#39;</span><span class="p">)</span>
+
+    <span class="n">n_fundamental_units</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">default</span><span class="o">.</span><span class="n">order_fundamental_units</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span> <span class="o">==</span> <span class="n">n_fundamental_units</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">d2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span> <span class="o">==</span> <span class="n">n_fundamental_units</span><span class="p">):</span>
+
+        <span class="n">form1</span> <span class="o">=</span> <span class="n">get_form</span><span class="p">(</span><span class="n">quantity_or_unit_1</span><span class="p">)</span>
+        <span class="n">form2</span> <span class="o">=</span> <span class="n">get_form</span><span class="p">(</span><span class="n">quantity_or_unit_2</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">form1</span><span class="o">!=</span><span class="n">form2</span><span class="p">:</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">quantity_or_unit_1</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="n">form2</span><span class="p">)</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">dict_compatibility</span><span class="p">[</span><span class="n">form2</span><span class="p">](</span><span class="n">tmp</span><span class="p">,</span> <span class="n">quantity_or_unit_2</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">quantity_or_unit_2</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="n">form1</span><span class="p">)</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">dict_compatibility</span><span class="p">[</span><span class="n">form1</span><span class="p">](</span><span class="n">tmp</span><span class="p">,</span> <span class="n">quantity_or_unit_1</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="n">output</span> <span class="o">=</span> <span class="n">dict_compatibility</span><span class="p">[</span><span class="n">form1</span><span class="p">](</span><span class="n">quantity_or_unit_1</span><span class="p">,</span> <span class="n">quantity_or_unit_2</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">d1</span><span class="o">==</span><span class="n">d2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">quantity</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">string_to_quantity</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">string_to_quantity</span><span class="p">(</span><span class="n">value</span><span class="o">+</span><span class="s1">&#39; &#39;</span><span class="o">+</span><span class="n">unit</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">is_unit</span><span class="p">(</span><span class="n">unit</span><span class="p">):</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">string_to_quantity</span><span class="p">(</span><span class="n">value</span><span class="o">+</span><span class="s1">&#39; &#39;</span><span class="o">+</span><span class="n">unit</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The input argument &quot;unit&quot; is required.&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+
+        <span class="n">form</span> <span class="o">=</span> <span class="n">digest_form</span><span class="p">(</span><span class="n">form</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">dict_make_quantity</span><span class="p">[</span><span class="n">form</span><span class="p">](</span><span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">unit</span><span class="p">(</span><span class="n">unit_name</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">return</span> <span class="n">string_to_unit</span><span class="p">(</span><span class="n">unit_name</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">,</span> <span class="n">to_unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">form_in</span> <span class="o">=</span> <span class="n">get_form</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+    <span class="n">to_form</span> <span class="o">=</span> <span class="n">digest_to_form</span><span class="p">(</span><span class="n">to_form</span><span class="p">)</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">digest_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">parser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">form_in</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">string_is_quantity</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">):</span>
+            <span class="n">quantity_or_unit</span> <span class="o">=</span> <span class="n">string_to_quantity</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">string_is_unit</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">):</span>
+            <span class="n">quantity_or_unit</span> <span class="o">=</span> <span class="n">string_to_unit</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">)</span>
+
+    <span class="n">tmp_quantity_or_unit</span> <span class="o">=</span> <span class="n">quantity_or_unit</span>
+    <span class="n">tmp_form</span> <span class="o">=</span> <span class="n">form_in</span>
+
+    <span class="k">if</span> <span class="n">parser</span> <span class="o">!=</span> <span class="n">form_in</span><span class="p">:</span>
+        <span class="n">tmp_quantity_or_unit</span> <span class="o">=</span> <span class="n">dict_translate</span><span class="p">[</span><span class="n">tmp_form</span><span class="p">][</span><span class="n">parser</span><span class="p">](</span><span class="n">tmp_quantity_or_unit</span><span class="p">)</span>
+        <span class="n">tmp_form</span> <span class="o">=</span> <span class="n">parser</span>
+
+    <span class="k">if</span> <span class="n">to_unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tmp_quantity_or_unit</span> <span class="o">=</span> <span class="n">dict_convert</span><span class="p">[</span><span class="n">tmp_form</span><span class="p">](</span><span class="n">tmp_quantity_or_unit</span><span class="p">,</span> <span class="n">to_unit</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_form</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">to_form</span> <span class="o">!=</span> <span class="n">tmp_form</span><span class="p">:</span>
+            <span class="n">tmp_quantity_or_unit</span> <span class="o">=</span> <span class="n">dict_translate</span><span class="p">[</span><span class="n">tmp_form</span><span class="p">][</span><span class="n">to_form</span><span class="p">](</span><span class="n">tmp_quantity_or_unit</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tmp_quantity_or_unit</span>
+
+<span class="k">def</span> <span class="nf">get_standard_units</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">):</span>
+
+    <span class="n">dim</span> <span class="o">=</span> <span class="n">dimensionality</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+    <span class="n">solution</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dim</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">default</span><span class="o">.</span><span class="n">order_fundamental_units</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">n_dims_solution</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">default</span><span class="o">.</span><span class="n">order_fundamental_units</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">solution</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">n_dims_solution</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">standard_unit</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">default</span><span class="o">.</span><span class="n">adimensional_standards</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">compatibility</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">,</span> <span class="n">standard_unit</span><span class="p">):</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">standard_unit</span>
+                <span class="k">break</span>
+
+    <span class="k">elif</span> <span class="n">n_dims_solution</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">standard_unit</span><span class="p">,</span> <span class="n">dim_array</span> <span class="ow">in</span> <span class="n">default</span><span class="o">.</span><span class="n">dimensional_fundamental_standards</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">solution</span><span class="p">,</span> <span class="n">dim_array</span><span class="p">):</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">standard_unit</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="n">matrix</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">standard_units</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">aux_unit</span><span class="p">,</span> <span class="n">aux_dim_array</span> <span class="ow">in</span> <span class="n">default</span><span class="o">.</span><span class="n">tentative_base_standards</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">standard_units</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">string_to_unit</span><span class="p">(</span><span class="n">aux_unit</span><span class="p">))</span>
+                <span class="n">matrix</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aux_dim_array</span><span class="p">)</span>
+
+            <span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+            <span class="n">x</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">solution</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">solution</span><span class="p">):</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">exponent</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">standard_units</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">exponent</span><span class="p">):</span>
+                        <span class="n">output</span> <span class="o">*=</span> <span class="n">u</span><span class="o">**</span><span class="n">exponent</span>
+
+                <span class="n">output</span> <span class="o">=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">get_unit</span><span class="p">(</span><span class="n">output</span><span class="p">))</span>
+
+    <span class="k">else</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">standard_units</span><span class="p">,</span> <span class="n">dim_array</span> <span class="ow">in</span> <span class="n">default</span><span class="o">.</span><span class="n">dimensional_combinations_standards</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">solution</span><span class="p">,</span> <span class="n">dim_array</span><span class="p">):</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">standard_units</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="n">matrix</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">standard_units</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">aux_unit</span><span class="p">,</span> <span class="n">aux_dim_array</span> <span class="ow">in</span> <span class="n">default</span><span class="o">.</span><span class="n">dimensional_fundamental_standards</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">standard_units</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">string_to_unit</span><span class="p">(</span><span class="n">aux_unit</span><span class="p">))</span>
+                <span class="n">matrix</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aux_dim_array</span><span class="p">)</span>
+
+            <span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+            <span class="n">x</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">solution</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">solution</span><span class="p">):</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">exponent</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">standard_units</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">exponent</span><span class="p">):</span>
+                        <span class="n">output</span> <span class="o">*=</span> <span class="n">u</span><span class="o">**</span><span class="n">exponent</span>
+
+                <span class="n">output</span> <span class="o">=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">get_unit</span><span class="p">(</span><span class="n">output</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="n">matrix</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">standard_units</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">aux_unit</span><span class="p">,</span> <span class="n">aux_dim_array</span> <span class="ow">in</span> <span class="n">default</span><span class="o">.</span><span class="n">tentative_base_standards</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">standard_units</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">string_to_unit</span><span class="p">(</span><span class="n">aux_unit</span><span class="p">))</span>
+                <span class="n">matrix</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aux_dim_array</span><span class="p">)</span>
+
+            <span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+            <span class="n">x</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">solution</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">solution</span><span class="p">):</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">exponent</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">standard_units</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">exponent</span><span class="p">):</span>
+                        <span class="n">output</span> <span class="o">*=</span> <span class="n">u</span><span class="o">**</span><span class="n">exponent</span>
+
+                <span class="n">output</span> <span class="o">=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">get_unit</span><span class="p">(</span><span class="n">output</span><span class="p">))</span>
+
+
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">standardize</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">to_form</span> <span class="o">=</span> <span class="n">digest_form</span><span class="p">(</span><span class="n">to_form</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="n">to_form</span><span class="p">)</span>
+        <span class="n">standard</span> <span class="o">=</span> <span class="n">get_standard_units</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">standard</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input quantity or unit has no standard.&quot;</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">standard</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">standard</span> <span class="o">=</span> <span class="n">get_standard_units</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">standard</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input quantity or unit has no standard.&quot;</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">,</span> <span class="n">to_unit</span><span class="o">=</span><span class="n">standard</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="n">to_form</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">string_is_quantity</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="o">!=</span><span class="nb">str</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input argument of string_is_quantity is not string.&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">quantity_or_unit</span> <span class="o">=</span> <span class="n">string_to_quantity</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">get_form</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">dict_is_quantity</span><span class="p">[</span><span class="n">form</span><span class="p">](</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">string_is_unit</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="o">!=</span><span class="nb">str</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input argument of string_is_quantity is not string.&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">quantity_or_unit</span> <span class="o">=</span> <span class="n">string_to_unit</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">get_form</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">dict_is_quantity</span><span class="p">[</span><span class="n">form</span><span class="p">](</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+
+<span class="k">def</span> <span class="nf">string_to_quantity</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">digest_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+    <span class="n">to_form</span> <span class="o">=</span> <span class="n">digest_form</span><span class="p">(</span><span class="n">to_form</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">parser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">to_form</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">dict_string_to_quantity</span><span class="p">[</span><span class="n">parser</span><span class="p">](</span><span class="n">string</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">parser</span> <span class="o">!=</span> <span class="n">to_form</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="n">to_form</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">string_to_unit</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">digest_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+    <span class="n">to_form</span> <span class="o">=</span> <span class="n">digest_form</span><span class="p">(</span><span class="n">to_form</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">parser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">to_form</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">dict_string_to_unit</span><span class="p">[</span><span class="n">parser</span><span class="p">](</span><span class="n">string</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">parser</span> <span class="o">!=</span> <span class="n">to_form</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="n">to_form</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">parser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">=</span> <span class="n">get_form</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">)</span>
+
+    <span class="n">tmp_quantity_or_unit</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">quantity_or_unit</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="n">parser</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">dict_to_string</span><span class="p">[</span><span class="n">parser</span><span class="p">](</span><span class="n">tmp_quantity_or_unit</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, UIBCDF Lab at the Mexico City Childrens Hospital Federico Gomez and authors.Project structure based on the Computational Molecular Science Python Cookiecutter version 1.5.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

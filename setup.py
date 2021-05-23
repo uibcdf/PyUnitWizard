@@ -31,7 +31,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     setup_requires=[] + pytest_runner,
-    platforms=['Linux', 'Unix', 'Mac OS-X', 'Windows']
+    platforms=['Linux', 'Unix', 'Mac OS-X', 'Windows'],
     package_dir={'pyunitwizard': 'pyunitwizard'},
     scripts=[],
     url='http://uibcdf.org',
