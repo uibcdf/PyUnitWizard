@@ -90,7 +90,7 @@
               <p class="caption"><span class="caption-text">Installation and Quick tutorial</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contents/Installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/Quick_Tutorial.html">Quick Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/Quick_Guide.html">Quick Guide</a></li>
 </ul>
 <p class="caption"><span class="caption-text">User guide</span></p>
 <ul>
@@ -212,6 +212,13 @@ To compile the docs, first ensure that Sphinx and the ReadTheDocs theme are inst
 be inside a directory called <code class="docutils literal notranslate"><span class="pre">html/</span></code> depending on what version of Sphinx is installed).</p>
 <p>A configuration file for <a class="reference external" href="https://readthedocs.org/">Read The Docs</a> (readthedocs.yaml) is included in the top level of the repository. To use Read the Docs to host your documentation, go to https://readthedocs.org/ and connect this repository. You may need to change your default branch to <code class="docutils literal notranslate"><span class="pre">main</span></code> under Advanced Settings for the project.</p>
 <p>If you would like to use Read The Docs with <code class="docutils literal notranslate"><span class="pre">autodoc</span></code> (included automatically) and your package has dependencies, you will need to include those dependencies in your documentation yaml file (<code class="docutils literal notranslate"><span class="pre">docs/requirements.yaml</span></code>).</p>
+<div class="section" id="deploy-to-github-pages">
+<h2>Deploy to GitHub pages<a class="headerlink" href="#deploy-to-github-pages" title="Permalink to this headline">¶</a></h2>
+<p>Committ html compilation and from the root directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git subtree push --prefix docs/_build/html origin gh-pages
+</pre></div>
+</div>
+</div>
 </div>
 
 

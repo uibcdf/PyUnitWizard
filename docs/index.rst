@@ -3,11 +3,20 @@
 PyUnitWizard
 ============
 
-.. note:: |IntroNoteText|
+There are several Python libraries to work with physical quantities in the market. Pint, unyt or simtk.unit, are just some of them. Imagine that your project, or workflow, requires the interaction with more than one of these tools. Or that you are not sure if you will work with a different quantities library in the future. Wouldn't be having a unique API to work with different quantities libraries be a relief? PyUnitWizard just do that. It is the wizard you need in your code to change the form of your quantities with few effort. With PyUnitWizard you can:
 
-.. |IntroNoteText| replace::
-        This library has no stable version yet. It is functional as it is described here, but the
-        library is currently under testing and developing.
+- Convert physical quantities and units between the different native objects of pint, unyt or
+  simtk.unit.
+- Work with physical quantities with a simple syntaxis no matter the physical quantities library in the background.
+- Integrate a quantities wizard in your library defining the default library and the standard units in you project.
+
+Have a look to the `quick guide <https://uibcdf.org/PyUnitWizard/Quick_Guide.html>`_ to see some examples of PyUnitWizard in action.
+
+## Libraries supported
+
+- `pint<https://github.com/hgrecco/pint>`_
+- `unyt<https://github.com/yt-project/unyt>`_
+- `openmm.unit<>`_
 
 .. toctree::
    :name: installation
@@ -15,7 +24,7 @@ PyUnitWizard
    :maxdepth: 1
 
    contents/Installation.md
-   contents/Quick_Tutorial.ipynb
+   contents/Quick_Guide.ipynb
 
 .. toctree::
    :name: user_guide
