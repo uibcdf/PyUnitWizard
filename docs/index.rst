@@ -7,7 +7,7 @@ PyUnitWizard
 
 .. |IntroNoteText| replace::
         This library has no stable version yet. It is functional as it is described here, but the
-        library is currently under testing and developing. :)
+        library is currently under testing and developing.
 
 .. toctree::
    :name: installation
