@@ -1,12 +1,12 @@
 package:
   name: pyunitwizard
-  version: 0.1
+  version: 0.2.0
 
 source:
   path: ../../
 
 build:
-  number: 2
+  number: 1
 
 requirements:
   build:
