@@ -5,7 +5,7 @@ from ._private_tools.parsers import digest_parser
 from .forms import dict_is_form, dict_is_unit, dict_is_quantity, dict_dimensionality, dict_compatibility
 from .forms import dict_get_unit, dict_get_value, dict_make_quantity
 from .forms import dict_convert, dict_translate, dict_string_to_quantity, dict_string_to_unit, dict_to_string
-from ._private_tools import default
+from . import default
 import numpy as np
 
 def get_form(quantity_or_unit):
@@ -35,7 +35,11 @@ def get_form(quantity_or_unit):
 
     return output
 
-def is_quantity(quantity_or_unit):
+def is_parsable(string):
+
+    pass
+
+def is_quantity(quantity_or_unit, parser=None):
 
     if type(quantity_or_unit)=='str':
         output = string_is_quantity(quantity_or_unit)
@@ -48,7 +52,7 @@ def is_quantity(quantity_or_unit):
 
     return output
 
-def is_unit(quantity_or_unit):
+def is_unit(quantity_or_unit, parser=None):
 
     if type(quantity_or_unit)=='str':
         output = string_is_unit(quantity_or_unit)
@@ -82,7 +86,7 @@ def get_value(quantity, to_unit=None):
 
     return output
 
-def get_unit(quantity, to_form=None):
+def get_unit(quantity, to_form=None, parser=None):
 
     output = None
 
@@ -94,9 +98,7 @@ def get_unit(quantity, to_form=None):
 
     try:
         output = dict_get_unit[form](quantity)
-        if to_form is not None:
-            unit_name = get_unit_name(quantity)
-            output = make_unit(unit_name)
+        output = convert(output, to_form=to_form, parser=parser)
     except:
         raise NotImplementedError
 
@@ -191,7 +193,10 @@ def convert(quantity_or_unit, to_unit=None, to_form=None, parser=None):
     parser = digest_parser(parser)
 
     if parser is None:
-        parser = form_in
+        if form_in is not 'string':
+            parser = form_in
+        else:
+            raise ValueError
 
     if type(quantity_or_unit) is str:
         if string_is_quantity(quantity_or_unit):
@@ -210,7 +215,9 @@ def convert(quantity_or_unit, to_unit=None, to_form=None, parser=None):
         tmp_quantity_or_unit = dict_convert[tmp_form](tmp_quantity_or_unit, to_unit)
 
     if to_form is not None:
-        if to_form != tmp_form:
+        if to_form is 'string':
+            tmp_quantity_or_unit = to_string(tmp_quantity_or_unit, parser=parser)
+        elif to_form != tmp_form:
             tmp_quantity_or_unit = dict_translate[tmp_form][to_form](tmp_quantity_or_unit)
 
     return tmp_quantity_or_unit

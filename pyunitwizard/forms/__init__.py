@@ -1,6 +1,7 @@
 from importlib import import_module as _import_module
 
 loaded_libraries = []
+loaded_parsers = []
 
 dict_is_form={}
 dict_is_unit={}
@@ -17,7 +18,7 @@ dict_dimensionality={}
 dict_compatibility={}
 
 _base_package = __name__.replace('.base','')
-_forms_apis_modules = {'simtk.unit':'api_simtk_unit', 'pint':'api_pint', 'unyt':'api_unyt'}
+_forms_apis_modules = {'simtk.unit':'api_simtk_unit', 'pint':'api_pint'}
 
 def load_library(library):
 
@@ -34,9 +35,13 @@ def load_library(library):
     dict_translate[library]={}
     dict_string_to_quantity[library] = api.string_to_quantity
     dict_string_to_unit[library] = api.string_to_unit
-    dict_to_string[library] = api.to_string
     dict_dimensionality[library] = api.dimensionality
     dict_compatibility[library] = api.compatibility
+
+    dict_translate[library]['string']=api.to_string
+    api_string = _import_module('.api_string', _base_package)
+    dict_translate['string'][library]= getattr(api, 'to_'+library)
+    del(api_string)
 
     for method in api.__dict__.keys():
         if method.startswith('to_'):
@@ -53,8 +58,30 @@ def load_library(library):
                     dict_translate[library_loaded][library]= getattr(api, method)
                     break
 
+    if api.parser:
+        loaded_parsers.append(library)
+
     loaded_libraries.append(library)
     del(api)
 
     pass
+
+# load_string
+
+api = _import_module('.api_string', _base_package)
+
+dict_is_form.update(api.is_form)
+dict_is_unit['string']=api.is_unit
+dict_is_quantity['string']=api.is_quantity
+dict_get_value['string'] = api.get_value
+dict_get_unit['string'] = api.get_unit
+dict_make_quantity['string'] = api.make_quantity
+dict_convert['string'] = api.convert
+dict_translate['string']={}
+dict_string_to_quantity['string'] = api.string_to_quantity
+dict_string_to_unit['string'] = api.string_to_unit
+dict_dimensionality['string'] = api.dimensionality
+dict_compatibility['string'] = api.compatibility
+
+del(api)
 

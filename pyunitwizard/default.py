@@ -3,6 +3,7 @@ def initialize():
     global fundamental_units
     global combination_units
     form = None
+    parser = None
     standards = {}
     dimensional_fundamental_standards = {}
     dimensional_combinations_standards = {}

@@ -1,21 +1,29 @@
 from importlib.util import find_spec
-from .forms import load_library as load_library
-from .forms import loaded_libraries as loaded
-from ._private_tools import default
-from ._private_tools.forms import digest_form
-from .main import string_to_unit, dimensionality
+from pyunitwizard import forms
+from pyunitwizard import default
+from pyunitwizard._private_tools.forms import digest_form
+from pyunitwizard.main import string_to_unit, dimensionality
 import numpy as np
 
-libraries = ['pint', 'simtk.unit', 'unyt']
+libraries = ['pint', 'simtk.unit']
+parsers = ['pint', 'simtk.unit']
 found = { ii: find_spec(ii) is not None for ii in libraries}
 
-def libraries_loaded():
+def get_libraries_loaded():
 
-    return loaded
+    return forms.loaded_libraries
 
-def libraries_supported():
+def get_libraries_supported():
 
     return libraries
+
+def get_parsers_loaded():
+
+    return forms.loaded_parsers
+
+def get_parsers_supported():
+
+    return parsers
 
 def libraries_found():
 
@@ -23,7 +31,7 @@ def libraries_found():
 
     return output
 
-def load_libraries(library_names):
+def load_library(library_names):
 
     if type(library_names) is str:
         library_names = list(library_names)
@@ -32,8 +40,8 @@ def load_libraries(library_names):
         library_names[ii]=digest_form(library_names[ii])
 
     for library in library_names:
-        if found[library] and (library not in loaded):
-            load_library(library)
+        if found[library] and (library not in forms.loaded_libraries):
+            forms.load_library(library)
 
     if default.form is None:
         default.form = library_names[0]
@@ -125,4 +133,5 @@ def set_standard_units(standard_units):
                         already[jj]=1
 
     pass
+
 

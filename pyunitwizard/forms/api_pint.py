@@ -10,6 +10,7 @@ U_ = ureg.Unit
 ##
 
 form_name = 'pint'
+pasers = True
 
 is_form={
     pint.Quantity:form_name,

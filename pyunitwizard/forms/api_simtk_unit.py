@@ -2,6 +2,7 @@ import simtk.unit as simtk_unit
 from pyunitwizard._private_tools.exceptions import *
 
 form_name = 'simtk.unit'
+parser = True
 
 is_form={
     simtk_unit.Quantity:form_name,
