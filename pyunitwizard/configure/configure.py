@@ -2,6 +2,7 @@ from importlib.util import find_spec
 from pyunitwizard import forms
 from pyunitwizard import default
 from pyunitwizard._private_tools.forms import digest_form
+from pyunitwizard._private_tools.lists_and_tuples import is_list_or_tuple
 from pyunitwizard.main import string_to_unit, dimensionality
 import numpy as np
 
@@ -25,13 +26,16 @@ def get_parsers_supported():
 
     return parsers
 
-def libraries_found():
+def get_libraries_found():
 
     output = [ii for ii in libraries if found[ii]]
 
     return output
 
 def load_library(library_names):
+
+    if not is_list_or_tuple(library_names):
+        library_names=[library_names]
 
     if type(library_names) is str:
         library_names = list(library_names)

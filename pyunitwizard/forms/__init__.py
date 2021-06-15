@@ -40,7 +40,7 @@ def load_library(library):
 
     dict_translate[library]['string']=api.to_string
     api_string = _import_module('.api_string', _base_package)
-    dict_translate['string'][library]= getattr(api, 'to_'+library)
+    dict_translate['string'][library]= getattr(api_string, 'to_'+library.replace('.','_'))
     del(api_string)
 
     for method in api.__dict__.keys():
