@@ -1,5 +1,6 @@
 def initialize():
     global form
+    global parser
     global fundamental_units
     global combination_units
     form = None

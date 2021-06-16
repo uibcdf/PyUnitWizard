@@ -106,7 +106,7 @@ def to_simtk_unit(quantity):
 
     from .api_simtk_unit import string_to_quantity as _string_to_quantity
 
-    tmp_quantity_or_unit = _string_to_quantity(quantity, to_form='simtk.unit')
+    tmp_quantity_or_unit = _string_to_quantity(quantity)
 
     return tmp_quantity_or_unit
 
@@ -114,7 +114,7 @@ def to_pint(quantity):
 
     from .api_pint import string_to_quantity as _string_to_quantity
 
-    tmp_quantity_or_unit = _string_to_quantity(quantity, to_form='simtk.unit')
+    tmp_quantity_or_unit = _string_to_quantity(quantity)
 
     return tmp_quantity_or_unit
 

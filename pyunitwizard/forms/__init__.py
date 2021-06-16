@@ -48,6 +48,8 @@ def load_library(library):
             out_form=method.replace('to_','').replace('_','.')
             if out_form in loaded_libraries:
                 dict_translate[library][out_form]= getattr(api, method)
+    if api.parser:
+        loaded_parsers.append(library)
 
     for library_loaded in loaded_libraries:
         api = _import_module('.'+_forms_apis_modules[library_loaded], _base_package)
@@ -57,9 +59,6 @@ def load_library(library):
                 if out_form == library:
                     dict_translate[library_loaded][library]= getattr(api, method)
                     break
-
-    if api.parser:
-        loaded_parsers.append(library)
 
     loaded_libraries.append(library)
     del(api)

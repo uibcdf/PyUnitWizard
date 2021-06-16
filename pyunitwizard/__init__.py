@@ -14,6 +14,7 @@ del get_versions, versions
 from .main import unit, quantity, get_form, get_value, get_unit, is_quantity, is_unit
 from .main import convert
 from .main import get_standard_units, standardize, dimensionality, compatibility
+from .main import string_to_unit, string_to_quantity, string_is_unit, string_is_quantity
 from . import configure
 from . import default as _default
 

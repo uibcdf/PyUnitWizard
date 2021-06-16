@@ -159,17 +159,17 @@ def quantity(value, unit=None, form=None, parser=None):
 
     if type(value) is str:
         if unit is None:
-            output = string_to_quantity(value, form=form, parser=parser)
+            output = convert(value, to_form=form, parser=parser)
         elif type(unit) is str:
-            output = string_to_quantity(value+' '+unit, form=form, parser=parser)
+            output = convert(value+' '+unit, to_form=form, parser=parser)
         elif is_unit(unit):
-            unit = to_string(unit)
-            output = string_to_quantity(value+' '+unit, form=form, parser=parser)
+            unit = convert(unit, to_form='string', parser=parser)
+            output = convert(value+' '+unit, to_form=form, parser=parser)
     else:
         if unit is None:
             raise ValueError('The input argument "unit" is required.')
         elif type(unit) is not str:
-            unit = to_string(unit)
+            unit = convert(unit, to_form=form, parser=parser)
 
         form = digest_form(form)
 
@@ -196,7 +196,7 @@ def convert(quantity_or_unit, to_unit=None, to_form=None, parser=None):
         if form_in is not 'string':
             parser = form_in
         else:
-            raise ValueError
+            parser = default.parser
 
     if type(quantity_or_unit) is str:
         if string_is_quantity(quantity_or_unit):
@@ -347,9 +347,8 @@ def string_is_quantity(string):
         raise ValueError("Input argument of string_is_quantity is not string.")
 
     try:
-        quantity_or_unit = string_to_quantity(string)
-        form = get_form(quantity_or_unit)
-        output = dict_is_quantity[form](quantity_or_unit)
+        quantity_or_unit = convert(string, to_form=default.form)
+        output = dict_is_quantity[default.form](quantity_or_unit)
     except:
         output = False
 
@@ -372,18 +371,7 @@ def string_is_unit(string):
 
 def string_to_quantity(string, to_form=None, parser=None):
 
-    parser = digest_parser(parser)
-    to_form = digest_form(to_form)
-
-    if parser is None:
-        parser = to_form
-
-    output = dict_string_to_quantity[parser](string)
-
-    if parser != to_form:
-        output = convert(output, to_form=to_form)
-
-    return output
+    return convert(string, to_form=to_form, parser=parser)
 
 def string_to_unit(string, to_form=None, parser=None):
 
@@ -397,18 +385,6 @@ def string_to_unit(string, to_form=None, parser=None):
 
     if parser != to_form:
         output = convert(output, to_form=to_form)
-
-    return output
-
-def to_string(quantity_or_unit, parser=None):
-
-    output = None
-
-    if parser is None:
-        parser= get_form(quantity_or_unit)
-
-    tmp_quantity_or_unit = convert(quantity_or_unit, to_form=parser)
-    output = dict_to_string[parser](tmp_quantity_or_unit)
 
     return output
 

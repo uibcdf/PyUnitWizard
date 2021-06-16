@@ -1,6 +1,7 @@
 import unyt as unyt
 
 form_name = 'unyt'
+parser = False
 
 is_form={
     }

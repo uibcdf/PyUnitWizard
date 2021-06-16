@@ -50,6 +50,12 @@ def load_library(library_names):
     if default.form is None:
         default.form = library_names[0]
 
+    if default.parser is None:
+        for library_name in library_names:
+            if library_name in parsers:
+                default.parser = library_name
+                break
+
     pass
 
 def get_default_form():
@@ -60,7 +66,16 @@ def set_default_form(form):
 
     form = digest_form(form)
     default.form = form
+    pass
 
+def get_default_parser():
+
+    return default.parser
+
+def set_default_parser(parser):
+
+    form = digest_form(parser)
+    default.parser = parser
     pass
 
 def get_standard_units():
