@@ -192,20 +192,39 @@ def convert(quantity_or_unit, to_unit=None, to_form=None, parser=None):
     to_form = digest_to_form(to_form)
     parser = digest_parser(parser)
 
+    print(form_in, to_form, parser)
+
     if parser is None:
         if form_in is not 'string':
             parser = form_in
         else:
-            parser = default.parser
-
-    if type(quantity_or_unit) is str:
-        if string_is_quantity(quantity_or_unit):
-            quantity_or_unit = string_to_quantity(quantity_or_unit, parser=parser)
-        elif string_is_unit(quantity_or_unit):
-            quantity_or_unit = string_to_unit(quantity_or_unit, parser=parser)
+            if to_form is None:
+                parser = default.parser
+            else:
+                parser = form_in
 
     tmp_quantity_or_unit = quantity_or_unit
-    tmp_form = form_in
+
+    if form_in=='string':
+        if parser==to_form:
+            tmp_quantity_or_unit = dict_translate[form_in][to_form](tmp_quantity_or_unit)
+            if to_unit is not None:
+                tmp_quantity_or_unit = dict_convert[form_in](tmp_quantity_or_unit, to_unit)
+        else:
+            tmp_quantity_or_unit = dict_translate[tmp_form][parser](tmp_quantity_or_unit)
+            if to_unit is not None:
+                tmp_quantity_or_unit = dict_convert[parser](tmp_quantity_or_unit, to_unit)
+            tmp_quantity_or_unit = dict_translate[parser][to_form](tmp_quantity_or_unit)
+    else:
+        if form_in==to_form:
+            
+
+
+        if parser==to_form:
+            tmp_quantity_or_unit = dict_translate[tmp_form][parser](tmp_quantity_or_unit)
+
+
+    if parser == to_form:
 
     if parser != form_in:
         tmp_quantity_or_unit = dict_translate[tmp_form][parser](tmp_quantity_or_unit)
