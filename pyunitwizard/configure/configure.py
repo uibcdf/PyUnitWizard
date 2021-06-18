@@ -1,18 +1,30 @@
 from importlib.util import find_spec
 from pyunitwizard import forms
-from pyunitwizard import default
+from pyunitwizard import kernel
 from pyunitwizard._private_tools.forms import digest_form
 from pyunitwizard._private_tools.lists_and_tuples import is_list_or_tuple
-from pyunitwizard.main import string_to_unit, dimensionality
+from pyunitwizard.main import convert, dimensionality
 import numpy as np
 
 libraries = ['pint', 'simtk.unit']
 parsers = ['pint', 'simtk.unit']
 found = { ii: find_spec(ii) is not None for ii in libraries}
 
+def reset():
+
+    kernel.loaded_libraries = []
+    kernel.loaded_parsers = []
+    kernel.default_form=None
+    kernel.default_parser=None
+    kernel.standards = {}
+    kernel.dimensional_fundamental_standards = {}
+    kernel.dimensional_combinations_standards = {}
+    kernel.adimensional_standards = {}
+    kernel.tentative_base_standards = {}
+
 def get_libraries_loaded():
 
-    return forms.loaded_libraries
+    return kernel.loaded_libraries
 
 def get_libraries_supported():
 
@@ -20,7 +32,7 @@ def get_libraries_supported():
 
 def get_parsers_loaded():
 
-    return forms.loaded_parsers
+    return kernel.loaded_parsers
 
 def get_parsers_supported():
 
@@ -44,52 +56,52 @@ def load_library(library_names):
         library_names[ii]=digest_form(library_names[ii])
 
     for library in library_names:
-        if found[library] and (library not in forms.loaded_libraries):
+        if found[library] and (library not in kernel.loaded_libraries):
             forms.load_library(library)
 
-    if default.form is None:
-        default.form = library_names[0]
+    if kernel.default_form is None:
+        kernel.default_form = library_names[0]
 
-    if default.parser is None:
+    if kernel.default_parser is None:
         for library_name in library_names:
             if library_name in parsers:
-                default.parser = library_name
+                kernel.default_parser = library_name
                 break
 
     pass
 
 def get_default_form():
 
-    return default.form
+    return kernel.default_form
 
 def set_default_form(form):
 
     form = digest_form(form)
-    default.form = form
+    kernel.default_form = form
     pass
 
 def get_default_parser():
 
-    return default.parser
+    return kernel.default_parser
 
 def set_default_parser(parser):
 
     form = digest_form(parser)
-    default.parser = parser
+    kernel.default_parser = parser
     pass
 
 def get_standard_units():
 
-    return default.standards
+    return kernel.standards
 
 def set_standard_units(standard_units):
 
-    default.standards={}
-    default.dimensional_fundamental_standards={}
-    default.dimensional_combinations_standards={}
-    default.adimensional_standards={}
+    kernel.standards={}
+    kernel.dimensional_fundamental_standards={}
+    kernel.dimensional_combinations_standards={}
+    kernel.adimensional_standards={}
 
-    n_dimensions = len(default.order_fundamental_units)
+    n_dimensions = len(kernel.order_fundamental_units)
 
     if type(standard_units) is str:
         standard_units=[standard_units]
@@ -98,31 +110,30 @@ def set_standard_units(standard_units):
 
     for standard_unit in standard_units:
 
-
-        dim = dimensionality(string_to_unit(standard_unit))
-        dim_array = np.array([dim[ii] for ii in default.order_fundamental_units], dtype=float)
+        dim = dimensionality(convert(standard_unit, to_type='unit'))
+        dim_array = np.array([dim[ii] for ii in kernel.order_fundamental_units], dtype=float)
         n_dims_array = n_dimensions - np.isclose(dim_array,0.0).sum()
 
         if n_dims_array == 1:
 
-            default.dimensional_fundamental_standards[standard_unit] = dim_array
+            kernel.dimensional_fundamental_standards[standard_unit] = dim_array
 
         elif n_dims_array == 0:
 
-            default.adimensional_standards[standard_unit] = dim_array
+            kernel.adimensional_standards[standard_unit] = dim_array
 
         else:
 
-            default.dimensional_combinations_standards[standard_unit] = dim_array
+            kernel.dimensional_combinations_standards[standard_unit] = dim_array
 
-        default.standards[standard_unit] = dim
+        kernel.standards[standard_unit] = dim
 
     # Tentative base standards
 
-    default.tentative_base_standards=default.dimensional_fundamental_standards.copy()
+    kernel.tentative_base_standards=kernel.dimensional_fundamental_standards.copy()
 
     already = np.zeros(shape=n_dimensions)
-    for unit, array in default.tentative_base_standards.items():
+    for unit, array in kernel.tentative_base_standards.items():
         already += array
 
     for ii in range(n_dimensions):
@@ -131,7 +142,7 @@ def set_standard_units(standard_units):
             candidate_array = None
             candidate_n_dims = np.inf
             candidate_n_ii = np.inf
-            for standard_unit, array in default.dimensional_combinations_standards.items():
+            for standard_unit, array in kernel.dimensional_combinations_standards.items():
                 if array[ii]>0:
                     if array[ii]<candidate_n_ii:
                         candidate = standard_unit
@@ -146,7 +157,7 @@ def set_standard_units(standard_units):
                             candidate_n_ii = array[ii]
 
             if candidate is not None:
-                default.tentative_base_standards[candidate] = candidate_array
+                kernel.tentative_base_standards[candidate] = candidate_array
                 for jj in range(ii, n_dimensions):
                     if candidate_array[jj]>0:
                         already[jj]=1
