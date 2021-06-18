@@ -8,7 +8,7 @@ is_form={
 
 def is_quantity(quantity_or_unit):
 
-    from pyunitwizard.default import form as default_form, parser as default_parser
+    from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, is_quantity as _is_quantity
 
     tmp_quantity_or_unit = _convert(quantity_or_unit, to_form=default_form, parser=default_parser)
@@ -18,7 +18,7 @@ def is_quantity(quantity_or_unit):
 
 def is_unit(quantity_or_unit):
 
-    from pyunitwizard.default import form as default_form, parser as default_parser
+    from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, is_unit as _is_unit
 
     tmp_quantity_or_unit = _convert(quantity_or_unit, to_form=default_form, parser=default_parser)
@@ -28,7 +28,7 @@ def is_unit(quantity_or_unit):
 
 def dimensionality(quantity_or_unit):
 
-    from pyunitwizard.default import form as default_form, parser as default_parser
+    from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, dimensionality as _dimensionality
 
     tmp_quantity_or_unit = _convert(quantity_or_unit, to_form=default_form, parser=default_parser)
@@ -38,7 +38,7 @@ def dimensionality(quantity_or_unit):
 
 def compatibility(quantity_or_unit_1, quantity_or_unit_2):
 
-    from pyunitwizard.default import form as default_form, parser as default_parser
+    from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, compatibility as _compatibility
 
     tmp_quantity_or_unit_1 = _convert(quantity_or_unit_1, to_form=default_form, parser=default_parser)
@@ -49,7 +49,7 @@ def compatibility(quantity_or_unit_1, quantity_or_unit_2):
 
 def make_quantity(value, unit_name):
 
-    from pyunitwizard.default import form as default_form, parser as default_parser
+    from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, quantity as _quantity
 
     tmp_quantity_or_unit = _quantity(value, unit=unit_name, form=default_form, parser=default_parser)
@@ -59,10 +59,10 @@ def make_quantity(value, unit_name):
 
 def get_value(quantity):
 
-    from pyunitwizard.default import form as default_form, parser as default_parser
+    from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, get_value as _get_value
 
-    tmp_quantity_or_unit = _convert(tmp_quantity_or_unit, to_form=default_form, parser=default_parser)
+    tmp_quantity_or_unit = _convert(quantity, to_form=default_form, parser=default_parser)
     tmp_value = _get_value(tmp_quantity_or_unit)
     tmp_value = str(tmp_value)
 
@@ -70,10 +70,10 @@ def get_value(quantity):
 
 def get_unit(quantity):
 
-    from pyunitwizard.default import form as default_form, parser as default_parser
+    from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, get_unit as _get_unit
 
-    tmp_quantity_or_unit = _convert(tmp_quantity_or_unit, to_form=default_form, parser=default_parser)
+    tmp_quantity_or_unit = _convert(quantity, to_form=default_form, parser=default_parser)
     tmp_unit = _get_unit(tmp_quantity_or_unit, to_form='string', parser=default_parser)
 
     return tmp_unit
@@ -93,7 +93,7 @@ def to_string(quantity_or_item):
 
 def convert(quantity, unit_name):
 
-    from pyunitwizard.default import form as default_form, parser as default_parser
+    from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, get_unit as _get_unit
 
     tmp_quantity_or_unit = _convert(quantity, to_form=default_form, parser=default_parser)

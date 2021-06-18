@@ -1,8 +1,5 @@
 from importlib import import_module as _import_module
 
-loaded_libraries = []
-loaded_parsers = []
-
 dict_is_form={}
 dict_is_unit={}
 dict_is_quantity={}
@@ -22,6 +19,7 @@ _forms_apis_modules = {'simtk.unit':'api_simtk_unit', 'pint':'api_pint'}
 
 def load_library(library):
 
+    from pyunitwizard.kernel import loaded_libraries, loaded_parsers
 
     api = _import_module('.'+_forms_apis_modules[library], _base_package)
 

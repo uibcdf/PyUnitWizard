@@ -2,12 +2,12 @@ forms = ['simtk.unit', 'pint', 'unyt', 'string']
 
 def digest_form(form):
 
-    from pyunitwizard import default
+    from pyunitwizard import kernel
 
     output = None
 
     if form is None:
-        output=default.form
+        output=kernel.default_form
     elif form is 'string':
         output = form
     elif form.lower() in forms:
