@@ -6,4 +6,6 @@ development:
         pytest
 
 production:
+        numpy
+        pint
 

@@ -67,6 +67,23 @@ def test_from_string_8():
     q_true = 100.0
     assert q == q_true
 
+def test_from_string_9():
+    puw.configure.reset()
+    puw.configure.load_library(['pint'])
+    ureg = puw.forms.api_pint.ureg
+    q = puw.convert('100 angstroms**3', to_form='string', to_type='unit')
+    q_true = 'angstrom ** 3'
+    assert q == q_true
+
+def test_from_string_10():
+    puw.configure.reset()
+    puw.configure.load_library(['pint'])
+    ureg = puw.forms.api_pint.ureg
+    q = puw.quantity('100 angstroms**3')
+    q = puw.convert(q, to_form='string', to_type='unit')
+    q_true = 'angstrom ** 3'
+    assert q == q_true
+
 ## to_pint
 
 def test_to_pint_1():

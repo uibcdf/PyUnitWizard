@@ -88,7 +88,6 @@ def string_to_quantity(string):
     tmp_quantity = parser.scale
     for unit_name, exponent in parser.items():
         tmp_quantity *= getattr(simtk_unit, unit_name)**exponent
-
     return tmp_quantity
 
 def string_to_unit(string):

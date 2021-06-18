@@ -62,7 +62,7 @@ def get_value(quantity):
     from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, get_value as _get_value
 
-    tmp_quantity_or_unit = _convert(tmp_quantity_or_unit, to_form=default_form, parser=default_parser)
+    tmp_quantity_or_unit = _convert(quantity, to_form=default_form, parser=default_parser)
     tmp_value = _get_value(tmp_quantity_or_unit)
     tmp_value = str(tmp_value)
 
@@ -73,7 +73,7 @@ def get_unit(quantity):
     from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, get_unit as _get_unit
 
-    tmp_quantity_or_unit = _convert(tmp_quantity_or_unit, to_form=default_form, parser=default_parser)
+    tmp_quantity_or_unit = _convert(quantity, to_form=default_form, parser=default_parser)
     tmp_unit = _get_unit(tmp_quantity_or_unit, to_form='string', parser=default_parser)
 
     return tmp_unit

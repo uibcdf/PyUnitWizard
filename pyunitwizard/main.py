@@ -137,6 +137,8 @@ def quantity(value, unit=None, form=None, parser=None):
     if type(value) is str:
         if unit is None:
             output = convert(value, to_form=form, parser=parser)
+            if not is_quantity(output):
+                raise ValueError('The input argument "value" needs to have value and units in this case')
         elif type(unit) is str:
             output = convert(value+' '+unit, to_form=form, parser=parser)
         elif is_unit(unit):
@@ -254,21 +256,37 @@ def convert(quantity_or_unit, to_unit=None, to_form=None, parser=None, to_type='
                         output = dict_translate[form_in][parser](output)
                         output = dict_convert[parser](output, to_unit)
                         output = dict_translate[parser][to_form](output)
+                output = dict_get_unit[to_form](output)
             elif form_in!=to_form:
-                if to_unit is not None:
-                    if parser==form_in:
-                        output = dict_convert[form_in](output, to_unit)
-                        output = dict_translate[form_in][to_form](output)
-                    elif parser==to_form:
-                        output = dict_translate[form_in][to_form](output)
-                        output = dict_convert[to_form](output, to_unit)
+                if to_form == 'string':
+                    if to_unit is not None:
+                        if parser==form_in:
+                            output = dict_convert[form_in](output, to_unit)
+                            output = dict_get_unit[form_in](output)
+                            output = dict_translate[form_in][to_form](output)
+                        else:
+                            output = dict_translate[form_in][parser](output)
+                            output = dict_convert[parser](output, to_unit)
+                            output = dict_get_unit[parser](output)
+                            output = dict_translate[parser][to_form](output)
                     else:
-                        output = dict_translate[form_in][parser](output)
-                        output = dict_convert[parser](output, to_unit)
-                        output = dict_translate[parser][to_form](output)
+                        output = dict_get_unit[form_in](output)
+                        output = dict_translate[form_in][to_form](output)
                 else:
-                    output = dict_translate[form_in][to_form](output)
-            output = dict_get_unit[to_form](output)
+                    if to_unit is not None:
+                        if parser==form_in:
+                            output = dict_convert[form_in](output, to_unit)
+                            output = dict_translate[form_in][to_form](output)
+                        elif parser==to_form:
+                            output = dict_translate[form_in][to_form](output)
+                            output = dict_convert[to_form](output, to_unit)
+                        else:
+                            output = dict_translate[form_in][parser](output)
+                            output = dict_convert[parser](output, to_unit)
+                            output = dict_translate[parser][to_form](output)
+                    else:
+                        output = dict_translate[form_in][to_form](output)
+                    output = dict_get_unit[to_form](output)
 
     elif to_type=='value':
 
@@ -361,7 +379,7 @@ def get_standard_units(quantity_or_unit):
                     if not np.isclose(0.0, exponent):
                         output *= u**exponent
 
-                output = to_string(get_unit(output))
+                output = convert(output, to_form='string', to_type='unit')
 
     else:
 
@@ -376,7 +394,7 @@ def get_standard_units(quantity_or_unit):
             standard_units = []
 
             for aux_unit, aux_dim_array in kernel.dimensional_fundamental_standards.items():
-                standard_units.append(convert_to(aux_unit, to_type='unit'))
+                standard_units.append(convert(aux_unit, to_type='unit'))
                 matrix.append(aux_dim_array)
 
             matrix = np.array(matrix)
@@ -391,7 +409,7 @@ def get_standard_units(quantity_or_unit):
                     if not np.isclose(0.0, exponent):
                         output *= u**exponent
 
-                output = to_string(get_unit(output))
+                output = convert(output, to_form='string', to_type='unit')
 
         if output is None:
 
@@ -399,7 +417,7 @@ def get_standard_units(quantity_or_unit):
             standard_units = []
 
             for aux_unit, aux_dim_array in kernel.tentative_base_standards.items():
-                standard_units.append(convert_to(aux_unit, to_type='unit'))
+                standard_units.append(convert(aux_unit, to_type='unit'))
                 matrix.append(aux_dim_array)
 
             matrix = np.array(matrix)
@@ -414,7 +432,7 @@ def get_standard_units(quantity_or_unit):
                     if not np.isclose(0.0, exponent):
                         output *= u**exponent
 
-                output = to_string(get_unit(output))
+                output = convert(output, to_form='string', to_type='unit')
 
 
     return output
