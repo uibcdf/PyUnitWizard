@@ -1,0 +1,8 @@
+name: Test-UIBCDF-Library_setup
+channels:
+- default
+dependencies:
+- python
+- setuptools
+- numpy
+- versioneer

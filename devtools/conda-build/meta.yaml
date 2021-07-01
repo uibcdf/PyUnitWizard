@@ -1,6 +1,6 @@
 package:
   name: pyunitwizard
-  version: 0.3.0
+  version: "{{ environ['GIT_DESCRIBE_TAG'] }}"
 
 source:
   path: ../../
@@ -10,19 +10,22 @@ build:
 
 requirements:
   build:
-    - python  {{ python }}
+    - python
     - setuptools
+    - numpy
+    - versioneer
 
   run:
-    - python  {{ python }}
-    - numpy >=1.16
-    - pint >=0.17
+    - python
+    - numpy
+    - pint
 
 about:
   home: https://uibcdf.org
   license: MIT License
   summary: ""
   description: |
-    This library provides some useful methods and classes to...
+    This library provides some useful methods to work with quantities
   dev_url: https://github.com/uibcdf/PyUnitWizard
   doc_url: https://uibcdf.org/PyUnitWizard
+

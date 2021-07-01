@@ -1,0 +1,16 @@
+name: Test-UIBCDF-Library_docs
+channels:
+- conda-forge
+- default
+dependencies:
+- python
+- sphinx
+- sphinx_rtd_theme
+- sphinxcontrib-bibtex
+- nbsphinx
+- recommonmark
+- sphinx-markdown-tables
+- jupyterlab
+- pint
+- openmm
+- unyt
