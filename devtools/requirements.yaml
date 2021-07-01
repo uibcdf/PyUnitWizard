@@ -59,6 +59,7 @@ setup:
 
 conda-build:
   channels:
+    - conda-forge
     - default
   dependencies:
     - anaconda-client

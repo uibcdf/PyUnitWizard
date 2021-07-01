@@ -1,4 +1,3 @@
-name: Test-UIBCDF-Library_docs
 channels:
 - conda-forge
 - default

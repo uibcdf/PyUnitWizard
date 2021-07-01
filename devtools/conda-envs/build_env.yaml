@@ -1,5 +1,5 @@
-name: Test-UIBCDF-Library_build
 channels:
+- conda-forge
 - default
 dependencies:
 - anaconda-client
