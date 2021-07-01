@@ -1,0 +1,7 @@
+name: Test-UIBCDF-Library
+channels:
+- conda-forge
+- default
+dependencies:
+- python
+- pint

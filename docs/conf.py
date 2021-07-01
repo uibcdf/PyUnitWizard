@@ -8,7 +8,6 @@
 
 import os
 import sys
-#import sphinx_rtd_theme
 
 # -- Path setup --------------------------------------------------------------
 
@@ -33,9 +32,9 @@ copyright = ('2021, UIBCDF Lab at the Mexico City Childrens Hospital Federico Go
 author = 'Liliana M. Moreno Vargas & Diego Prada Gracia'
 
 # The short X.Y version
-version = ''
+version = pyunitwizard.__version__.split('+')[0]
 # The full version, including alpha/beta/rc tags
-release = ''
+release = test_uibcdf_library.__version__
 
 
 # -- General configuration ---------------------------------------------------
