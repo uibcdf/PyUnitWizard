@@ -1,4 +1,3 @@
-import simtk.unit as simtk_unit
 import pint as pint
 from ._private_tools.forms import digest_form, digest_to_form
 from ._private_tools.parsers import digest_parser
