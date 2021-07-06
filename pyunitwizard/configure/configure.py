@@ -8,7 +8,8 @@ import numpy as np
 
 libraries = ['pint', 'simtk.unit']
 parsers = ['pint', 'simtk.unit']
-found = { ii: find_spec(ii) is not None for ii in libraries}
+_aux_dict_modules = {'pint':'pint', 'simtk.unit':'simtk'}
+found = { ii: find_spec(_aux_dict_modules[ii]) is not None for ii in libraries}
 
 def reset():
 
