@@ -24,7 +24,7 @@ development:
     - nbsphinx
     - recommonmark
     - sphinx-markdown-tables
- 
+
 test:
   channels:
     - conda-forge
