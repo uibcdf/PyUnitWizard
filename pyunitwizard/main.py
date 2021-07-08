@@ -474,7 +474,7 @@ def standardize(quantity_or_unit, to_form=None):
 
     return output
 
-def check(quantity_or_unit, dimensionality=None, value_type=None, shape=None, unit=None):
+def check(quantity_or_unit, dimensionality=None, value_type=None, shape=None, unit=None, dtype_name=None):
 
     output = True
 
@@ -484,17 +484,25 @@ def check(quantity_or_unit, dimensionality=None, value_type=None, shape=None, un
             aux_unit = get_unit(quantity_or_unit)
             if not similarity(aux_unit, unit):
                 output=False
-        if (output==False) and (value_type is not None):
+        if output and (value_type is not None):
             aux_value = get_value(quantity_or_unit)
             if type(aux_value)!=value_type:
                 output=False
-        if (output==True) and (shape is not None):
+        if output and (shape is not None):
             value = get_value(quantity_or_unit)
             if np.shape(value)!=tuple(shape):
                 output=False
-        if (output==True) and (dimensionality is not None):
+        if output and (dimensionality is not None):
             aux_dimensionality = get_dimensionality(quantity_or_unit)
             if not _compatible_dimensionalities(aux_dimensionality, dimensionality):
+                output=False
+        if output and (dtype_name is not None):
+            aux_value = get_value(quantity_or_unit)
+            try:
+                aux_dtype_name = aux_value.dtype.name
+                if aux_dtype_name!=dtype_name:
+                    output=False
+            except:
                 output=False
 
     elif is_unit(quantity_or_unit):
@@ -502,7 +510,7 @@ def check(quantity_or_unit, dimensionality=None, value_type=None, shape=None, un
         if unit is not None:
             if not similarity(quantity_or_unit, unit):
                 output=False
-        if (output==True) and (dimensionality is not None):
+        if output and (dimensionality is not None):
             aux_dimensionality = get_dimensionality(quantity_or_unit)
             if not _compatible_dimensionalities(aux_dimensionality, dimensionality):
                 output=False
