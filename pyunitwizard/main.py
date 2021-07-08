@@ -80,7 +80,7 @@ def similarity(quantity_or_unit_1, quantity_or_unit_2, relative_tolerance=1e-08)
 
     return output
 
-def dimensionality(quantity_or_unit, output='dict'):
+def get_dimensionality(quantity_or_unit):
 
     dim = None
 
@@ -93,15 +93,35 @@ def dimensionality(quantity_or_unit, output='dict'):
     form = get_form(quantity_or_unit)
     dim = dict_dimensionality[form](quantity_or_unit)
 
-    if output is 'array':
-        dim = np.array([dim[ii] for ii in kernel.order_fundamental_units], dtype=float)
-
     return dim
+
+def _dimensionality_dict_to_array(dimensionality):
+
+    output = []
+
+    for ii in kernel.order_fundamental_units:
+        try:
+            output.append(dimensionality[ii])
+        except:
+            output.append(0)
+
+    output = np.array(output, dtype=float)
+
+    return output
 
 def compatibility(quantity_or_unit_1, quantity_or_unit_2):
 
-    d1 = dimensionality(quantity_or_unit_1, output='array')
-    d2 = dimensionality(quantity_or_unit_2, output='array')
+    d1 = get_dimensionality(quantity_or_unit_1)
+    d2 = get_dimensionality(quantity_or_unit_2)
+
+    output = _compatible_dimensionalities(d1, d2)
+
+    return output
+
+def _compatible_dimensionalities(d1, d2):
+
+    d1=_dimensionality_dict_to_array(d1)
+    d2=_dimensionality_dict_to_array(d2)
 
     n_fundamental_units = len(kernel.order_fundamental_units)
 
@@ -337,7 +357,7 @@ def convert(quantity_or_unit, to_unit=None, to_form=None, parser=None, to_type='
 
 def get_standard_units(quantity_or_unit):
 
-    dim = dimensionality(quantity_or_unit)
+    dim = get_dimensionality(quantity_or_unit)
     solution = np.array([dim[ii] for ii in kernel.order_fundamental_units], dtype=float)
     n_dims_solution = len(kernel.order_fundamental_units) - np.sum(np.isclose(solution, 0.0))
 
@@ -454,4 +474,41 @@ def standardize(quantity_or_unit, to_form=None):
 
     return output
 
+def check(quantity_or_unit, dimensionality=None, value_type=None, shape=None, unit=None):
 
+    output = True
+
+    if is_quantity(quantity_or_unit):
+
+        if unit is not None:
+            aux_unit = get_unit(quantity_or_unit)
+            if not similarity(aux_unit, unit):
+                output=False
+        if (output==False) and (value_type is not None):
+            aux_value = get_value(quantity_or_unit)
+            if type(aux_value)!=value_type:
+                output=False
+        if (output==True) and (shape is not None):
+            value = get_value(quantity_or_unit)
+            if np.shape(value)!=tuple(shape):
+                output=False
+        if (output==True) and (dimensionality is not None):
+            aux_dimensionality = get_dimensionality(quantity_or_unit)
+            if not _compatible_dimensionalities(aux_dimensionality, dimensionality):
+                output=False
+
+    elif is_unit(quantity_or_unit):
+
+        if unit is not None:
+            if not similarity(quantity_or_unit, unit):
+                output=False
+        if (output==True) and (dimensionality is not None):
+            aux_dimensionality = get_dimensionality(quantity_or_unit)
+            if not _compatible_dimensionalities(aux_dimensionality, dimensionality):
+                output=False
+
+    else:
+
+        output = False
+
+    return output

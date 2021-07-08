@@ -3,7 +3,6 @@ production:
     - conda-forge
     - default
   dependencies:
-    - python
     - pint
 
 development:
@@ -11,18 +10,26 @@ development:
     - conda-forge
     - default
   dependencies:
-    - python
     - pint
     - openmm
     - unyt
     - jupyterlab
-
+    - pytest
+    - pip
+    - pytest-cov
+    - codecov
+    - sphinx
+    - sphinx_rtd_theme
+    - sphinxcontrib-bibtex
+    - nbsphinx
+    - recommonmark
+    - sphinx-markdown-tables
+ 
 test:
   channels:
     - conda-forge
     - default
   dependencies:
-    - python
     - pytest
     - pip
     - pytest-cov
@@ -36,7 +43,6 @@ docs:
     - conda-forge
     - default
   dependencies:
-    - python
     - sphinx
     - sphinx_rtd_theme
     - sphinxcontrib-bibtex
@@ -52,7 +58,6 @@ setup:
   channels:
     - default
   dependencies:
-    - python
     - setuptools
     - numpy
     - versioneer

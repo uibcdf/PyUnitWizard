@@ -3,7 +3,7 @@ from pyunitwizard import forms
 from pyunitwizard import kernel
 from pyunitwizard._private_tools.forms import digest_form
 from pyunitwizard._private_tools.lists_and_tuples import is_list_or_tuple
-from pyunitwizard.main import convert, dimensionality
+from pyunitwizard.main import convert, get_dimensionality
 import numpy as np
 
 libraries = ['pint', 'simtk.unit']
@@ -111,7 +111,7 @@ def set_standard_units(standard_units):
 
     for standard_unit in standard_units:
 
-        dim = dimensionality(convert(standard_unit, to_type='unit'))
+        dim = get_dimensionality(convert(standard_unit, to_type='unit'))
         dim_array = np.array([dim[ii] for ii in kernel.order_fundamental_units], dtype=float)
         n_dims_array = n_dimensions - np.isclose(dim_array,0.0).sum()
 

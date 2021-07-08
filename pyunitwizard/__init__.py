@@ -13,7 +13,7 @@ del get_versions, versions
 # Add imports here
 from .main import unit, quantity, get_form, get_value, get_unit, is_quantity, is_unit
 from .main import convert
-from .main import get_standard_units, standardize, dimensionality, compatibility, similarity
+from .main import get_standard_units, standardize, get_dimensionality, compatibility, similarity, check
 from . import configure
 from . import kernel as _kernel
 
