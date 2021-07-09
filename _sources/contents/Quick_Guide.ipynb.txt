@@ -47,7 +47,7 @@
     {
      "data": {
       "text/plain": [
-       "['pint', 'simtk.unit', 'unyt']"
+       "['pint', 'simtk.unit']"
       ]
      },
      "execution_count": 3,
@@ -56,7 +56,7 @@
     }
    ],
    "source": [
-    "puw.configure.libraries_supported()"
+    "puw.configure.get_libraries_supported()"
    ]
   },
   {
@@ -67,7 +67,7 @@
     {
      "data": {
       "text/plain": [
-       "['pint', 'simtk.unit', 'unyt']"
+       "['pint', 'simtk.unit']"
       ]
      },
      "execution_count": 4,
@@ -76,7 +76,7 @@
     }
    ],
    "source": [
-    "puw.configure.libraries_found()"
+    "puw.configure.get_libraries_found()"
    ]
   },
   {
@@ -85,7 +85,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "puw.configure.load_libraries(['pint', 'simtk.unit'])"
+    "puw.configure.load_library(['pint', 'simtk.unit'])"
    ]
   },
   {
@@ -96,7 +96,7 @@
     {
      "data": {
       "text/plain": [
-       "['pint', 'simtk.unit']"
+       "'pint'"
       ]
      },
      "execution_count": 6,
@@ -105,21 +105,12 @@
     }
    ],
    "source": [
-    "puw.configure.libraries_loaded()"
+    "puw.configure.get_default_form()"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 7,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "puw.configure.set_default_form('pint')"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 8,
    "metadata": {},
    "outputs": [
     {
@@ -128,13 +119,13 @@
        "'pint'"
       ]
      },
-     "execution_count": 8,
+     "execution_count": 7,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "puw.configure.get_default_form()"
+    "puw.configure.get_default_parser()"
    ]
   },
   {
@@ -148,7 +139,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 8,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -157,7 +148,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 9,
    "metadata": {},
    "outputs": [
     {
@@ -172,7 +163,7 @@
        "2.5 <Unit('nanometer / picosecond')>"
       ]
      },
-     "execution_count": 10,
+     "execution_count": 9,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -190,7 +181,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 10,
    "metadata": {},
    "outputs": [
     {
@@ -199,7 +190,7 @@
        "True"
       ]
      },
-     "execution_count": 11,
+     "execution_count": 10,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -210,7 +201,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 11,
    "metadata": {},
    "outputs": [
     {
@@ -219,7 +210,7 @@
        "'pint'"
       ]
      },
-     "execution_count": 12,
+     "execution_count": 11,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -237,7 +228,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 12,
    "metadata": {},
    "outputs": [
     {
@@ -246,7 +237,7 @@
        "2.5"
       ]
      },
-     "execution_count": 13,
+     "execution_count": 12,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -257,22 +248,22 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 13,
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/html": [
-       "nanometer/picosecond"
+       "2.5 nanometer/picosecond"
       ],
       "text/latex": [
-       "$\\frac{\\mathrm{nanometer}}{\\mathrm{picosecond}}$"
+       "$2.5\\ \\frac{\\mathrm{nanometer}}{\\mathrm{picosecond}}$"
       ],
       "text/plain": [
-       "<Unit('nanometer / picosecond')>"
+       "2.5 <Unit('nanometer / picosecond')>"
       ]
      },
-     "execution_count": 14,
+     "execution_count": 13,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -283,7 +274,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 14,
    "metadata": {},
    "outputs": [
     {
@@ -292,7 +283,7 @@
        "{'[L]': 1, '[M]': 0, '[T]': -1, '[K]': 0, '[mol]': 0, '[A]': 0, '[Cd]': 0}"
       ]
      },
-     "execution_count": 15,
+     "execution_count": 14,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -310,7 +301,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 16,
+   "execution_count": 15,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -319,7 +310,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 17,
+   "execution_count": 16,
    "metadata": {},
    "outputs": [
     {
@@ -328,7 +319,7 @@
        "'simtk.unit'"
       ]
      },
-     "execution_count": 17,
+     "execution_count": 16,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -339,7 +330,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 18,
+   "execution_count": 17,
    "metadata": {},
    "outputs": [
     {
@@ -348,7 +339,7 @@
        "Quantity(value=2.5, unit=nanometer/picosecond)"
       ]
      },
-     "execution_count": 18,
+     "execution_count": 17,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -366,7 +357,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 19,
+   "execution_count": 18,
    "metadata": {},
    "outputs": [
     {
@@ -384,7 +375,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 20,
+   "execution_count": 19,
    "metadata": {},
    "outputs": [
     {
@@ -393,7 +384,7 @@
        "{'[L]': 1.0, '[M]': 0, '[T]': -1.0, '[K]': 0, '[mol]': 0, '[A]': 0, '[Cd]': 0}"
       ]
      },
-     "execution_count": 20,
+     "execution_count": 19,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -404,7 +395,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 21,
+   "execution_count": 20,
    "metadata": {},
    "outputs": [
     {
@@ -413,7 +404,7 @@
        "True"
       ]
      },
-     "execution_count": 21,
+     "execution_count": 20,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -431,7 +422,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 22,
+   "execution_count": 21,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -440,7 +431,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 23,
+   "execution_count": 22,
    "metadata": {},
    "outputs": [
     {
@@ -449,7 +440,7 @@
        "Unit({BaseUnit(base_dim=BaseDimension(\"amount\"), name=\"mole\", symbol=\"mol\"): -1.0, ScaledUnit(factor=1000.0, master=meter*newton, name='kilojoule', symbol='kJ'): 1.0})"
       ]
      },
-     "execution_count": 23,
+     "execution_count": 22,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -467,7 +458,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 24,
+   "execution_count": 23,
    "metadata": {},
    "outputs": [
     {
@@ -476,7 +467,7 @@
        "'simtk.unit'"
       ]
      },
-     "execution_count": 24,
+     "execution_count": 23,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -487,7 +478,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 25,
+   "execution_count": 24,
    "metadata": {},
    "outputs": [
     {
@@ -496,7 +487,7 @@
        "True"
       ]
      },
-     "execution_count": 25,
+     "execution_count": 24,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -507,7 +498,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 26,
+   "execution_count": 25,
    "metadata": {},
    "outputs": [
     {
@@ -522,7 +513,7 @@
        " '[Cd]': 0}"
       ]
      },
-     "execution_count": 26,
+     "execution_count": 25,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -540,7 +531,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 27,
+   "execution_count": 26,
    "metadata": {},
    "outputs": [
     {
@@ -549,13 +540,13 @@
        "'kilojoule/mole'"
       ]
      },
-     "execution_count": 27,
+     "execution_count": 26,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "puw.to_string(u)"
+    "puw.convert(u, to_form='string')"
    ]
   },
   {
@@ -567,16 +558,16 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 28,
+   "execution_count": 27,
    "metadata": {},
    "outputs": [],
    "source": [
-    "q = puw.string_to_quantity('3.5N/(2.0nm**2)', to_form='simtk.unit')"
+    "q = puw.convert('3.5N/(2.0nm**2)', to_form='simtk.unit')"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 29,
+   "execution_count": 28,
    "metadata": {},
    "outputs": [
     {
@@ -585,7 +576,7 @@
        "Quantity(value=1.75, unit=newton/(nanometer**2))"
       ]
      },
-     "execution_count": 29,
+     "execution_count": 28,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -596,7 +587,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 30,
+   "execution_count": 29,
    "metadata": {},
    "outputs": [
     {
@@ -605,27 +596,27 @@
        "'1.75 N/(nm**2)'"
       ]
      },
-     "execution_count": 30,
+     "execution_count": 29,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "puw.to_string(q)"
+    "puw.convert(q, to_form='string')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "u = puw.convert('K', to_form='pint', to_type='unit')"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 31,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "u = puw.string_to_unit('K', to_form='pint')"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 32,
    "metadata": {},
    "outputs": [
     {
@@ -640,7 +631,7 @@
        "<Unit('kelvin')>"
       ]
      },
-     "execution_count": 32,
+     "execution_count": 31,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -651,7 +642,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 33,
+   "execution_count": 32,
    "metadata": {},
    "outputs": [
     {
@@ -660,13 +651,13 @@
        "'kelvin'"
       ]
      },
-     "execution_count": 33,
+     "execution_count": 32,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "puw.to_string(u)"
+    "puw.convert(u, to_form='string')"
    ]
   },
   {
@@ -685,7 +676,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 34,
+   "execution_count": 33,
    "metadata": {},
    "outputs": [
     {
@@ -694,18 +685,18 @@
        "['pint', 'simtk.unit']"
       ]
      },
-     "execution_count": 34,
+     "execution_count": 33,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "puw.configure.libraries_loaded()"
+    "puw.configure.get_libraries_loaded()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 35,
+   "execution_count": 34,
    "metadata": {},
    "outputs": [
     {
@@ -714,7 +705,7 @@
        "'pint'"
       ]
      },
-     "execution_count": 35,
+     "execution_count": 34,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -732,7 +723,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 36,
+   "execution_count": 35,
    "metadata": {},
    "outputs": [
     {
@@ -745,7 +736,7 @@
     }
    ],
    "source": [
-    "q1 = puw.string_to_quantity('3.5N/(2.0nm**2)')\n",
+    "q1 = puw.convert('3.5N/(2.0nm**2)')\n",
     "q2 = puw.quantity(300.0, 'kelvin')\n",
     "\n",
     "print('q1 is a {} quantity'.format(puw.get_form(q1)))\n",
@@ -761,7 +752,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 37,
+   "execution_count": 36,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -770,7 +761,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 38,
+   "execution_count": 37,
    "metadata": {},
    "outputs": [
     {
@@ -783,7 +774,7 @@
     }
    ],
    "source": [
-    "q1 = puw.string_to_quantity('3.5N/(2.0nm**2)')\n",
+    "q1 = puw.convert('3.5N/(2.0nm**2)')\n",
     "q2 = puw.quantity(300.0, 'kelvin')\n",
     "\n",
     "print('q1 is a {} quantity'.format(puw.get_form(q1)))\n",
@@ -802,7 +793,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 39,
+   "execution_count": 38,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -819,7 +810,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 40,
+   "execution_count": 39,
    "metadata": {},
    "outputs": [
     {
@@ -855,7 +846,7 @@
        "  '[Cd]': 0}}"
       ]
      },
-     "execution_count": 40,
+     "execution_count": 39,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -866,7 +857,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 41,
+   "execution_count": 40,
    "metadata": {},
    "outputs": [
     {
@@ -875,7 +866,7 @@
        "'pint'"
       ]
      },
-     "execution_count": 41,
+     "execution_count": 40,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -893,16 +884,16 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 42,
+   "execution_count": 41,
    "metadata": {},
    "outputs": [],
    "source": [
-    "q = puw.string_to_quantity('2.0 pm', to_form='simtk.unit')"
+    "q = puw.quantity('2.0 pm', form='simtk.unit')"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 43,
+   "execution_count": 42,
    "metadata": {},
    "outputs": [
     {
@@ -927,14 +918,14 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 44,
+   "execution_count": 43,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "q2 is now a pint quantity expressed in nanometer.\n"
+      "q2 is now a pint quantity expressed in 0.0019999999999999996 nanometer.\n"
      ]
     }
    ],
@@ -952,14 +943,14 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 45,
+   "execution_count": 44,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "q2 is now a simtk.unit quantity expressed in nanometer.\n"
+      "q2 is now a simtk.unit quantity expressed in 0.0019999999999999996 nm.\n"
      ]
     }
    ],
@@ -977,6 +968,15 @@
   },
   {
    "cell_type": "code",
+   "execution_count": 45,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "q = puw.quantity('100 angstroms**3')"
+   ]
+  },
+  {
+   "cell_type": "code",
    "execution_count": 46,
    "metadata": {},
    "outputs": [
@@ -989,7 +989,7 @@
     }
    ],
    "source": [
-    "q = puw.string_to_quantity('100 angstroms**3')\n",
+    "q = puw.quantity('100 angstroms**3')\n",
     "print('The standard of q is:', puw.get_standard_units(q))"
    ]
   },
@@ -1007,7 +1007,7 @@
     }
    ],
    "source": [
-    "q = puw.string_to_quantity('3000.0 pm/ns')\n",
+    "q = puw.quantity('3000.0 pm/ns')\n",
     "print('The standard of q is:', puw.get_standard_units(q))"
    ]
   },
@@ -1025,7 +1025,7 @@
     }
    ],
    "source": [
-    "q = puw.string_to_quantity('1.4 kJ/mol')\n",
+    "q = puw.quantity('1.4 kJ/mol')\n",
     "print('The standard of q is:', puw.get_standard_units(q))"
    ]
   },
@@ -1063,13 +1063,6 @@
     "\n",
     "Finnally, and although its is out of the scope of this tutorial, let's mention that PyUnitWizard can be integrated in your library with your local definition of default quantities library and standards. See the section `xxx` in this documentation for further details."
    ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": []
   }
  ],
  "metadata": {

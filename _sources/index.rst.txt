@@ -40,6 +40,7 @@ Libraries supported
    contents/Convert.ipynb
    contents/Strings.ipynb
    contents/Standardize.ipynb
+   contents/Check.ipynb
    contents/In_Your_Library.ipynb
 
 .. toctree::

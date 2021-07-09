@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Convert quantities &mdash; PyUnitWizard  documentation</title>
+  <title>Convert quantities &mdash; PyUnitWizard 0+untagged.1.g3a17cc0 documentation</title>
   
 
   
@@ -69,6 +69,10 @@
           
             
             
+              <div class="version">
+                0
+              </div>
+            
           
 
           
@@ -104,6 +108,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Convert quantities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Strings.html">Working with strings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Standardize.html">Standardization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Check.html">Check</a></li>
 <li class="toctree-l1"><a class="reference internal" href="In_Your_Library.html">PyUnitWizard in your library</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Documentation</span></p>
@@ -470,20 +475,11 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">load_libraries</span><span class="p">([</span><span class="s1">&#39;pint&#39;</span><span class="p">,</span> <span class="s1">&#39;simtk.unit&#39;</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">q</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;joules&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">load_library</span><span class="p">([</span><span class="s1">&#39;pint&#39;</span><span class="p">,</span> <span class="s1">&#39;simtk.unit&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -492,12 +488,21 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">q</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;joules&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">q2</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">to_unit</span><span class="o">=</span><span class="s1">&#39;kilocalories&#39;</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -506,7 +511,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -514,7 +519,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>If the output form is not specified with the argument <code class="docutils literal notranslate"><span class="pre">to_form</span></code>, a quantity with the same form is obtained:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -523,7 +528,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -532,7 +537,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -541,7 +546,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -564,6 +569,15 @@ div.rendered_html tbody tr:hover {
 <div class="highlight"><pre>
 &#39;pint&#39;
 </pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
 </div>
 </div>
 

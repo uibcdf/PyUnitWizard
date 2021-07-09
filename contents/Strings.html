@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Working with strings &mdash; PyUnitWizard  documentation</title>
+  <title>Working with strings &mdash; PyUnitWizard 0+untagged.1.g3a17cc0 documentation</title>
   
 
   
@@ -69,6 +69,10 @@
           
             
             
+              <div class="version">
+                0
+              </div>
+            
           
 
           
@@ -104,6 +108,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Convert.html">Convert quantities</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Working with strings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Standardize.html">Standardization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Check.html">Check</a></li>
 <li class="toctree-l1"><a class="reference internal" href="In_Your_Library.html">PyUnitWizard in your library</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Documentation</span></p>
@@ -456,7 +461,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">pyunitwizard</span> <span class="k">as</span> <span class="nn">puw</span>
-<span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">load_libraries</span><span class="p">([</span><span class="s1">&#39;pint&#39;</span><span class="p">,</span> <span class="s1">&#39;simtk.unit&#39;</span><span class="p">])</span>
+<span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">load_library</span><span class="p">([</span><span class="s1">&#39;pint&#39;</span><span class="p">,</span> <span class="s1">&#39;simtk.unit&#39;</span><span class="p">])</span>
 <span class="n">puw</span><span class="o">.</span><span class="n">configure</span><span class="o">.</span><span class="n">set_default_form</span><span class="p">(</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -466,7 +471,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">puw</span><span class="o">.</span><span class="n">string_to_quantity</span><span class="p">(</span><span class="s1">&#39;(2 litres + 20 dL)/second&#39;</span><span class="p">)</span>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="s1">&#39;(2 litres + 20 dL)/second&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -480,16 +485,16 @@ Quantity(value=4.0, unit=liter/second)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">puw</span><span class="o">.</span><span class="n">string_to_quantity</span><span class="p">(</span><span class="s1">&#39;2 newtons per square meter&#39;</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">)</span>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;2 newtons per square meter&#39;</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -498,58 +503,58 @@ Quantity(value=2.0, unit=newton/(meter**2))
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">puw</span><span class="o">.</span><span class="n">string_to_quantity</span><span class="p">(</span><span class="s1">&#39;1.5 kcal / mole&#39;</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">)</span>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">quantity</span><span class="p">(</span><span class="s1">&#39;1.5 kcal / mole&#39;</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 1.5 kilocalorie/mole</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">puw</span><span class="o">.</span><span class="n">string_to_unit</span><span class="p">(</span><span class="s1">&#39;kelvin**(-1)&#39;</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">)</span>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;kelvin**(-1)&#39;</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
-1/kelvin</div>
+1.0 1/kelvin</div>
 </div>
-<p>And with the method <code class="docutils literal notranslate"><span class="pre">pyunitwizard.to_string()</span></code> the inverse translation can be performed:</p>
+<p>And the inverse translation can be performed:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">q</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">string_to_quantity</span><span class="p">(</span><span class="s1">&#39;2 newtons per square meter&#39;</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">)</span>
+<span></span><span class="n">q</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;2 newtons per square meter&#39;</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s1">&#39;pint&#39;</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="s1">&#39;simtk.unit&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">puw</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="s1">&#39;string&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -558,25 +563,43 @@ Quantity(value=2.0, unit=newton/(meter**2))
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">u</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">string_to_unit</span><span class="p">(</span><span class="s1">&#39;kelvin**(-1)&#39;</span><span class="p">)</span>
+<span></span><span class="n">u</span> <span class="o">=</span> <span class="n">puw</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;kelvin**(-1)&#39;</span><span class="p">,</span> <span class="n">to_type</span><span class="o">=</span><span class="s1">&#39;unit&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">puw</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span></span><span class="n">u</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Unit({BaseUnit(base_dim=BaseDimension(&#34;temperature&#34;), name=&#34;kelvin&#34;, symbol=&#34;K&#34;): -1.0})
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">puw</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">to_form</span><span class="o">=</span><span class="s1">&#39;string&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
