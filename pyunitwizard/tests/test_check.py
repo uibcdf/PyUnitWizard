@@ -37,4 +37,10 @@ def test_5():
     output = puw.check(aa, dimensionality={'[L]':1, '[T]':-1}, value_type=np.ndarray, dtype_name='int')
     assert output == False
 
+def test_6():
+    puw.configure.reset()
+    puw.configure.load_library(['pint'])
+    aa = puw.quantity([0,0,0], 'nm/ps')
+    output = puw.check(aa, dimensionality={'[L]':1, '[T]':-1}, value_type=np.ndarray, shape=(3,))
+    assert output == True
 
