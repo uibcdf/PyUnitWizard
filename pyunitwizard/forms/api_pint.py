@@ -79,7 +79,20 @@ def get_unit(quantity):
 
 def string_to_quantity(string):
 
-    tmp_quantity=Q_(string)
+    if string.startswith('[') or string.startswith('('):
+
+        import ast
+
+        end_list = max(string.rfind(')')+1, string.rfind(']')+1)
+        value_string = string[:end_list]
+        unit_string = string[end_list:]
+
+        tmp_quantity=ast.literal_eval(value_string)*Q_(unit_string)
+
+    else:
+
+        tmp_quantity=Q_(string)
+
     return tmp_quantity
 
 def string_to_unit(string):
