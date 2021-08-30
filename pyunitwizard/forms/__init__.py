@@ -15,7 +15,7 @@ dict_dimensionality={}
 dict_compatibility={}
 
 _base_package = __name__.replace('.base','')
-_forms_apis_modules = {'simtk.unit':'api_simtk_unit', 'pint':'api_pint'}
+_forms_apis_modules = {'openmm.unit':'api_openmm_unit', 'pint':'api_pint'}
 
 def load_library(library):
 

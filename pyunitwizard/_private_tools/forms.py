@@ -1,4 +1,4 @@
-forms = ['simtk.unit', 'pint', 'unyt', 'string']
+forms = ['openmm.unit', 'pint', 'unyt', 'string']
 
 def digest_form(form):
 

@@ -6,9 +6,9 @@ from pyunitwizard._private_tools.lists_and_tuples import is_list_or_tuple
 from pyunitwizard.main import convert, get_dimensionality
 import numpy as np
 
-libraries = ['pint', 'simtk.unit']
-parsers = ['pint', 'simtk.unit']
-_aux_dict_modules = {'pint':'pint', 'simtk.unit':'simtk'}
+libraries = ['pint', 'openmm.unit']
+parsers = ['pint', 'openmm.unit']
+_aux_dict_modules = {'pint':'pint', 'openmm.unit':'openmm'}
 found = { ii: find_spec(_aux_dict_modules[ii]) is not None for ii in libraries}
 
 def reset():

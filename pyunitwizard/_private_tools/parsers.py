@@ -1,4 +1,4 @@
-parsers = ['simtk.unit', 'pint', 'unyt']
+parsers = ['openmm.unit', 'pint', 'unyt']
 
 def digest_parser(parser):
 

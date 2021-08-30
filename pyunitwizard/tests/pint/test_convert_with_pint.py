@@ -96,15 +96,15 @@ def test_to_pint_1():
     assert q == q_true
 
 
-## to_simtk_unit
+## to_openmm_unit
 
-def test_to_simtk_unit_1():
+def test_to_openmm_unit_1():
     puw.configure.reset()
-    puw.configure.load_library(['pint','simtk.unit'])
+    puw.configure.load_library(['pint','openmm.unit'])
     ureg = puw.forms.api_pint.ureg
-    simtk_unit = puw.forms.api_simtk_unit.simtk_unit
+    openmm_unit = puw.forms.api_openmm_unit.openmm_unit
     q = ureg.Quantity(2.5, 'nanometers/picoseconds')
-    q = puw.convert(q, to_form='simtk.unit')
-    q_true = 2.5 * simtk_unit.nanometer/simtk_unit.picosecond
+    q = puw.convert(q, to_form='openmm.unit')
+    q_true = 2.5 * openmm_unit.nanometer/openmm_unit.picosecond
     assert q == q_true
 

@@ -1,12 +1,12 @@
-import simtk.unit as simtk_unit
+import openmm.unit as openmm_unit
 from pyunitwizard._private_tools.exceptions import *
 
-form_name = 'simtk.unit'
+form_name = 'openmm.unit'
 parser = True
 
 is_form={
-    simtk_unit.Quantity:form_name,
-    simtk_unit.Unit:form_name,
+    openmm_unit.Quantity:form_name,
+    openmm_unit.Unit:form_name,
     }
 
 try:
@@ -17,13 +17,13 @@ except:
 
 def is_quantity(quantity_or_unit):
 
-    output = (type(quantity_or_unit)==simtk_unit.Quantity)
+    output = (type(quantity_or_unit)==openmm_unit.Quantity)
 
     return output
 
 def is_unit(quantity_or_unit):
 
-    output = (type(quantity_or_unit)==simtk_unit.Unit)
+    output = (type(quantity_or_unit)==openmm_unit.Unit)
 
     return output
 
@@ -76,7 +76,7 @@ def compatibility(quantity_or_unit_1, quantity_or_unit_2):
 def make_quantity(value, unit_name):
 
     unit=string_to_unit(unit_name)
-    return simtk_unit.Quantity(value, unit)
+    return openmm_unit.Quantity(value, unit)
 
 def string_to_quantity(string):
 
@@ -87,7 +87,7 @@ def string_to_quantity(string):
     parser = PintParserHelper.from_string(pint_quantity.__str__())
     tmp_quantity = parser.scale
     for unit_name, exponent in parser.items():
-        tmp_quantity *= getattr(simtk_unit, unit_name)**exponent
+        tmp_quantity *= getattr(openmm_unit, unit_name)**exponent
     return tmp_quantity
 
 def string_to_unit(string):

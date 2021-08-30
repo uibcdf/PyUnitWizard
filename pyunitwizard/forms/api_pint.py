@@ -108,12 +108,12 @@ def convert(quantity, unit_name):
 
     return quantity.to(unit_name)
 
-def to_simtk_unit(quantity):
+def to_openmm_unit(quantity):
 
-    from .api_simtk_unit import make_quantity as make_simtk_unit_quantity
+    from .api_openmm_unit import make_quantity as make_openmm_unit_quantity
 
     value = get_value(quantity)
     unit_name = to_string(get_unit(quantity))
 
-    return make_simtk_unit_quantity(value, unit_name)
+    return make_openmm_unit_quantity(value, unit_name)
 
