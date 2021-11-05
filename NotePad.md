@@ -22,7 +22,7 @@ ver: https://doi.org/10.1002/spe.2926
 
 
 
-Where are simtk.unit, unyt or Pint published?
+Where are openmm.unit, unyt or Pint published?
 
 ## Ideas
 
