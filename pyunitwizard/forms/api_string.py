@@ -102,9 +102,9 @@ def convert(quantity, unit_name):
 
     return tmp_quantity_or_unit
 
-def to_simtk_unit(quantity):
+def to_openmm_unit(quantity):
 
-    from .api_simtk_unit import string_to_quantity as _string_to_quantity
+    from .api_openmm_unit import string_to_quantity as _string_to_quantity
 
     tmp_quantity_or_unit = _string_to_quantity(quantity)
 

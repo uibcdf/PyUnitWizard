@@ -5,14 +5,14 @@ PyUnitWizard
 [![codecov](https://codecov.io/gh/uibcdf/PyUnitWizard/branch/master/graph/badge.svg)](https://codecov.io/gh/uibcdf/PyUnitWizard/branch/master)
 
 
-There are several Python libraries to work with physical quantities in the market, such as pint, unyt or simtk.unit. Imagine that your project or workflow requires the interaction with more than one of these tools, or that you are not sure if you will work with a different quantities library in the future. Wouldn't be having a unique API to work with different forms of physical quantities be a relief? PyUnitWizard just do that. It is the wizard you need in your code to change the form of your quantities with few effort.
+There are several Python libraries to work with physical quantities in the market, such as pint, unyt or openmm.unit. Imagine that your project or workflow requires the interaction with more than one of these tools, or that you are not sure if you will work with a different quantities library in the future. Wouldn't be having a unique API to work with different forms of physical quantities be a relief? PyUnitWizard just do that. It is the wizard you need in your code to change the form of your quantities with few effort.
 
 ## Example
 
 ```ipython
 In [1]: import pyunitwizard as puw
 
-In [2]: puw.configure.load_libraries(['pint', 'simtk.unit'])
+In [2]: puw.configure.load_libraries(['pint', 'openmm.unit'])
    ...: puw.configure.set_default_form('pint')
    ...: puw.configure.set_standard_units(['nm', 'ps', 'kcal', 'mole'])
    ...: 
@@ -31,13 +31,13 @@ Out[6]: <Unit('nanometer / picosecond')>
 In [7]: puw.dimensionality(q)
 Out[7]: {'[L]': 1, '[M]': 0, '[T]': -1, '[K]': 0, '[mol]': 0, '[A]': 0, '[Cd]': 0}
 
-In [8]: q2 = puw.convert(q, to_unit='angstroms/femtoseconds', to_form='simtk.unit')
+In [8]: q2 = puw.convert(q, to_unit='angstroms/femtoseconds', to_form='openmm.unit')
 
 In [9]: print(q2)
 0.025000000000000005 A/fs
 
 In [10]: puw.get_form(q2)
-Out[10]: 'simtk.unit'
+Out[10]: 'openmm.unit'
 
 In [11]: puw.compatibility(q, q2)
 Out[11]: True
@@ -49,7 +49,7 @@ q3 is now a pint quantity expressed in nanometer / picosecond.
 ```
 
 ## Units Python libraries
-- [simtk.unit](https://github.com/openmm/openmm/tree/master/wrappers/python/simtk/unit)
+- [openmm.unit](https://github.com/openmm/openmm/tree/master/wrappers/python/simtk/unit)
 - [Pint](https://pint.readthedocs.io/en/stable/)
 - [unyt](https://unyt.readthedocs.io/en/stable/)
 

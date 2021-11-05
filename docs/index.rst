@@ -3,7 +3,7 @@
 PyUnitWizard
 ============
 
-There are several Python libraries to work with physical quantities in the market. Pint, unyt or simtk.unit, are just some of them. Imagine that your project, or workflow, requires the interaction with more than one of these tools. Or that you are not sure if you will work with a different quantities library in the future. Are you looking for a unique API to work with different quantities libraries? Wouldn't it be a relief? PyUnitWizard just do that. It is the wizard you need in your code to change the form of your quantities with few effort. With PyUnitWizard you can:
+There are several Python libraries to work with physical quantities in the market. Pint, unyt or openmm.unit, are just some of them. Imagine that your project, or workflow, requires the interaction with more than one of these tools. Or that you are not sure if you will work with a different quantities library in the future. Are you looking for a unique API to work with different quantities libraries? Wouldn't it be a relief? PyUnitWizard just do that. It is the wizard you need in your code to change the form of your quantities with few effort. With PyUnitWizard you can:
 
 - Convert physical quantities and units between the different native objects from a set of :ref:`supported libraries<libraries-supported>`.
 - Work with physical quantities with a simple syntaxis no matter the library you chose to do the hard work in the background.
@@ -19,7 +19,7 @@ Libraries supported
 
 - `pint <https://github.com/hgrecco/pint>`_
 - `unyt <https://github.com/yt-project/unyt>`_
-- `simtk.unit <https://github.com/openmm/openmm/tree/master/wrappers/python/openmm/unit>`_ (openmm.unit in a near future)
+- `openmm.unit <https://github.com/openmm/openmm/tree/master/wrappers/python/openmm/unit>`_ (openmm.unit in a near future)
 
 .. toctree::
    :name: installation
