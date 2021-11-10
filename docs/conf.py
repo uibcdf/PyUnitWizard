@@ -106,7 +106,6 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**.ipynb_checkpoints']
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'default'
 
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -158,6 +157,7 @@ html_css_files = [
 #
 # html_sidebars = {}
 
+html_show_sourcelink = False
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
