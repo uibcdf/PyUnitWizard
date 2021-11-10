@@ -13,7 +13,7 @@ conda config --set anaconda_upload no
 conda build .
 PACKAGE_OUTPUT=`conda build . --output`
 anaconda login
-anaconda upload --user uibcdf $PACKAGE_OUTPUT
+anaconda upload --user uibcdf $PACKAGE_OUTPUT --label main #label:main, dev, tests
 conda build purge
 anaconda logout
 ```

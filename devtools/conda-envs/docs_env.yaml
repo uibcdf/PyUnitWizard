@@ -3,6 +3,7 @@ channels:
 - default
 dependencies:
 - python
+- pint
 - sphinx
 - sphinx_rtd_theme
 - sphinxcontrib-bibtex
@@ -10,6 +11,5 @@ dependencies:
 - recommonmark
 - sphinx-markdown-tables
 - jupyterlab
-- pint
 - openmm
 - unyt

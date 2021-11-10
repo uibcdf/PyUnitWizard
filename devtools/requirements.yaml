@@ -1,72 +1,61 @@
-production:
-  channels:
+setup:
+  channels: &setup_channels
     - conda-forge
     - default
-  dependencies:
+  dependencies: &setup_dependencies
+    - python
+    - setuptools
+    - numpy
+
+production:
+  channels: &production_channels
+    - *setup_channels
+  dependencies: &production_dependencies
+    - python
     - pint
+
+test:
+  channels: &test_channels
+    - *production_channels
+  dependencies: &test_dependencies
+    - *production_dependencies
+    - pytest
+    - pip
+    - pytest-cov
+    - codecov
+    - pint
+    - openmm
+    - unyt
+
+docs:
+  channels: &docs_channels
+    - *production_channels
+  dependencies: &docs_dependencies
+    - *production_dependencies
+    - sphinx
+    - sphinx_rtd_theme
+    - sphinxcontrib-bibtex
+    - nbsphinx
+    - recommonmark
+    - sphinx-markdown-tables
+    - jupyterlab
+    - pint
+    - openmm
+    - unyt
 
 development:
   channels:
-    - conda-forge
-    - default
+    - *production_channels
   dependencies:
-    - pint
-    - openmm
-    - unyt
-    - jupyterlab
-    - pytest
-    - pip
-    - pytest-cov
-    - codecov
-    - sphinx
-    - sphinx_rtd_theme
-    - sphinxcontrib-bibtex
-    - nbsphinx
-    - recommonmark
-    - sphinx-markdown-tables
-
-test:
-  channels:
-    - conda-forge
-    - default
-  dependencies:
-    - pytest
-    - pip
-    - pytest-cov
-    - codecov
-    - pint
-    - openmm
-    - unyt
- 
-docs:
-  channels:
-    - conda-forge
-    - default
-  dependencies:
-    - sphinx
-    - sphinx_rtd_theme
-    - sphinxcontrib-bibtex
-    - nbsphinx
-    - recommonmark
-    - sphinx-markdown-tables
-    - jupyterlab
-    - pint
-    - openmm
-    - unyt
- 
-setup:
-  channels:
-    - default
-  dependencies:
-    - setuptools
-    - numpy
-    - versioneer
+    - *production_dependencies
+    - *test_dependencies
+    - *docs_dependencies
 
 conda-build:
   channels:
-    - conda-forge
-    - default
+    - *setup_channels
   dependencies:
+    - *setup_dependencies
     - anaconda-client
     - conda-build
 

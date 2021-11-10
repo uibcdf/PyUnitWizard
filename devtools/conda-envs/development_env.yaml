@@ -4,6 +4,16 @@ channels:
 dependencies:
 - python
 - pint
+- pytest
+- pip
+- pytest-cov
+- codecov
 - openmm
 - unyt
+- sphinx
+- sphinx_rtd_theme
+- sphinxcontrib-bibtex
+- nbsphinx
+- recommonmark
+- sphinx-markdown-tables
 - jupyterlab
