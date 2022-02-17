@@ -1,9 +1,9 @@
-PyUnitWizard
-==============================
-[//]: # (Badges)
-[![GitHub Actions Build Status](https://github.com/uibcdf/pyunitwizard/workflows/CI/badge.svg)](https://github.com/uibcdf/pyunitwizard/actions?query=workflow%3ACI)
-[![codecov](https://codecov.io/gh/uibcdf/PyUnitWizard/branch/master/graph/badge.svg)](https://codecov.io/gh/uibcdf/PyUnitWizard/branch/master)
+# PyUnitWizard
 
+[//]: # (Badges)
+[![GitHub Actions Build Status](https://github.com/uibcdf/PyUnitWizard/workflows/CI/badge.svg)](https://github.com/uibcdf/PyUnitWizard/actions?query=workflow%3ACI)
+[![codecov](https://codecov.io/gh/uibcdf/PyUnitWizard/branch/master/graph/badge.svg)](https://codecov.io/gh/uibcdf/PyUnitWizard/branch/master)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 There are several Python libraries to work with physical quantities in the market, such as pint, unyt or openmm.unit. Imagine that your project or workflow requires the interaction with more than one of these tools, or that you are not sure if you will work with a different quantities library in the future. Wouldn't be having a unique API to work with different forms of physical quantities be a relief? PyUnitWizard just do that. It is the wizard you need in your code to change the form of your quantities with few effort.
 
@@ -53,14 +53,25 @@ q3 is now a pint quantity expressed in nanometer / picosecond.
 - [Pint](https://pint.readthedocs.io/en/stable/)
 - [unyt](https://unyt.readthedocs.io/en/stable/)
 
+## License
+
+This project is under an MIT License. [A copy of the license text is included in this repository](LICENSE).
 
 ### Copyright
 
-Copyright (c) 2021, UIBCDF Lab
+Copyright (c) 2021-2022 [The Mexico Children's Hospital Federico Gómez](http://himfg.com.mx/), [its Unit of Research on Computational
+Biology and Drug Design](http://uibcdf.org), and [authors](https://github.com/uibcdf/OpenExplorer/graphs/contributors).
 
+## Acknowledgements
 
-#### Acknowledgements
- 
-Project based on the 
-[Computational Molecular Science Python Cookiecutter](https://github.com/molssi/cookiecutter-cms) version 1.5.
+Project based on the [Computational Molecular Science Python Cookiecutter](https://github.com/molssi/cookiecutter-cms) version 1.5.
 
+## Contributors
+
+A complete list of contributors can be found checking [the insights section of this
+repository](https://github.com/uibcdf/OpenExplorer/graphs/contributors).
+
+The main project authors and major contributors are:
+
+- Liliana M. Moreno Vargas
+- Diego Prada Gracia

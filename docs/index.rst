@@ -22,32 +22,46 @@ Libraries supported
 - `openmm.unit <https://github.com/openmm/openmm/tree/master/wrappers/python/openmm/unit>`_ (openmm.unit in a near future)
 
 .. toctree::
-   :name: installation
-   :caption: Installation and quick guide
-   :maxdepth: 1
+   :name: about
+   :caption: About
+   :maxdepth: 2
 
-   contents/Installation.md
-   contents/Quick_Guide.ipynb
+   contents/about/introduction.md
+   contents/about/installation.md
+   contents/about/showcase.ipynb
 
 .. toctree::
    :name: user_guide
    :caption: User guide
    :maxdepth: 2
 
-   contents/Importing.ipynb
-   contents/Quantities_and_Units.ipynb
-   contents/Dimensionality.ipynb
-   contents/Convert.ipynb
-   contents/Strings.ipynb
-   contents/Standardize.ipynb
-   contents/Check.ipynb
-   contents/In_Your_Library.ipynb
+   contents/user/Importing.ipynb
+   contents/user/Quantities_and_Units.ipynb
+   contents/user/Dimensionality.ipynb
+   contents/user/Convert.ipynb
+   contents/user/Strings.ipynb
+   contents/user/Standardize.ipynb
+   contents/user/Check.ipynb
+   contents/user/In_Your_Library.ipynb
 
 .. toctree::
+   :name: developer_guide
+   :caption: Developer Guide
+   :maxdepth: 2
+
+   contents/developer/intro/index.rst
+   contents/developer/names_convention.ipynb
+   contents/developer/exceptions.ipynb
+   contents/developer/documentation/index.rst
+
+.. toctree::
+   :name: api_doc
    :caption: API Documentation
    :maxdepth: 2
 
-   api
+   api_user.rst
+   api_developer.rst
+
 
 Glossary, indices and tables
 ============================

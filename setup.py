@@ -1,6 +1,6 @@
 """
 PyUnitWizard
-This must be a short description of the project
+Quantities and units assistant
 """
 import sys
 from setuptools import setup, find_packages

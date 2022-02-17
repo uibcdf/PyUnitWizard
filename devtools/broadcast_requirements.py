@@ -9,8 +9,13 @@ def heal(arg):
             for jj in ii:
                 if type(jj) is list:
                     for kk in jj:
-                        if kk not in output:
-                            output.append(kk)
+                        if type(kk) is list:
+                            for ll in kk:
+                                if ll not in output:
+                                    output.append(ll)
+                        else:
+                            if kk not in output:
+                                output.append(kk)
                 else:
                     if jj not in output:
                         output.append(jj)
@@ -26,6 +31,10 @@ with open('requirements.yaml') as fff:
 # Broadcasting to conda-build
 
 ## meta.yaml
+
+print(" ")
+print("# Broadcasting to conda-build")
+print(" ")
 
 with open('conda-build/meta.yaml') as fff:
     meta = yaml.load(fff, Loader=yaml.FullLoader)
@@ -46,7 +55,13 @@ with open("conda-build/meta.yaml", "w") as fff:
             line = '  version: \"{{ environ[\'GIT_DESCRIBE_TAG\'] }}\"\n'
         fff.write(line)
 
+print("conda-build/meta.yaml... updated")
+
 # Broadcasting to conda-envs
+
+print(" ")
+print("# Broadcasting to conda-envs")
+print(" ")
 
 ## Production
 
@@ -57,6 +72,8 @@ fff = open("conda-envs/production_env.yaml", "w")
 yaml.dump(env_dict, fff, sort_keys=False)
 fff.close()
 
+print("conda-envs/production_env.yaml... updated")
+
 ## Development
 
 env_dict={}
@@ -65,6 +82,8 @@ env_dict["dependencies"]=heal(all_requirements["development"]["dependencies"])
 fff = open("conda-envs/development_env.yaml", "w")
 yaml.dump(env_dict, fff, sort_keys=False)
 fff.close()
+
+print("conda-envs/development_env.yaml... updated")
 
 ## Test
 
@@ -75,6 +94,8 @@ fff = open("conda-envs/test_env.yaml", "w")
 yaml.dump(env_dict, fff, sort_keys=False)
 fff.close()
 
+print("conda-envs/test_env.yaml... updated")
+
 ## Docs
 
 env_dict={}
@@ -83,6 +104,8 @@ env_dict["dependencies"]=heal(all_requirements["docs"]["dependencies"])
 fff = open("conda-envs/docs_env.yaml", "w")
 yaml.dump(env_dict, fff, sort_keys=False)
 fff.close()
+
+print("conda-envs/docs_env.yaml... updated")
 
 ## Setup
 
@@ -93,6 +116,8 @@ fff = open("conda-envs/setup_env.yaml", "w")
 yaml.dump(env_dict, fff, sort_keys=False)
 fff.close()
 
+print("conda-envs/setup_env.yaml... updated")
+
 ## Build
 
 env_dict={}
@@ -102,4 +127,6 @@ fff = open("conda-envs/build_env.yaml", "w")
 yaml.dump(env_dict, fff, sort_keys=False)
 fff.close()
 
+print("conda-envs/build_env.yaml... updated")
 
+print(" ")

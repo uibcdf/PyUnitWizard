@@ -20,16 +20,19 @@ import sys
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
-sys.path.insert(0, os.path.abspath('..'))
-
 import pyunitwizard
 
 # -- Project information -----------------------------------------------------
 
-project = 'PyUnitWizard'
-copyright = ('2021, UIBCDF Lab at the Mexico City Childrens Hospital Federico Gomez and authors.'
-        'Project structure based on the Computational Molecular Science Python Cookiecutter version 1.5')
-author = 'Liliana M. Moreno Vargas & Diego Prada Gracia'
+project = "PyUnitWizard"
+copyright = ("2021-2022, The Mexico City Childrens' Hospital Federico Gomez, "
+             "its Unit of Research on Computational Biology and Drug Design, and authors | "
+             "This project is licensed under the terms of the MIT license. "
+             "See further details in the source code repository | "
+             "Project based on the Computational Molecular Science Python Cookiecutter version 1.5")
+author = ("The Unit of Research on Computational Biology and Drug Design "
+          "at the Mexico City Childrens' Hospital Federico Gomez, and the "
+          "contributors to the GitHub repository uibcdf/OpenExplorer.")
 
 # The short X.Y version
 version = pyunitwizard.__version__.split('+')[0]
@@ -46,6 +49,7 @@ release = pyunitwizard.__version__
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
@@ -57,16 +61,27 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.githubpages',
     'sphinxcontrib.bibtex',
-    'nbsphinx',
-    'recommonmark',
-    'sphinx_markdown_tables',
-    'sphinx.ext.extlinks'
+    'sphinx.ext.extlinks',
+    'myst_nb'
 ]
 
 autosummary_generate = True
+
+# Napoleon settings
+napoleon_numpy_docstring = True
 napoleon_google_docstring = False
-napoleon_use_param = False
-napoleon_use_ivar = True
+napoleon_include_init_with_doc = False
+napoleon_include_private_with_doc = False
+napoleon_include_special_with_doc = True
+napoleon_use_admonition_for_examples = False
+napoleon_use_admonition_for_notes = True
+napoleon_use_admonition_for_references = False
+napoleon_use_ivar = False
+napoleon_use_param = True
+napoleon_use_rtype = True
+napoleon_preprocess_types = False
+napoleon_type_aliases = None
+napoleon_attr_annotations = True
 
 # sphinxcontrib-bibtex
 bibtex_bibfiles = ['bibliography.bib'] # list of *.bib files
@@ -82,10 +97,7 @@ templates_path = ['_templates']
 source_parsers={
 }
 
-source_suffix = {
-    '.rst': 'restructuredtext',
-    '.md': 'markdown'
-}
+source_suffix = ['.rst', '.md']
 
 # The master toctree document.
 master_doc = 'index'
@@ -118,20 +130,21 @@ html_theme = 'sphinx_rtd_theme'
 # documentation.
 #
 # html_theme_options = {}
-#html_theme_options = {
-#    'canonical_url': '',
-#    'analytics_id': '',
-#    'logo_only': False,
-#    'display_version': True,
-#    'prev_next_buttons_location': 'bottom',
-#    'style_external_links': False,
-#    # Toc options
-#    'collapse_navigation': False,
-#    'sticky_navigation': True,
-#    'navigation_depth': 4,
-#    'includehidden': True,
-#    'titles_only': False
-#}
+
+html_theme_options = {
+    'canonical_url': '',
+    'analytics_id': '',
+    'logo_only': False,
+    'display_version': True,
+    'prev_next_buttons_location': 'bottom',
+    'style_external_links': False,
+    # Toc options
+    'collapse_navigation': False,
+    'sticky_navigation': True,
+    'navigation_depth': 3,
+    'includehidden': True,
+    'titles_only': False
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
@@ -162,7 +175,7 @@ html_show_sourcelink = False
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'pyunitwizarddoc'
+htmlhelp_basename = 'pyunitwizard_doc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -189,8 +202,6 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-        (master_doc, 'pyunitwizard.tex', 'PyUnitWizard Documentation',
-            'pyunitwizard', 'manual'),
 ]
 
 
@@ -199,9 +210,6 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-        (master_doc, 'pyunitwizard', 'PyUnitWizard Documentation',
-            [author], 1)
-
 ]
 
 
@@ -211,10 +219,6 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'pyunitwizard', 'PyUnitWizard Documentation',
-        author, 'pyunitwizard', 'This must be a short description of the project',
-        'Miscellaneous'),
-
 ]
 
 

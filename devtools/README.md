@@ -1,36 +1,72 @@
-# Development, testing, and deployment tools
+# Developing guide
 
-This directory contains a collection of tools for running Continuous Integration (CI) tests, 
-conda installation, and other development tools not directly related to the coding process.
+## Developers' Guide in the documentation
 
+Check, first of all, the "Developers' Guide" section of the online documentation.
 
-## Manifest
+## Adding the required dependencies
 
-### Continuous Integration
+This library needs some third python packages to work. And not only to work, but be documented,
+tested or developed, for instance. The file 'requirements.yaml' contains a list of conda
+channels and packages required to:
 
-You should test your code, but do not feel compelled to use these specific programs. You also may not need Unix and 
-Windows testing if you only plan to deploy on specific platforms. These are just to help you get started.
+- Run the setup.py script ('setup' section)
+- Use the library for production ('production' section)
+- Run the library tests ('test' section)
+- Compile the documentation ('docs' section)
+- Work in the library development ('development' section)
+- Build a conda package with this library ('conda-build')
 
-The items in this directory have been left for legacy purposes since the change to GitHub Actions, 
-They will likely be removed in a future version.
+This is the file where the library dependencies need to be included. And once the file has been
+updated, execute the Python script 'broadcast\_requirements.py'. This last step will produce
+individual yaml files to create and update, following the instructions of the next section, different conda
+environments depending on the tasks you need to do.
 
-* `legacy-miniconda-setup`: A preserved copy of a helper directory which made Linux and OSX based testing through [Travis-CI](https://about.travis-ci.com/) simpler
-  * `before_install.sh`: Pip/Miniconda pre-package installation script for Travis. No longer needed thanks to 
-    [GitHub Actions](https://docs.github.com/en/free-pro-team@latest/actions) and the [conda-incubator/setup-miniconda Action](https://github.com/conda-incubator/setup-miniconda)
+## How to prepare the conda environments to work with this repository
 
-### Conda Environment:
+You will find here a directory called 'conda-envs'. This directory contains all the info and
+scripts you need to create and update a conda environment. Let's first have a look to the yaml
+files:
 
-This directory contains the files to setup the Conda environment for testing purposes
+```python
+cd conda-envs
+ls *.yaml
+build_env.yaml  development_env.yaml  docs_env.yaml  production_env.yaml  setup_env.yaml  test_env.yaml
+```
 
-* `conda-envs`: directory containing the YAML file(s) which fully describe Conda Environments, their dependencies, and those dependency provenance's
-  * `test_env.yaml`: Simple test environment file with base dependencies. Channels are not specified here and therefore respect global Conda configuration
-  
-### Additional Scripts:
+Each yaml file has the list of required packages and conda channels in case you want to:
+- Build a conda package with this library ('build_env.yaml').
+- Work in the library development ('development_env.yaml')
+- Compile the documentation of this library ('docs_env.yaml')
+- Use the library just for production ('production_env.yaml')
+- Run the setup.py script ('setup_env.yaml')
+- Run the library tests ('test_env.yaml')
 
-This directory contains OS agnostic helper scripts which don't fall in any of the previous categories
-* `scripts`
-  * `create_conda_env.py`: Helper program for spinning up new conda environments based on a starter file with Python Version and Env. Name command-line options
+This yaml files were produced with the script 'broadcast_requirements.py' and the file
+'requirements.yaml' as indicated in the previous exception.
 
+Finnally, to create a conda environment use the script 'create_conda_env.py' the following way:
+
+```bash
+# In this case the name of the environment is also "OpenExplorer"
+# the Python version of our new environment is 3.7
+# and the yaml file will be the one to work on the library development
+python create_conda_env.py -n OpenExplorer -p 3.7 development_env.yaml
+```
+
+You can already activate the environment to start working in the library development:
+
+```bash
+conda activate OpenExplorer
+```
+
+In case the list of dependencies changed and the environment needs to be updated, use the Python
+script 'update_conda_env.py' with the environment activated:
+
+```bash
+conda activate OpenExplorer
+python update_conda_env.py development_env.yaml
+```
 
 ## How to contribute changes
 - Clone the repository if you have write access to the main repo, fork the repository if you are a collaborator.
@@ -41,7 +77,6 @@ This directory contains OS agnostic helper scripts which don't fall in any of th
   * Note that `origin` is the default name assigned to the remote, yours may be different
 - Make a PR on GitHub with your changes
 - We'll review the changes and get your code into the repo after lively discussion!
-
 
 ## Checklist for updates
 - [ ] Make sure there is an/are issue(s) opened for your specific update
