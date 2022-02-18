@@ -1,4 +1,4 @@
-import pint as pint
+from ._private_tools.exceptions import *
 from ._private_tools.forms import digest_form, digest_to_form
 from ._private_tools.parsers import digest_parser
 from .forms import dict_is_form, dict_is_unit, dict_is_quantity, dict_dimensionality, dict_compatibility
@@ -17,7 +17,7 @@ def get_form(quantity_or_unit):
         try:
             return dict_is_form[quantity_or_unit]
         except:
-            raise NotImplementedError("This quantity form was not implemented yet. Please open an issue to suggest its inclusion.")
+            raise UnknownFormError()
 
     return output
 
@@ -111,21 +111,7 @@ def _dimensionality_dict_to_array(dimensionality):
 
 def compatibility(quantity_or_unit_1, quantity_or_unit_2):
 
-    d1 = get_dimensionality(quantity_or_unit_1)
-    d2 = get_dimensionality(quantity_or_unit_2)
-
-    output = _compatible_dimensionalities(d1, d2)
-
-    return output
-
-def _compatible_dimensionalities(d1, d2):
-
-    d1=_dimensionality_dict_to_array(d1)
-    d2=_dimensionality_dict_to_array(d2)
-
-    n_fundamental_units = len(kernel.order_fundamental_units)
-
-    if (np.sum(np.isclose(d1, 0.0)) == n_fundamental_units) and (np.sum(np.isclose(d2, 0.0)) == n_fundamental_units):
+    if is_dimensionless(quantity_or_unit_1) and is_dimensionless(quantity_or_unit_2):
 
         form1 = get_form(quantity_or_unit_1)
         form2 = get_form(quantity_or_unit_2)
@@ -145,7 +131,27 @@ def _compatible_dimensionalities(d1, d2):
 
     else:
 
-        output = np.all(d1==d2)
+        d1 = get_dimensionality(quantity_or_unit_1)
+        d2 = get_dimensionality(quantity_or_unit_2)
+
+        output = _compatible_dimensionalities(d1, d2)
+
+    return output
+
+def is_dimensionless(quantity_or_unit):
+
+    d = get_dimensionality(quantity_or_unit)
+    d = _dimensionality_dict_to_array(d)
+    output = np.allclose(d, 0.0)
+
+    return output
+
+def _compatible_dimensionalities(d1, d2):
+
+    d1=_dimensionality_dict_to_array(d1)
+    d2=_dimensionality_dict_to_array(d2)
+
+    output = np.all(d1==d2)
 
     return output
 
@@ -157,7 +163,7 @@ def quantity(value, unit=None, form=None, parser=None):
         if unit is None:
             output = convert(value, to_form=form, parser=parser)
             if not is_quantity(output):
-                raise ValueError('The input argument "value" needs to have value and units in this case')
+                raise BadCallError('value')
         elif type(unit) is str:
             output = convert(value+' '+unit, to_form=form, parser=parser)
         elif is_unit(unit):
@@ -165,7 +171,7 @@ def quantity(value, unit=None, form=None, parser=None):
             output = convert(value+' '+unit, to_form=form, parser=parser)
     else:
         if unit is None:
-            raise ValueError('The input argument "unit" is required.')
+            raise BadCallError('unit')
         elif type(unit) is not str:
             unit = convert(unit, to_form=form, parser=parser)
 
@@ -174,7 +180,7 @@ def quantity(value, unit=None, form=None, parser=None):
         try:
             output = dict_make_quantity[form](value, unit)
         except:
-            raise NotImplementedError
+            raise NotImplementedMethodError()
 
     return output
 
@@ -350,8 +356,7 @@ def convert(quantity_or_unit, to_unit=None, to_form=None, parser=None, to_type='
 
     else:
 
-        raise ValueError("Argument 'to_type' must take one of the following values: 'quantity', 'unit' or 'value'.")
-
+        raise BadCallError("to_type")
 
     return output
 
@@ -464,12 +469,12 @@ def standardize(quantity_or_unit, to_form=None):
         output = convert(quantity_or_unit, to_form=to_form)
         standard = get_standard_units(output)
         if standard is None:
-            raise ValueError("The input quantity or unit has no standard.")
+            raise NoStandardError()
         output = convert(output, standard)
     except:
         standard = get_standard_units(quantity_or_unit)
         if standard is None:
-            raise ValueError("The input quantity or unit has no standard.")
+            raise NoStandardError()
         output = convert(quantity_or_unit, to_unit=standard, to_form=to_form)
 
     return output

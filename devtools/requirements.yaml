@@ -12,7 +12,6 @@ production:
     - *setup_channels
   dependencies: &production_dependencies
     - python
-    - pint
 
 test:
   channels: &test_channels
@@ -38,6 +37,7 @@ docs:
     - myst-nb
     - openmm
     - unyt
+    - pint
 
 development:
   channels:

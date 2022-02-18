@@ -12,7 +12,6 @@ requirements:
   - numpy
   run:
   - python
-  - pint
 about:
   home: https://uibcdf.org
   license: MIT License

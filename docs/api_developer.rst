@@ -12,4 +12,7 @@ Exceptions
         NotImplementedMethodError
         NotImplementedClassError
         BadCallError
+        NoStandardError
+        UnknownFormError
+        LibraryNotFoundError
 

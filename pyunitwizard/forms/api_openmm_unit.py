@@ -1,5 +1,9 @@
-import openmm.unit as openmm_unit
 from pyunitwizard._private_tools.exceptions import *
+
+try:
+    import openmm.unit as openmm_unit
+except:
+    raise LibraryNotFoundError('openmm')
 
 form_name = 'openmm.unit'
 parser = True
@@ -121,4 +125,8 @@ def to_pint(quantity):
     unit_name = to_string(get_unit(quantity))
 
     return make_pint_quantity(value, unit_name)
+
+def to_unyt(quantity):
+
+    raise NotImplementedMethodError()
 

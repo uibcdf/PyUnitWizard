@@ -3,10 +3,10 @@ channels:
 - default
 dependencies:
 - python
-- pint
 - pytest
 - pip
 - pytest-cov
 - codecov
+- pint
 - openmm
 - unyt

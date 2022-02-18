@@ -1,4 +1,9 @@
-import pint as pint
+from pyunitwizard._private_tools.exceptions import *
+
+try:
+    import pint as pint
+except:
+    raise LibraryNotFoundError('pint')
 
 ## Create a unit UnitRegistry
 ## See: https://pint.readthedocs.io/en/stable/tutorial.html#using-pint-in-your-projects
@@ -116,4 +121,8 @@ def to_openmm_unit(quantity):
     unit_name = to_string(get_unit(quantity))
 
     return make_openmm_unit_quantity(value, unit_name)
+
+def to_unyt(quantity):
+
+    raise NotImplementedMethodError()
 

@@ -28,7 +28,7 @@ Libraries supported
 
    contents/about/introduction.md
    contents/about/installation.md
-   contents/about/showcase.ipynb
+   contents/about/showcase/index.rst
 
 .. toctree::
    :name: user_guide
