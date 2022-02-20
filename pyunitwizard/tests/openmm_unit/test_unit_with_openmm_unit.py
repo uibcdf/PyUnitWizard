@@ -5,7 +5,7 @@ def test_1():
     puw.configure.reset()
     puw.configure.load_library(['openmm.unit'])
     openmm_unit = puw.forms.api_openmm_unit.openmm_unit
-    q = puw.unit('kJ/mol')
+    q = puw.unit(openmm_unit.kilojoule/openmm_unit.mole)
     q_true = openmm_unit.kilojoule/openmm_unit.mole
     assert q == q_true
 

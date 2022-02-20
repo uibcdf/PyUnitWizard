@@ -9,6 +9,9 @@ def digest_parser(parser):
             output = parser.lower()
         else:
             raise ValueError
+    else:
+        from pyunitwizard.kernel import default_parser
+        output = default_parser
 
     return output
 

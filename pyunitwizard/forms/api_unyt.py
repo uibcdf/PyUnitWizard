@@ -44,10 +44,6 @@ def string_to_quantity(string):
 
     raise NotImplementedMethodError()
 
-def string_to_unit(string):
-
-    raise NotImplementedMethodError()
-
 def to_string(unit):
 
     raise NotImplementedMethodError()

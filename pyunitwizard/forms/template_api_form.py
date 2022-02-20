@@ -30,10 +30,6 @@ def string_to_quantity(string):
 
     raise NotImplementedError
 
-def string_to_unit(string):
-
-    raise NotImplementedError
-
 def to_string(unit):
 
     raise NotImplementedError

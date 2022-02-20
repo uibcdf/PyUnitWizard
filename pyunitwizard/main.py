@@ -3,8 +3,9 @@ from ._private_tools.forms import digest_form, digest_to_form
 from ._private_tools.parsers import digest_parser
 from .forms import dict_is_form, dict_is_unit, dict_is_quantity, dict_dimensionality, dict_compatibility
 from .forms import dict_get_unit, dict_get_value, dict_make_quantity
-from .forms import dict_convert, dict_translate, dict_string_to_quantity, dict_string_to_unit, dict_to_string
+from .forms import dict_convert, dict_translate, dict_to_string
 from .import kernel
+from .parse import parse as _parse
 import numpy as np
 
 def get_form(quantity_or_unit):
@@ -184,179 +185,95 @@ def quantity(value, unit=None, form=None, parser=None):
 
     return output
 
-def unit(unit_name, form=None, parser=None):
+def unit(unit, form=None, parser=None):
 
-    return convert(unit_name, to_form=form, parser=parser, to_type='unit')
+    return convert(unit, to_form=form, parser=parser, to_type='unit')
 
 def convert(quantity_or_unit, to_unit=None, to_form=None, parser=None, to_type='quantity'):
 
     output = None
 
     form_in = get_form(quantity_or_unit)
-    to_form = digest_to_form(to_form)
+    to_form = digest_to_form(to_form, form_in)
     parser = digest_parser(parser)
 
-    if to_form is None:
-        if form_in == 'string':
-            to_form=kernel.default_form
-        else:
-            to_form=form_in
+    if to_type not in ['unit', 'value', 'quantity']:
+        raise BadCallError("to_type")
 
-    if parser is None:
-        if form_in == 'string':
-            if to_form == 'string':
-                parser = kernel.default_parser
-            else:
-                parser = to_form
-        else:
-            if to_form is None:
-                parser = kernel.default_parser
-            else:
-                parser = form_in
+    if type(to_unit) is str:
+        to_unit = _parse(to_unit, parser=parser, to_form=to_form)
+        to_unit = dict_get_unit[to_form](to_unit)
 
-    output = quantity_or_unit
+    if form_in=='string':
 
-    if to_type=='quantity':
+        if to_form=='string':
 
-        if form_in=='string':
-            if parser==to_form:
-                output = dict_translate[form_in][to_form](output)
-                if to_unit is not None:
-                    output = dict_convert[to_form](output, to_unit)
-            else:
-                output = dict_translate[form_in][parser](output)
-                if to_unit is not None:
-                    output = dict_convert[parser](output, to_unit)
-                output = dict_translate[parser][to_form](output)
-        else:
-            if form_in==to_form:
-                if to_unit is not None:
-                    if parser==to_form:
-                        output = dict_convert[form_in](output, to_unit)
-                    else:
-                        output = dict_translate[form_in][parser](output)
-                        output = dict_convert[parser](output, to_unit)
-                        output = dict_translate[parser][to_form](output)
-            elif form_in!=to_form:
-                if to_unit is not None:
-                    if parser==form_in:
-                        output = dict_convert[form_in](output, to_unit)
-                        output = dict_translate[form_in][to_form](output)
-                    elif parser==to_form:
-                        output = dict_translate[form_in][to_form](output)
-                        output = dict_convert[to_form](output, to_unit)
-                    else:
-                        output = dict_translate[form_in][parser](output)
-                        output = dict_convert[parser](output, to_unit)
-                        output = dict_translate[parser][to_form](output)
+            output = _parse(quantity_or_unit, parser=parser, to_form=parser)
+
+            if to_unit is not None:
+                output = dict_convert[parser](output, to_unit)
+            if to_type == 'unit':
+                if is_unit(output):
+                    output=output
                 else:
-                    output = dict_translate[form_in][to_form](output)
-
-    elif to_type=='unit':
-
-        if form_in=='string':
-            if parser==to_form:
-                if to_unit is None:
-                    output = dict_string_to_unit[to_form](output)
-                else:
-                    output = dict_string_to_quantity[to_form](output)
-                    output = dict_convert[to_form](output, to_unit)
-                    output = dict_get_unit[to_form](output)
-            else:
-                if to_unit is None:
-                    output = dict_translate[form_in][parser](output)
                     output = dict_get_unit[parser](output)
-                    output = dict_translate[parser][to_form](output)
-                else:
-                    output = dict_translate[form_in][parser](output)
-                    output = dict_convert[parser](output, to_unit)
-                    output = dict_get_unit[parser](output)
-                    output = dict_translate[parser][to_form](output)
-        else:
-            if form_in==to_form:
-                if to_unit is not None:
-                    if parser==to_form:
-                        output = dict_convert[form_in](output, to_unit)
-                    else:
-                        output = dict_translate[form_in][parser](output)
-                        output = dict_convert[parser](output, to_unit)
-                        output = dict_translate[parser][to_form](output)
-                output = dict_get_unit[to_form](output)
-            elif form_in!=to_form:
-                if to_form == 'string':
-                    if to_unit is not None:
-                        if parser==form_in:
-                            output = dict_convert[form_in](output, to_unit)
-                            output = dict_get_unit[form_in](output)
-                            output = dict_translate[form_in][to_form](output)
-                        else:
-                            output = dict_translate[form_in][parser](output)
-                            output = dict_convert[parser](output, to_unit)
-                            output = dict_get_unit[parser](output)
-                            output = dict_translate[parser][to_form](output)
-                    else:
-                        output = dict_get_unit[form_in](output)
-                        output = dict_translate[form_in][to_form](output)
-                else:
-                    if to_unit is not None:
-                        if parser==form_in:
-                            output = dict_convert[form_in](output, to_unit)
-                            output = dict_translate[form_in][to_form](output)
-                        elif parser==to_form:
-                            output = dict_translate[form_in][to_form](output)
-                            output = dict_convert[to_form](output, to_unit)
-                        else:
-                            output = dict_translate[form_in][parser](output)
-                            output = dict_convert[parser](output, to_unit)
-                            output = dict_translate[parser][to_form](output)
-                    else:
-                        output = dict_translate[form_in][to_form](output)
-                    output = dict_get_unit[to_form](output)
-
-    elif to_type=='value':
-
-        if form_in=='string':
-            if parser==to_form:
-                output = dict_string_to_quantity[to_form](output)
-                if to_unit is not None:
-                    output = dict_convert[to_form](output, to_unit)
-                output = dict_get_value[to_form](output)
-            else:
-                output = dict_translate[form_in][parser](output)
-                if to_unit is not None:
-                    output = dict_convert[parser](output, to_unit)
+                output = dict_to_string[parser](output)
+            elif to_type == 'value':
                 output = dict_get_value[parser](output)
+                output = str(output)
+            else:
+                output = dict_to_string[parser](output)
+
         else:
-            if form_in==to_form:
-                if to_unit is not None:
-                    if parser==to_form:
-                        output = dict_convert[form_in](output, to_unit)
-                        output = dict_get_value[form_in](output)
-                    else:
-                        output = dict_translate[form_in][parser](output)
-                        output = dict_convert[parser](output, to_unit)
-                        output = dict_get_value[parser](output)
+
+            output = _parse(quantity_or_unit, parser=parser, to_form=to_form)
+
+            if to_unit is not None:
+                output = dict_convert[to_form](output, to_unit)
+            if to_type == 'unit':
+                if is_unit(output):
+                    output=output
                 else:
-                    output = dict_get_value[form_in](output)
-            elif form_in!=to_form:
-                if to_unit is not None:
-                    if parser==form_in:
-                        output = dict_convert[form_in](output, to_unit)
-                        output = dict_get_value[form_in](output)
-                    elif parser==to_form:
-                        output = dict_translate[form_in][to_form](output)
-                        output = dict_convert[to_form](output, to_unit)
-                        output = dict_get_value[to_form](output)
-                    else:
-                        output = dict_translate[form_in][parser](output)
-                        output = dict_convert[parser](output, to_unit)
-                        output = dict_get_value[parser](output)
-                else:
-                    output = dict_get_value[form_in](output)
+                    output = dict_get_unit[to_form](output)
+            elif to_type == 'value':
+                output = dict_get_value[to_form](output)
 
     else:
 
-        raise BadCallError("to_type")
+        if to_form=='string':
+
+            output = quantity_or_unit
+
+            if to_unit is not None:
+                output = dict_convert[form_in](output, to_unit)
+            if to_type == 'unit':
+                if is_unit(output):
+                    output=output
+                else:
+                    output = dict_get_unit[form_in](output)
+                output = dict_to_string[form_in](output)
+            elif to_type == 'value':
+                output = dict_get_value[form_in](output)
+                output = str(output)
+            else:
+                output = dict_to_string[form_in](output)
+
+        else:
+
+            if form_in==to_form:
+                output = quantity_or_unit
+            else:
+                output = dict_translate[form_in][to_form](quantity_or_unit)
+
+            if to_unit is not None:
+                output = dict_convert[to_form](output, to_unit)
+            if to_type == 'unit':
+                if is_unit(output):
+                    output=output
+                else:
+                    output = dict_get_unit[to_form](output)
+            elif to_type == 'value':
+                output = dict_get_value[to_form](output)
 
     return output
 

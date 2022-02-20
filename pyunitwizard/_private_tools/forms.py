@@ -17,12 +17,16 @@ def digest_form(form):
 
     return output
 
-def digest_to_form(to_form):
+def digest_to_form(to_form, from_form=None):
 
     output = None
 
     if to_form is not None:
         output = digest_form(to_form)
+    else:
+        if from_form == 'string':
+            from_form = None
+        output = digest_form(from_form)
 
     return output
 

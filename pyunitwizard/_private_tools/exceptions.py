@@ -18,7 +18,7 @@ class NotImplementedMethodError(NotImplementedError):
 
     Examples
     --------
-    >>> from pyuniwizard._private_tools.exceptions import NotImplementedMethodError
+    >>> from pyunitwizard._private_tools.exceptions import NotImplementedMethodError
     >>> def method_name(a, b=True):
     ...    raise NotImplementedMethodError
     ...    pass
@@ -32,7 +32,7 @@ class NotImplementedMethodError(NotImplementedError):
 
     def __init__(self):
 
-        from pyuniwizard import __github_issues_web__
+        from pyunitwizard import __github_issues_web__
         from inspect import stack
 
         all_stack_frames = stack()
@@ -70,7 +70,7 @@ class NotImplementedClassError(NotImplementedError):
 
     Examples
     --------
-    >>> from pyuniwizard._private_tools.exceptions import NotImplementedClassError
+    >>> from pyunitwizard._private_tools.exceptions import NotImplementedClassError
     >>> class ClassName():
     ...    def __init__(self):
     ...       raise NotImplementedClassError
@@ -85,7 +85,7 @@ class NotImplementedClassError(NotImplementedError):
 
     def __init__(self):
 
-        from pyuniwizard import __github_issues_web__
+        from pyunitwizard import __github_issues_web__
         from inspect import stack
 
         all_stack_frames = stack()
@@ -101,6 +101,57 @@ class NotImplementedClassError(NotImplementedError):
                 )
 
         super().__init__(message)
+
+
+class NotImplementedParsingError(NotImplementedError):
+    """Exception raised when parsing a string with the parser and to the form choosen has not been
+    implemented yet.
+
+    This exception is raised when parsing a strint with the parser and to the form choosen by the
+    user, has not been implemented yet.
+
+    Parameters
+    ----------
+    parser : str
+        The name of the parser choosen by the user.
+    to_form : str
+        The name of target form choosen by the user.
+
+    Raises
+    ------
+    NotImplementedMethodError
+        A message is printed out with the link to the documentation section about parsing strings,
+        and the link to the issues board of PyUnitWizard's GitHub repository.
+
+    Examples
+    --------
+    >>> from pyunitwizard._private_tools.exceptions import NotImplementedParsingError
+    >>> def method_name(string, parser='pint', to_form='new_form'):
+    ...    if parser=='pint' and to_form='new_form':
+    ...       raise NotImplementedParsingError('pint', 'new_form')
+    ...    pass
+
+    .. admonition:: See Also
+       :class: attention
+
+        :ref:`Developer Guide \> Exceptions \> NotImplementedParsingError <developer:exceptions:NotImplementedParsingError>`
+
+    """
+
+    def __init__(self, parser, to_form):
+
+        from pyunitwizard import __github_issues_web__
+
+        api_doc = ''
+
+        message = (
+                f"Parsing a string with the \"{parser}\" parser to the form \"{to_form}\" has not been implemented yet. "
+                f"Check {api_doc} for more information. "
+                f"If you still want to suggest its implementation, open a new issue in {__github_issues_web__}"
+                )
+
+        super().__init__(message)
+
 
 class BadCallError(ValueError):
     """Exception raised when a method, or a class, was not properly called or instantiated.
@@ -121,7 +172,7 @@ class BadCallError(ValueError):
 
     Examples
     --------
-    >>> from pyuniwizard._private_tools.exceptions import BadCallError
+    >>> from pyunitwizard._private_tools.exceptions import BadCallError
     >>> def method_name(item, a=True):
     ...    if type(a) not in [int, float]:
     ...       raise BadCallError('a')
@@ -136,7 +187,7 @@ class BadCallError(ValueError):
 
     def __init__(self, argument=None):
 
-        from pyuniwizard import __github_issues_web__
+        from pyunitwizard import __github_issues_web__
         from inspect import stack
 
         all_stack_frames = stack()
@@ -186,7 +237,7 @@ class NoStandardError(ValueError):
 
     def __init__(self):
 
-        from pyuniwizard import __github_issues_web__
+        from pyunitwizard import __github_issues_web__
         from inspect import stack
 
         all_stack_frames = stack()
@@ -313,5 +364,62 @@ class LibraryNotFoundError(NotImplementedError):
 
         super().__init__(message)
 
+class LibraryWithoutParserError(NotImplementedError):
+    """Exception raised when a library can not parse strings.
+
+    Some libraries cannot convert strings to quantities. This error will be raised by the API methods
+    `string_to_quantity` and `string_to_unit` of those libraries without strings' parser.
+
+    Parameters
+    ----------
+    argument : str
+        The name of the library without parser.
+
+    Raises
+    ------
+    LibraryWithoutParserError
+        A message is printed out with the name of the library wihtout parser, the link to the
+        section in the documentation regarding parser regarding parsers, and the link to the
+        issues board of PytUnitWizard's GitHub repository.
+
+    Examples
+    --------
+    >>> import pyunitwizard as puw
+    >>> from pyunitwizard._private_tools.exceptions import LibraryWithoutParserError
+    >>> from pyunitwizard._private_tools.exceptions import LibraryWithoutParserError
+    >>> def method_name(item, argument='pint'):
+    ...    if argument == 'pint':
+    ...       try:
+    ...          import pint
+    ...       except:
+    ...          raise LibraryNotFoundError('pint')
+    ...    pass
+
+    .. admonition:: See Also
+       :class: attention
+
+        :ref:`Developer Guide \> Exceptions \> LibraryWithoutStringsParserError <developer:exceptions:LibraryWithoutStringsParserError>`
+
+    """
+
+    def __init__(self, library):
+
+        from pyunitwizard import __github_issues_web__
+        from inspect import stack
+
+        all_stack_frames = stack()
+        caller_stack_frame = all_stack_frames[1]
+        caller_name = caller_stack_frame[3]
+
+        api_doc = ''
+
+        message = (
+                f"The python library {library} was not found. "
+                f"Although {library} is not considered a dependency, it needs "
+                f"to be installed to execute the {caller_name} method the way you require. "
+                f"If you still need help, open a new issue in {__github_issues_web__}."
+                )
+
+        super().__init__(message)
 
 

@@ -29,10 +29,10 @@ def is_unit(quantity_or_unit):
 def dimensionality(quantity_or_unit):
 
     from pyunitwizard.kernel import default_form, default_parser
-    from pyunitwizard import convert as _convert, dimensionality as _dimensionality
+    from pyunitwizard import convert as _convert, get_dimensionality as _get_dimensionality
 
     tmp_quantity_or_unit = _convert(quantity_or_unit, to_form=default_form, parser=default_parser)
-    output = _dimensionality(tmp_quantity_or_unit)
+    output = _get_dimensionality(tmp_quantity_or_unit)
 
     return output
 
@@ -70,22 +70,18 @@ def get_value(quantity):
 
 def get_unit(quantity):
 
-    from pyunitwizard.kernel import default_form, default_parser
+    from pyunitwizard.kernel import default_parser
     from pyunitwizard import convert as _convert, get_unit as _get_unit
 
-    tmp_quantity_or_unit = _convert(quantity, to_form=default_form, parser=default_parser)
-    tmp_unit = _get_unit(tmp_quantity_or_unit, to_form='string', parser=default_parser)
+    tmp_quantity_or_unit = _convert(quantity, to_form=default_parser)
+    tmp_unit = _get_unit(tmp_quantity_or_unit)
+    tmp_unit = _convert(tmp_unit, to_form='string')
 
     return tmp_unit
 
 def string_to_quantity(string):
 
     return string
-
-def string_to_unit(string):
-
-    tmp_quantity = string_to_quantity(string)
-    return get_unit(tmp_quantity)
 
 def to_string(quantity_or_item):
 
@@ -97,7 +93,7 @@ def convert(quantity, unit_name):
     from pyunitwizard import convert as _convert, get_unit as _get_unit
 
     tmp_quantity_or_unit = _convert(quantity, to_form=default_form, parser=default_parser)
-    tmp_quantity_or_unit = _convert(tmp_quantity_or_unit, to_units=unit_name, parser=default_parser)
+    tmp_quantity_or_unit = _convert(tmp_quantity_or_unit, to_unit=unit_name, parser=default_parser)
     tmp_quantity_or_unit = _convert(tmp_quantity_or_unit, to_form='string')
 
     return tmp_quantity_or_unit

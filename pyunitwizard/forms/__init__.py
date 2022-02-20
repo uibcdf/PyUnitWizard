@@ -9,7 +9,6 @@ dict_make_quantity={}
 dict_translate={}
 dict_convert={}
 dict_string_to_quantity={}
-dict_string_to_unit={}
 dict_to_string={}
 dict_dimensionality={}
 dict_compatibility={}
@@ -32,7 +31,7 @@ def load_library(library):
     dict_convert[library] = api.convert
     dict_translate[library]={}
     dict_string_to_quantity[library] = api.string_to_quantity
-    dict_string_to_unit[library] = api.string_to_unit
+    dict_to_string[library] = api.to_string
     dict_dimensionality[library] = api.dimensionality
     dict_compatibility[library] = api.compatibility
 
@@ -76,7 +75,7 @@ dict_make_quantity['string'] = api.make_quantity
 dict_convert['string'] = api.convert
 dict_translate['string']={}
 dict_string_to_quantity['string'] = api.string_to_quantity
-dict_string_to_unit['string'] = api.string_to_unit
+dict_to_string['string'] = api.to_string
 dict_dimensionality['string'] = api.dimensionality
 dict_compatibility['string'] = api.compatibility
 

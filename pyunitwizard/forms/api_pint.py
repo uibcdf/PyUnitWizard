@@ -84,26 +84,7 @@ def get_unit(quantity):
 
 def string_to_quantity(string):
 
-    if string.startswith('[') or string.startswith('('):
-
-        import ast
-
-        end_list = max(string.rfind(')')+1, string.rfind(']')+1)
-        value_string = string[:end_list]
-        unit_string = string[end_list:]
-
-        tmp_quantity=ast.literal_eval(value_string)*Q_(unit_string)
-
-    else:
-
-        tmp_quantity=Q_(string)
-
-    return tmp_quantity
-
-def string_to_unit(string):
-
-    tmp_quantity = string_to_quantity(string)
-    return get_unit(tmp_quantity)
+    return Q_(string)
 
 def to_string(quantity_or_item):
 
@@ -115,12 +96,20 @@ def convert(quantity, unit_name):
 
 def to_openmm_unit(quantity):
 
-    from .api_openmm_unit import make_quantity as make_openmm_unit_quantity
+    from pint.util import ParserHelper as PintParserHelper
+    try:
+        import openmm.unit as openmm_unit
+    except:
+        raise LibraryNotFoundError('openmm')
 
-    value = get_value(quantity)
-    unit_name = to_string(get_unit(quantity))
+    pint_parser = PintParserHelper.from_string(quantity.__str__())
+    tmp_quantity = pint_parser.scale
+    for unit_name, exponent in pint_parser.items():
+        if unit_name in ['unified_atomic_mass_unit']:
+            unit_name = 'amu'
+        tmp_quantity *= getattr(openmm_unit, unit_name)**exponent
 
-    return make_openmm_unit_quantity(value, unit_name)
+    return tmp_quantity
 
 def to_unyt(quantity):
 
