@@ -4,65 +4,141 @@ from ._private_tools.parsers import digest_parser
 from .forms import dict_is_form, dict_is_unit, dict_is_quantity, dict_dimensionality, dict_compatibility
 from .forms import dict_get_unit, dict_get_value, dict_make_quantity
 from .forms import dict_convert, dict_translate, dict_to_string
+from .forms.quantity_or_unit import ArrayLike, QuantityOrUnit, QuantityLike, UnitLike
 from .import kernel
 from .parse import parse as _parse
 import numpy as np
+from typing import  Any, Dict, Optional, Union
 
-def get_form(quantity_or_unit):
 
-    output = None
+def get_form(quantity_or_unit: Any) -> str:
+    """ Returns the form of a quantity as a string.
 
+        Parameters
+        ---------
+        quantity_or_unit : Any
+            A quanitity or a unit
+        
+        Returns
+        -------
+        {"string", "pint", "openmm.unit"}
+            The form of the quantity
+    """
     try:
         return dict_is_form[type(quantity_or_unit)]
-    except:
+    except KeyError:
         try:
             return dict_is_form[quantity_or_unit]
-        except:
-            raise UnknownFormError()
+        except KeyError:
+            raise UnknownFormError
 
-    return output
 
-def is_quantity(quantity_or_unit, parser=None):
+def is_quantity(quantity_or_unit: Any, parser: Optional[str]=None) -> bool:
+    """ Check whether an object is a quantity
 
-    if type(quantity_or_unit)=='str':
+        Parameters
+        ---------
+        quantity_or_unit : Any
+            A quanitity or a unit
+
+        parser :  {"unyt", "pint", "openmm.unit"}, optional
+            The parser for string quantities
+
+        Returns
+        -------
+        bool
+            False if it's not a quantity
+    """
+    if isinstance(quantity_or_unit, str):
         try:
-            quantity_or_unit = convert(string, to_form=kernel.default_form, parser=parser)
+            quantity_or_unit = convert(quantity_or_unit, to_form=kernel.default_form, parser=parser)
             output = dict_is_quantity[kernel.default_form](quantity_or_unit)
         except:
-            output = False
+            return False
     else:
         try:
             form = get_form(quantity_or_unit)
             output = dict_is_quantity[form](quantity_or_unit)
         except:
-            output = False
+            return False
 
     return output
 
-def is_unit(quantity_or_unit, parser=None):
+def is_unit(quantity_or_unit: Any, parser: Optional[str]=None) -> bool:
+    """ Check whether an object is a unit
 
-    if type(quantity_or_unit)=='str':
+        Parameters
+        ---------
+        quantity_or_unit : QuantityOrUnit
+            A quantity or a unit
+
+        parser :  {"unyt", "pint", "openmm.unit"}, optional
+            The parser for string quantities
+
+        Returns
+        -------
+        bool
+            False if it's not a unit
+    """
+    if isinstance(quantity_or_unit, str):
         try:
-            quantity_or_unit = convert(string, to_type='unit')
+            quantity_or_unit = convert(quantity_or_unit, to_type='unit', parser=parser)
             form = get_form(quantity_or_unit)
             output = dict_is_quantity[form](quantity_or_unit)
         except:
-            output = False
+            return False
     else:
         try:
             form = get_form(quantity_or_unit)
             output = dict_is_unit[form](quantity_or_unit)
         except:
-            output = False
+            return False
 
     return output
 
-def get_value(quantity, to_unit=None, parser=None):
+def get_value(quantity: QuantityLike, 
+              to_unit:  Optional[str]=None, 
+              parser:   Optional[str]=None) -> Union[np.ndarray, float, int]:
+    """ Returns the value of a quantity.
 
+        Parameters
+        ----------
+        to_unit : str, optional
+            Name of the unit to which the quantity will be converted (i.e kcal/mol).
+        
+        parser : {"unyt", "pint", "openmm.unit"}, optional
+            The parser to use.
+
+        Returns
+        -------
+        np.ndarray or float or int
+            An array with the quantity value or a a float or an int if it's a scalar.
+
+    """
     return convert(quantity, to_unit=to_unit, parser=parser, to_type='value')
 
-def get_unit(quantity, to_form=None, parser=None):
+def get_unit(quantity: QuantityLike, 
+             to_form: Optional[str]=None, 
+             parser:  Optional[str]=None) -> UnitLike:
+    """ Returns the unit of a quantity.
 
+        Parameters
+        ----------
+        to_unit : str, optional
+            Name of the unit to which the quantity will be converted (i.e kcal/mol).
+        
+         form : {"unyt", "pint", "openmm.unit", "string"}, optional
+            If passed the unit will be converted to that form. This is the type that will be returned
+
+        parser : {"unyt", "pint", "openmm.unit"}, optional
+            The parser to use.
+
+        Returns
+        -------
+        UnitLike
+            The unit.
+
+    """
     return convert(quantity, to_form=to_form, parser=parser, to_type='unit')
 
 def similarity(quantity_or_unit_1, quantity_or_unit_2, relative_tolerance=1e-08):
@@ -81,11 +157,22 @@ def similarity(quantity_or_unit_1, quantity_or_unit_2, relative_tolerance=1e-08)
 
     return output
 
-def get_dimensionality(quantity_or_unit):
+def get_dimensionality(quantity_or_unit: QuantityOrUnit) -> Dict[str, int]:
+    """ Returns the dimensionality of the quantity or unit.
 
+        Parmeters
+        ---------
+        quantity_or_unit : QuantityOrUnit
+            A quantity or a unit
+
+        Returns
+        -------
+        dict
+            A dictionary with the dimensionality of the unit.
+    """
     dim = None
 
-    if type(quantity_or_unit) is str:
+    if isinstance(quantity_or_unit, str):
         if is_quantity(quantity_or_unit):
             quantity_or_unit = convert(quantity_or_unit, to_type='quantity')
         elif is_unit(quantity_or_unit):
@@ -96,22 +183,51 @@ def get_dimensionality(quantity_or_unit):
 
     return dim
 
-def _dimensionality_dict_to_array(dimensionality):
+def _dimensionality_dict_to_array(dimensionality: Dict[str, int]) -> np.ndarray:
+    """ Returns a numpy array with the dimensionality. 
 
-    output = []
+        Parameters
+        ----------
+        dimensionality : dict
+            Dictionary which keys are fundamental units and values are the power of
+            each unit in the quantity.
 
-    for ii in kernel.order_fundamental_units:
+        Returns
+        -------
+        np.ndarray of shape (7,)
+            Array where each entry represents the power of each fundamental unit in
+            the quantity. The order of the fundamental units is given by the order of
+            fundamental units.
+    """
+    dim_list = []
+
+    for unit in kernel.order_fundamental_units:
         try:
-            output.append(dimensionality[ii])
-        except:
-            output.append(0)
+            dim_list.append(dimensionality[unit])
+        except KeyError:
+            dim_list.append(0)
 
-    output = np.array(output, dtype=float)
+    return np.array(dim_list, dtype=float)
 
-    return output
+def compatibility(quantity_or_unit_1: QuantityOrUnit, 
+                  quantity_or_unit_2: QuantityOrUnit) -> bool:
+    """ Check whether two quantities or units are compatible. 
+        
+        Parameters
+        ----------
+        quantity_or_unit_1 : QuantityOrUnit
+            A quantity or a unit
+        
+        quantity_or_unit_2 : QuantityOrUnit
+            A quantity or a unit
 
-def compatibility(quantity_or_unit_1, quantity_or_unit_2):
+        Returns
+        -------
+        bool
+            Whether the quantities or units are compatible.
+    """
 
+    # TODO: Bug when passing openmm.units. Raises an unexpected error
     if is_dimensionless(quantity_or_unit_1) and is_dimensionless(quantity_or_unit_2):
 
         form1 = get_form(quantity_or_unit_1)
@@ -121,43 +237,94 @@ def compatibility(quantity_or_unit_1, quantity_or_unit_2):
 
             try:
                 tmp = convert(quantity_or_unit_1, to_form=form2)
-                output = dict_compatibility[form2](tmp, quantity_or_unit_2)
+                is_compatible = dict_compatibility[form2](tmp, quantity_or_unit_2)
             except:
                 tmp = convert(quantity_or_unit_2, to_form=form1)
-                output = dict_compatibility[form1](tmp, quantity_or_unit_1)
+                is_compatible = dict_compatibility[form1](tmp, quantity_or_unit_1)
 
         else:
 
-            output = dict_compatibility[form1](quantity_or_unit_1, quantity_or_unit_2)
+            is_compatible = dict_compatibility[form1](quantity_or_unit_1, quantity_or_unit_2)
 
     else:
 
-        d1 = get_dimensionality(quantity_or_unit_1)
-        d2 = get_dimensionality(quantity_or_unit_2)
+        dim1 = get_dimensionality(quantity_or_unit_1)
+        dim2 = get_dimensionality(quantity_or_unit_2)
 
-        output = _compatible_dimensionalities(d1, d2)
+        is_compatible = _compatible_dimensionalities(dim1, dim2)
 
-    return output
+    return is_compatible
 
-def is_dimensionless(quantity_or_unit):
+def is_dimensionless(quantity_or_unit: QuantityOrUnit) -> bool:
+    """ Check wheter a quantity or unit is dimensionless.
 
-    d = get_dimensionality(quantity_or_unit)
-    d = _dimensionality_dict_to_array(d)
-    output = np.allclose(d, 0.0)
+        Parameters
+        ----------
+        quantity_or_unit : QuantityOrUnit
+            A quantity or a unit
+        
+        Returns
+        -------
+        bool
+            Whether the quantity or unit is dimensionless.
+    """
+    dim = get_dimensionality(quantity_or_unit)
+    # If we find a non zero value in the dimensionality dict we return false
+    for power in dim.values():
+        if power != 0:
+            return False
+    return True
+    
+def _compatible_dimensionalities(dim1: Dict[str, int], dim2: Dict[str, int]) -> bool:
+    """ Check whether two dimensionalities are compatible.
 
-    return output
+        Parameters
+        ----------
+        dim1 : dict
+            Dimensionality dictionary.
 
-def _compatible_dimensionalities(d1, d2):
+        dim2 : dict
+            Dimensionality dictionary.
+        
+        Returns
+        ----------
+        bool
+            Whether the dimensiomnalities are compatible.
 
-    d1=_dimensionality_dict_to_array(d1)
-    d2=_dimensionality_dict_to_array(d2)
+    """
+    if len(dim1) != len(dim2):
+        dim1=_dimensionality_dict_to_array(dim1)
+        dim2=_dimensionality_dict_to_array(dim2)
 
-    output = np.all(d1==d2)
+        return np.all(dim1 == dim2)
+    else:
+        return dim1 == dim2
 
-    return output
+def quantity(value: Union[int, float, ArrayLike], 
+            unit: Optional[str]=None, 
+            form: Optional[str]=None, 
+            parser: Optional[str]=None) -> QuantityLike:
+    """ Returns a quantity.
 
-def quantity(value, unit=None, form=None, parser=None):
-
+        Parameters
+        ----------
+        value : int, float or arraylike
+            The value of the quantity. Can be a scalar or an array like type.
+        
+        unit : str
+            Name of the unit (i.e kcal/mol).
+        
+        form : {"unyt", "pint", "openmm.unit", "string"}, optional
+            The form of the unit. This is the type that will be returned
+        
+        parser : {"unyt", "pint", "openmm.unit"}, optional
+            The parser to use.
+        
+        Returns
+        -------
+        QuantityLike
+            The quantity.
+    """
     output = None
 
     if type(value) is str:
@@ -185,12 +352,56 @@ def quantity(value, unit=None, form=None, parser=None):
 
     return output
 
-def unit(unit, form=None, parser=None):
+def unit(unit: str, form: Optional[str]=None, parser: Optional[str]=None) -> UnitLike:
+    """ Returns a unit.
 
+        Parameters
+        ----------
+        unit : str
+            Name of the unit (i.e kcal/mol).
+        
+        form : {"unyt", "pint", "openmm.unit", "string"}, optional
+            The form of the unit. This is the type that will be returned
+        
+        parser : {"unyt", "pint", "openmm.unit"}, optional
+            The parser to use.
+        
+        Returns
+        -------
+        Unitlike
+            The unit.
+    
+    """
     return convert(unit, to_form=form, parser=parser, to_type='unit')
 
-def convert(quantity_or_unit, to_unit=None, to_form=None, parser=None, to_type='quantity'):
+def convert(quantity_or_unit: Any, 
+            to_unit: Optional[str]=None, 
+            to_form: Optional[str]=None, 
+            parser:  Optional[str]=None, 
+            to_type: Optional[str]='quantity') -> Union[QuantityOrUnit, float, np.ndarray]:
+    """ Converts a quantity or unit to a different unit and/or to a different
+        form and/or type. 
 
+        Parameters
+        ----------
+        to_unit : str, optional
+            The unit to convert to.
+        
+        to_form : {"unyt", "pint", "openmm.unit", "string"}, optional
+            The form to convert to.
+        
+        parser : {"unyt", "pint", "openmm.unit"}, optional
+            The parser to use if a string is passed
+        
+        to_type : {"quantity", "unit", "value"}, optional
+            The type to convert to.
+
+        Returns
+        -------
+        QuantityOrUnit or ArrayLike or float
+            The converted quantity or unit. If to_type is passed the return value can
+            be a float or a numpy array.
+    """
     output = None
 
     form_in = get_form(quantity_or_unit)
@@ -198,9 +409,9 @@ def convert(quantity_or_unit, to_unit=None, to_form=None, parser=None, to_type='
     parser = digest_parser(parser)
 
     if to_type not in ['unit', 'value', 'quantity']:
-        raise BadCallError("to_type")
+        raise ValueError("to_type")
 
-    if type(to_unit) is str:
+    if isinstance(to_unit, str):
         to_unit = _parse(to_unit, parser=parser, to_form=to_form)
         to_unit = dict_get_unit[to_form](to_unit)
 
@@ -352,30 +563,6 @@ def get_standard_units(quantity_or_unit):
 
                 output = convert(output, to_form='string', to_type='unit')
 
-        if output is None:
-
-            matrix = []
-            standard_units = []
-
-            for aux_unit, aux_dim_array in kernel.tentative_base_standards.items():
-                standard_units.append(convert(aux_unit, to_type='unit'))
-                matrix.append(aux_dim_array)
-
-            matrix = np.array(matrix)
-
-            x, _, _, _ = np.linalg.lstsq(matrix.T, solution, rcond=None)
-
-            x = x.round(4)
-
-            if np.allclose(np.dot(matrix.T, x), solution):
-                output = 1
-                for u, exponent in zip(standard_units, x):
-                    if not np.isclose(0.0, exponent):
-                        output *= u**exponent
-
-                output = convert(output, to_form='string', to_type='unit')
-
-
     return output
 
 def standardize(quantity_or_unit, to_form=None):
@@ -396,49 +583,81 @@ def standardize(quantity_or_unit, to_form=None):
 
     return output
 
-def check(quantity_or_unit, dimensionality=None, value_type=None, shape=None, unit=None, dtype_name=None):
+def check(quantity_or_unit: Any, 
+          dimensionality: Optional[Dict[str, int]] = None, 
+          value_type: Optional[Any] = None, 
+          shape: Optional[tuple] = None, 
+          unit: Optional[str] = None, 
+          dtype_name: Optional[str] = None) -> bool:
+    """ Check if a quantity or unit has the specified dimensionality, 
+        value_type, shape, unit or data type.
 
-    output = True
+        Parameters
+        ---------
+        quantity_or_unit: Any
+            A quantity or unit object. If any other object is passed False will be returned.
+
+        dimensionality: dict
+            A dictionary specifying the dimensionality of the quantity or unit.
+
+        value_type: Any
+            The type of the quantity. Can be int, float, np.ndarray.
+
+        shape: tuple of int
+            For non scalar quantities. A tuple with the shape of the array.
+        
+        unit: str
+            Name of the unit.
+        
+        dtype_name : str
+            For non scalar quantities. The dtype of the array (i.e float64). 
+
+        Returns
+        -------
+        bool
+            True if the quantity or unit has the specified parameters.
+    """
 
     if is_quantity(quantity_or_unit):
 
         if unit is not None:
             aux_unit = get_unit(quantity_or_unit)
             if not similarity(aux_unit, unit):
-                output=False
-        if output and (value_type is not None):
+                return False
+        if value_type is not None:
             aux_value = get_value(quantity_or_unit)
-            if type(aux_value)!=value_type:
-                output=False
-        if output and (shape is not None):
+            if not isinstance(aux_value, value_type):
+                return False
+        if shape is not None:
             value = get_value(quantity_or_unit)
             if np.shape(value)!=tuple(shape):
-                output=False
-        if output and (dimensionality is not None):
+                return False
+        if dimensionality is not None:
             aux_dimensionality = get_dimensionality(quantity_or_unit)
             if not _compatible_dimensionalities(aux_dimensionality, dimensionality):
-                output=False
-        if output and (dtype_name is not None):
+                return False
+        if dtype_name is not None:
             aux_value = get_value(quantity_or_unit)
             try:
                 aux_dtype_name = aux_value.dtype.name
-                if aux_dtype_name!=dtype_name:
-                    output=False
+                if aux_dtype_name != dtype_name:
+                    return False
             except:
-                output=False
+                return False
 
     elif is_unit(quantity_or_unit):
 
         if unit is not None:
             if not similarity(quantity_or_unit, unit):
-                output=False
-        if output and (dimensionality is not None):
+                return False
+        if dimensionality is not None:
             aux_dimensionality = get_dimensionality(quantity_or_unit)
             if not _compatible_dimensionalities(aux_dimensionality, dimensionality):
-                output=False
+                return False
 
     else:
 
-        output = False
+        return False
 
-    return output
+    return True
+

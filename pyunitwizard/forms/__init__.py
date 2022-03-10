@@ -17,9 +17,7 @@ _base_package = __name__.replace('.base','')
 _forms_apis_modules = {'openmm.unit':'api_openmm_unit', 'pint':'api_pint', 'unyt':'api_unyt'}
 
 def load_library(library):
-
     from pyunitwizard.kernel import loaded_libraries, loaded_parsers
-
     api = _import_module('.'+_forms_apis_modules[library], _base_package)
 
     dict_is_form.update(api.is_form)

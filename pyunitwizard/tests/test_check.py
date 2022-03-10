@@ -1,46 +1,112 @@
+import numpy as np
 import pytest
 import pyunitwizard as puw
-import numpy as np
 
-def test_1():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
-    aa = puw.quantity(0.4,'cm')
-    output = puw.check(aa, value_type=float)
-    assert output == True
+puw.configure.reset()
+puw.configure.load_library(['pint'])
 
-def test_2():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
-    aa = puw.quantity(0.4,'cm')
-    output = puw.check(aa, unit='cm')
-    assert output == True
+#### Tests for puw.check() function ####
 
-def test_3():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
-    aa = puw.quantity(0.4,'cm')
-    output = puw.check(aa, dimensionality={'[L]':1})
-    assert output == True
+def test_check_no_parameters():
+    quantity = puw.quantity(0.4,'cm')
+    assert puw.check(quantity)
 
-def test_4():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
-    aa = puw.quantity(np.zeros([3,3]),'nm/ps')
-    output = puw.check(aa, dimensionality={'[L]':1, '[T]':-1}, value_type=np.ndarray, dtype_name='float64')
-    assert output == True
+def test_check_not_quantity():
+    assert not puw.check(2)
 
-def test_5():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
-    aa = puw.quantity(np.zeros([3,3]),'nm/ps')
-    output = puw.check(aa, dimensionality={'[L]':1, '[T]':-1}, value_type=np.ndarray, dtype_name='int')
-    assert output == False
+def test_check_value_type():
+    quantity = puw.quantity(0.4,'cm')
+    assert puw.check(quantity, value_type=float)
 
-def test_6():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
-    aa = puw.quantity([0,0,0], 'nm/ps')
-    output = puw.check(aa, dimensionality={'[L]':1, '[T]':-1}, value_type=np.ndarray, shape=(3,))
-    assert output == True
+    quantity = puw.quantity(4, 'cm')
+    assert puw.check(quantity, value_type=int)
 
+    quantity = puw.quantity(np.array([1.5, 2.0]), 's')
+    assert puw.check(quantity, value_type=np.ndarray)
+    
+def test_check_unit():
+    quantity = puw.quantity(0.4,'cm')
+    assert puw.check(quantity, unit='cm')
+
+    quantity = puw.quantity(np.array([1.5, 2.0]), 's')
+    assert puw.check(quantity, unit='s')
+
+def test_check_dimensionality():
+    quantity = puw.quantity(0.4,'cm')
+    assert puw.check(quantity, dimensionality={'[L]':1})
+
+    quantity = puw.quantity(np.array([1.5, 2.0]), 'm/s')
+    assert puw.check(quantity, dimensionality={'[L]': 1, '[T]': -1})
+
+    quantity = puw.quantity(4, 'kcal')
+    assert puw.check(quantity, dimensionality={'[L]': 2, '[T]': -2, '[M]': 1})
+    
+def test_check_multiple():
+    quantity = puw.quantity(np.zeros([3,3]),'nm/ps')
+    assert puw.check(quantity, dimensionality={'[L]':1, '[T]':-1}, value_type=np.ndarray, dtype_name='float64')
+    assert not puw.check(quantity, dimensionality={'[L]':1, '[T]':-1}, value_type=np.ndarray, dtype_name='int')
+
+    quantity = puw.quantity(np.zeros([3,3], dtype=np.int64),'nm/ps')
+    assert puw.check(quantity, dimensionality={'[L]':1, '[T]':-1}, value_type=np.ndarray, dtype_name='int64')
+
+    quantity = puw.quantity([0,0,0], 'nm/ps')
+    assert puw.check(quantity, dimensionality={'[L]':1, '[T]':-1}, value_type=np.ndarray, shape=(3,))
+
+
+@pytest.fixture
+def pint_quantity():
+    """ Returns a pint quantity. """
+    ureg = puw.forms.api_pint.ureg
+    return ureg.Quantity(2.5, 'nanometers/picoseconds')
+
+@pytest.fixture
+def openmm_quantity():
+    """ Returns an openmm quantity"""
+    openmm_unit = puw.forms.api_openmm_unit.openmm_unit
+    return  5 * openmm_unit.kilojoule/openmm_unit.mole
+
+@pytest.fixture
+def pint_unit():
+    """ Returns a pint unit"""
+    ureg = puw.forms.api_pint.ureg
+    return ureg.meter
+
+@pytest.fixture
+def openmm_unit():
+    """ Returns an openmm unit"""
+    openmm_unit = puw.forms.api_openmm_unit.openmm_unit
+    return openmm_unit.meter
+
+#### Tests for puw.is_unit ####
+def test_is_unit_str():
+    pass
+
+def test_is_unit_quantity(pint_quantity, openmm_quantity):
+    assert not puw.is_unit(pint_quantity)
+    assert not puw.is_unit(openmm_quantity)
+
+def test_is_unit_pint_unit(pint_unit):
+    assert puw.is_unit(pint_unit)
+
+def test_is_unit_openmm_unit(openmm_unit):
+    assert puw.is_unit(openmm_unit)
+
+#### Tests for puw.is_quantity ####
+
+def test_is_quantity_str():
+    pass
+
+def test_is_quantity_pint_quantity(pint_quantity):
+    assert puw.is_quantity(pint_quantity)
+
+def test_is_quantity_openmm_quantity(openmm_quantity):
+    assert puw.is_quantity(openmm_quantity)
+
+def test_is_quantity_unit(pint_unit, openmm_unit):
+    assert not puw.is_quantity(pint_unit)
+    assert not puw.is_quantity(openmm_unit)
+
+#### Tests for is dimensionless ####
+
+def test_is_dimensionless():
+    pass

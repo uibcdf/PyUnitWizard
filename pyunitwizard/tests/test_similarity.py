@@ -1,8 +1,9 @@
-import pytest
+from pyunitwizard._private_tools.exceptions import NotImplementedParsingError
 import pyunitwizard as puw
+import pytest
 
 def test_1():
-    from pyunitwizard._private_tools.exceptions import NotImplementedParsingError
+    
     with pytest.raises(NotImplementedParsingError):
         puw.configure.reset()
         puw.configure.load_library(['openmm.unit'])
