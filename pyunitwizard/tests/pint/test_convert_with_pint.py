@@ -1,5 +1,6 @@
 import pytest
 import pyunitwizard as puw
+import numpy as np
 
 ## from string
 
@@ -107,4 +108,14 @@ def test_to_openmm_unit_1():
     q = puw.convert(q, to_form='openmm.unit')
     q_true = 2.5 * openmm_unit.nanometer/openmm_unit.picosecond
     assert q == q_true
+
+def test_to_openmm_unit_2():
+    puw.configure.reset()
+    puw.configure.load_library(['pint','openmm.unit'])
+    ureg = puw.forms.api_pint.ureg
+    openmm_unit = puw.forms.api_openmm_unit.openmm_unit
+    q = ureg.Quantity([[0,0], [0,0]], 'nanometers/picoseconds')
+    q = puw.convert(q, to_form='openmm.unit')
+    q_true = [[0,0], [0,0]] * openmm_unit.nanometer/openmm_unit.picosecond
+    assert np.all(q == q_true)
 
