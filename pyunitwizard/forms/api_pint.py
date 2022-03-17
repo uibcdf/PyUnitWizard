@@ -231,17 +231,10 @@ def to_openmm_unit(quantity: pint.Quantity):
     except:
         raise LibraryNotFoundError('openmm')
 
-<<<<<<< HEAD
-    #TODO: bug in this function whit arraylike quantities
-
-    pint_parser = PintParserHelper.from_string(quantity.__str__())
-    tmp_quantity = pint_parser.scale
-=======
     value = quantity.magnitude
 
     pint_parser = PintParserHelper.from_string(quantity.units.__str__())
     tmp_quantity = 1
->>>>>>> 9036bde6c9ec35d102f5166102ba47e4f79cd0e1
     for unit_name, exponent in pint_parser.items():
         if unit_name in ['unified_atomic_mass_unit']:
             unit_name = 'amu'
