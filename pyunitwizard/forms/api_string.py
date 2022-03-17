@@ -1,3 +1,5 @@
+from typing import Dict, Union
+from pyunitwizard._private_tools.quantity_or_unit import ArrayLike
 
 form_name = 'string'
 paser = False
@@ -6,111 +8,204 @@ is_form={
     str:form_name,
     }
 
-def is_quantity(quantity_or_unit):
+def is_quantity(quantity_or_unit: str) -> bool:
+    """ Check whether a string is a quantity.
 
+        Parameters
+        -----------
+        quantity_or_unit : Any
+            A quanitity or a unit
+
+        Returns
+        -------
+        bool
+            True if it's a quantity.
+    """
     from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, is_quantity as _is_quantity
 
     tmp_quantity_or_unit = _convert(quantity_or_unit, to_form=default_form, parser=default_parser)
-    output = _is_quantity(tmp_quantity_or_unit)
+    return _is_quantity(tmp_quantity_or_unit)
 
-    return output
+def is_unit(quantity_or_unit: str) -> bool:
+    """ Check whether a string is a unit.
 
-def is_unit(quantity_or_unit):
+        Parameters
+        -----------
+        quantity_or_unit : str
+            A quanitity or a unit
 
+        Returns
+        -------
+        bool
+            True if its a unit.
+    """
     from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, is_unit as _is_unit
 
     tmp_quantity_or_unit = _convert(quantity_or_unit, to_form=default_form, parser=default_parser)
-    output = _is_unit(tmp_quantity_or_unit)
+    return _is_unit(tmp_quantity_or_unit)
 
-    return output
+def dimensionality(quantity_or_unit: str) -> Dict[str, int]:
+    """ Returns the dimensionality of the quantity or unit.
 
-def dimensionality(quantity_or_unit):
+        Parameters
+        -----------
+        quantity_or_unit : str
+            A quanitity or a unit
 
+        Returns
+        -------
+        dimensionality_dict : dict
+            Dictionary which keys are fundamental units and values are the exponent of
+            each unit in the quantity.
+
+    """
     from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, get_dimensionality as _get_dimensionality
 
     tmp_quantity_or_unit = _convert(quantity_or_unit, to_form=default_form, parser=default_parser)
-    output = _get_dimensionality(tmp_quantity_or_unit)
+    return _get_dimensionality(tmp_quantity_or_unit)
 
-    return output
 
-def compatibility(quantity_or_unit_1, quantity_or_unit_2):
+def compatibility(quantity_or_unit_1: str, quantity_or_unit_2: str) -> bool:
+    """ Check whether two quantities or units are compatible.
 
+        Parameters
+        -----------
+        quantity_or_unit_1 : str
+            A quanitity or a unit.
+
+        quantity_or_unit_2 : str
+            A quanitity or a unit.
+
+        Returns
+        -------
+        bool
+            True if they are compatible.
+    """
     from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, compatibility as _compatibility
 
     tmp_quantity_or_unit_1 = _convert(quantity_or_unit_1, to_form=default_form, parser=default_parser)
     tmp_quantity_or_unit_2 = _convert(quantity_or_unit_2, to_form=default_form, parser=default_parser)
-    output = _compatibility(tmp_quantity_or_unit_1, tmp_quantity_or_unit_2)
+    return _compatibility(tmp_quantity_or_unit_1, tmp_quantity_or_unit_2)
 
-    return output
+def make_quantity(value: Union[int, float, ArrayLike], 
+                  unit_name: str) -> str:
+    """ Returns a string quantity.
 
-def make_quantity(value, unit_name):
+        Parmeters
+        ---------
+        value: int, float or ArrayLike
+            The value of the quantity.
 
+        unit : str
+            Name of the unit.
+        
+        Returns
+        -------
+        str
+            The quantity.
+    """
     from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, quantity as _quantity
 
     tmp_quantity_or_unit = _quantity(value, unit=unit_name, form=default_form, parser=default_parser)
-    tmp_quantity_or_unit = _convert(tmp_quantity_or_unit, to_form='string', parser=default_parser)
+    return _convert(tmp_quantity_or_unit, to_form='string', parser=default_parser)
 
-    return tmp_quantity_or_unit
-
-def get_value(quantity):
-
+def get_value(quantity: str) -> str:
+    """ Returns the value of the quantity.
+        
+        Parameters
+        -----------
+        quantity : pint.Quantity
+            A quanitity or a unit.
+        
+        Returns
+        -------
+        int, float or ArrrayLike
+            The value.
+    """
     from pyunitwizard.kernel import default_form, default_parser
     from pyunitwizard import convert as _convert, get_value as _get_value
 
     tmp_quantity_or_unit = _convert(quantity, to_form=default_form, parser=default_parser)
-    tmp_value = _get_value(tmp_quantity_or_unit)
-    tmp_value = str(tmp_value)
+    return str(_get_value(tmp_quantity_or_unit))
 
-    return tmp_value
-
-def get_unit(quantity):
-
+def get_unit(quantity: str) -> str:
+    """ Returns the units of the quantity.
+        
+        Parameters
+        -----------
+        quantity : pint.Quantity
+            A quanitity or a unit.
+        
+        Returns
+        -------
+        pint.Unit
+            The unit.
+    """
     from pyunitwizard.kernel import default_parser
     from pyunitwizard import convert as _convert, get_unit as _get_unit
 
     tmp_quantity_or_unit = _convert(quantity, to_form=default_parser)
     tmp_unit = _get_unit(tmp_quantity_or_unit)
-    tmp_unit = _convert(tmp_unit, to_form='string')
+    return _convert(tmp_unit, to_form='string')
 
-    return tmp_unit
-
-def string_to_quantity(string):
-
+def string_to_quantity(string: str) -> str:
+    """ Returns the same string. """
     return string
 
-def to_string(quantity_or_item):
-
+def to_string(quantity_or_item: str) -> str:
+    """ Returns the same string. """
     return quantity_or_item
 
-def convert(quantity, unit_name):
+def convert(quantity: str, unit_name: str) -> str:
+    """ Converts the quantity to a different unit.
 
+        Parameters
+        -----------
+        quantity : str
+            A quanitity-
+        
+        unit : str
+            The unit to convert to.
+        
+        Returns
+        -------
+        str
+            The converted quantity.
+    """
     from pyunitwizard.kernel import default_form, default_parser
-    from pyunitwizard import convert as _convert, get_unit as _get_unit
+    from pyunitwizard import convert as _convert
 
     tmp_quantity_or_unit = _convert(quantity, to_form=default_form, parser=default_parser)
     tmp_quantity_or_unit = _convert(tmp_quantity_or_unit, to_unit=unit_name, parser=default_parser)
-    tmp_quantity_or_unit = _convert(tmp_quantity_or_unit, to_form='string')
+    return _convert(tmp_quantity_or_unit, to_form='string')
 
-    return tmp_quantity_or_unit
+def to_openmm_unit(quantity: str):
 
-def to_openmm_unit(quantity):
-
+    # This function will raise an error.
     from .api_openmm_unit import string_to_quantity as _string_to_quantity
 
     tmp_quantity_or_unit = _string_to_quantity(quantity)
 
     return tmp_quantity_or_unit
 
-def to_pint(quantity):
-
+def to_pint(quantity: str):
+    """ Transform a quantity from a string quantity to a pint quantity.
+        
+        Parameters
+        -----------
+        quantity : str
+            A quanitity.
+        
+        Returns
+        -------
+        pint.Quantity
+            The quantity.
+    """
     from .api_pint import string_to_quantity as _string_to_quantity
 
-    tmp_quantity_or_unit = _string_to_quantity(quantity)
-
-    return tmp_quantity_or_unit
-
+    return _string_to_quantity(quantity)

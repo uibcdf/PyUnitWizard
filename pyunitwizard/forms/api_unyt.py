@@ -1,7 +1,7 @@
 from pyunitwizard._private_tools.exceptions import *
 
 try:
-    import unyt as unyt
+    import unyt
 except:
     raise LibraryNotFoundError('unyt')
 

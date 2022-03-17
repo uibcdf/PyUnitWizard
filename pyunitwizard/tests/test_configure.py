@@ -1,4 +1,3 @@
-import pytest
 import pyunitwizard as puw
 
 def test_libraries_supported():

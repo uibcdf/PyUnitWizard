@@ -1,22 +1,22 @@
 from ._private_tools.exceptions import *
 from ._private_tools.forms import digest_form, digest_to_form
 from ._private_tools.parsers import digest_parser
+from ._private_tools.quantity_or_unit import ArrayLike, QuantityOrUnit, QuantityLike, UnitLike
 from .forms import dict_is_form, dict_is_unit, dict_is_quantity, dict_dimensionality, dict_compatibility
 from .forms import dict_get_unit, dict_get_value, dict_make_quantity
 from .forms import dict_convert, dict_translate, dict_to_string
-from .forms.quantity_or_unit import ArrayLike, QuantityOrUnit, QuantityLike, UnitLike
 from .import kernel
 from .parse import parse as _parse
 import numpy as np
 from typing import  Any, Dict, Optional, Union
 
 
-def get_form(quantity_or_unit: Any) -> str:
+def get_form(quantity_or_unit: QuantityOrUnit) -> str:
     """ Returns the form of a quantity as a string.
 
         Parameters
         ---------
-        quantity_or_unit : Any
+        quantity_or_unit : QuantityOrUnit
             A quanitity or a unit
         
         Returns
@@ -33,12 +33,12 @@ def get_form(quantity_or_unit: Any) -> str:
             raise UnknownFormError
 
 
-def is_quantity(quantity_or_unit: Any, parser: Optional[str]=None) -> bool:
+def is_quantity(quantity_or_unit: QuantityOrUnit, parser: Optional[str]=None) -> bool:
     """ Check whether an object is a quantity
 
         Parameters
         ---------
-        quantity_or_unit : Any
+        quantity_or_unit : QuantityOrUnit
             A quanitity or a unit
 
         parser :  {"unyt", "pint", "openmm.unit"}, optional
@@ -64,7 +64,7 @@ def is_quantity(quantity_or_unit: Any, parser: Optional[str]=None) -> bool:
 
     return output
 
-def is_unit(quantity_or_unit: Any, parser: Optional[str]=None) -> bool:
+def is_unit(quantity_or_unit: QuantityOrUnit, parser: Optional[str]=None) -> bool:
     """ Check whether an object is a unit
 
         Parameters
@@ -189,7 +189,7 @@ def _dimensionality_dict_to_array(dimensionality: Dict[str, int]) -> np.ndarray:
         Parameters
         ----------
         dimensionality : dict
-            Dictionary which keys are fundamental units and values are the power of
+            Dictionary which keys are fundamental units and values are the exponent of
             each unit in the quantity.
 
         Returns
@@ -270,8 +270,8 @@ def is_dimensionless(quantity_or_unit: QuantityOrUnit) -> bool:
     """
     dim = get_dimensionality(quantity_or_unit)
     # If we find a non zero value in the dimensionality dict we return false
-    for power in dim.values():
-        if power != 0:
+    for exponent in dim.values():
+        if exponent != 0:
             return False
     return True
     
@@ -390,8 +390,8 @@ def convert(quantity_or_unit: Any,
         to_form : {"unyt", "pint", "openmm.unit", "string"}, optional
             The form to convert to.
         
-        parser : {"unyt", "pint", "openmm.unit"}, optional
-            The parser to use if a string is passed
+        parser : {"pint", "openmm.unit"}, optional
+            The parser to use if a string is passed.
         
         to_type : {"quantity", "unit", "value"}, optional
             The type to convert to.
@@ -409,7 +409,7 @@ def convert(quantity_or_unit: Any,
     parser = digest_parser(parser)
 
     if to_type not in ['unit', 'value', 'quantity']:
-        raise ValueError("to_type")
+        raise BadCallError("to_type")
 
     if isinstance(to_unit, str):
         to_unit = _parse(to_unit, parser=parser, to_form=to_form)
@@ -490,8 +490,9 @@ def convert(quantity_or_unit: Any,
 
 def get_standard_units(quantity_or_unit):
 
+    # TODO: Bug in this function
     dim = get_dimensionality(quantity_or_unit)
-    solution = np.array([dim[ii] for ii in kernel.order_fundamental_units], dtype=float)
+    solution = np.array([dim[unit] for unit in kernel.order_fundamental_units], dtype=float)
     n_dims_solution = len(kernel.order_fundamental_units) - np.sum(np.isclose(solution, 0.0))
 
     output = None

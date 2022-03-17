@@ -1,32 +1,47 @@
+from pyunitwizard import kernel
+
 forms = ['openmm.unit', 'pint', 'unyt', 'string']
 
-def digest_form(form):
+def digest_form(form: str) -> str:
+    """ Check if the form is correct. 
 
-    from pyunitwizard import kernel
-
-    output = None
-
+        Parameters
+        ----------
+        form: str
+            The form of the unit
+        
+        Returns
+        -------
+        str
+            The form of the unit.
+    """
     if form is None:
-        output=kernel.default_form
-    elif form is 'string':
-        output = form
+        return kernel.default_form
     elif form.lower() in forms:
-        output = form.lower()
+        return form.lower()
     else:
         raise ValueError
 
-    return output
+def digest_to_form(to_form: str, from_form: str=None) -> str:
+    """ Check if the form is correct. 
 
-def digest_to_form(to_form, from_form=None):
+        Parameters
+        ----------
+        to_form: str
+            The form the unit will be converted.
 
-    output = None
-
+        from_form : str, optional
+            The original form of the unit.
+        
+        Returns
+        -------
+        str
+            The form of the unit.
+    """
     if to_form is not None:
-        output = digest_form(to_form)
+        return digest_form(to_form)
     else:
         if from_form == 'string':
             from_form = None
-        output = digest_form(from_form)
-
-    return output
+        return digest_form(from_form)
 
