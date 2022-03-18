@@ -63,17 +63,19 @@ def test_convert_from_pint_to_openmm_unit():
     quantity = puw.convert(quantity, to_form='openmm.unit')
     assert quantity == 2.5 * openmm_unit.nanometer/openmm_unit.picosecond
 
-    quantity = ureg.Quantity([2, 3, 7], 'meter')
-    quantity = puw.convert(quantity, to_form='openmm.unit')
-    assert quantity == np.array[2, 3, 7] * openmm_unit.meter
-
-def test_to_openmm_unit_2():
+def test_convert_from_pint_to_openmm_array():
     puw.configure.reset()
     puw.configure.load_library(['pint','openmm.unit'])
     ureg = puw.forms.api_pint.ureg
     openmm_unit = puw.forms.api_openmm_unit.openmm_unit
-    q = ureg.Quantity([[0,0], [0,0]], 'nanometers/picoseconds')
-    q = puw.convert(q, to_form='openmm.unit')
+
+    quantity = ureg.Quantity([2, 3, 7], 'meter')
+    quantity = puw.convert(quantity, to_form='openmm.unit')
+    quantity_true = np.array([2, 3, 7]) * openmm_unit.meter
+    assert np.all(quantity == quantity_true)
+
+    quantity = ureg.Quantity([[0,0], [0,0]], 'nanometers/picoseconds')
+    quantity = puw.convert(quantity, to_form='openmm.unit')
     q_true = [[0,0], [0,0]] * openmm_unit.nanometer/openmm_unit.picosecond
-    assert np.all(q == q_true)
+    assert np.all(quantity == q_true)
 

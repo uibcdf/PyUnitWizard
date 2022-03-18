@@ -78,6 +78,7 @@ def dimensionality(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.Qua
     else:
         raise TypeError
 
+
     for base, exponent in tmp_unit.iter_base_dimensions():
         if base.name == 'charge':
             dimensionality_dict['[A]'] += exponent

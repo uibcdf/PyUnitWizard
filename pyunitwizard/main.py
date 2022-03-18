@@ -8,6 +8,7 @@ from .forms import dict_convert, dict_translate, dict_to_string
 from .import kernel
 from .parse import parse as _parse
 import numpy as np
+import openmm.unit as openmm_unit
 from typing import  Any, Dict, Optional, Union
 
 
@@ -141,21 +142,40 @@ def get_unit(quantity: QuantityLike,
     """
     return convert(quantity, to_form=to_form, parser=parser, to_type='unit')
 
-def similarity(quantity_or_unit_1, quantity_or_unit_2, relative_tolerance=1e-08):
+def similarity(quantity_or_unit_1: QuantityOrUnit, 
+               quantity_or_unit_2: QuantityOrUnit, 
+               relative_tolerance: float=1e-08) -> bool:
+    """ Compares whether two quantities are similiar within a specified tolerance.
+    
+        Parameters
+        ----------
+        quantity_or_unit_1 : QuantityOrUnit
+            A quantity or a unit
+        
+        quantity_or_unit_2 : QuantityOrUnit
+            A quantity or a unit
 
-    output = compatibility(quantity_or_unit_1, quantity_or_unit_2)
+        relative_tolerance : float
+            The relative tolerance to compare the quantities.
 
-    if output == True:
+        Returns
+        -------
+        bool
+            Whether the quantities or units are similar.
+    """
+    is_compatible = compatibility(quantity_or_unit_1, quantity_or_unit_2)
+
+    if is_compatible:
 
         form_1 = get_form(quantity_or_unit_1)
         if form_1 == 'string':
             quantity_or_unit_1 = convert(quantity_or_unit_1)
             form_1 = get_form(quantity_or_unit_1)
         quantity_or_unit_2 = convert(quantity_or_unit_2, to_form=form_1)
-        ratio = quantity_or_unit_1/quantity_or_unit_2
-        output = (abs(ratio-1.0)<relative_tolerance)
+        ratio = quantity_or_unit_1 / quantity_or_unit_2
+        return (abs(ratio - 1.0) < relative_tolerance)
 
-    return output
+    return False
 
 def get_dimensionality(quantity_or_unit: QuantityOrUnit) -> Dict[str, int]:
     """ Returns the dimensionality of the quantity or unit.
@@ -227,7 +247,6 @@ def compatibility(quantity_or_unit_1: QuantityOrUnit,
             Whether the quantities or units are compatible.
     """
 
-    # TODO: Bug when passing openmm.units. Raises an unexpected error
     if is_dimensionless(quantity_or_unit_1) and is_dimensionless(quantity_or_unit_2):
 
         form1 = get_form(quantity_or_unit_1)
@@ -301,7 +320,7 @@ def _compatible_dimensionalities(dim1: Dict[str, int], dim2: Dict[str, int]) -> 
         return dim1 == dim2
 
 def quantity(value: Union[int, float, ArrayLike], 
-            unit: Optional[str]=None, 
+            unit: Optional[UnitLike]=None, 
             form: Optional[str]=None, 
             parser: Optional[str]=None) -> QuantityLike:
     """ Returns a quantity.
@@ -311,8 +330,9 @@ def quantity(value: Union[int, float, ArrayLike],
         value : int, float or arraylike
             The value of the quantity. Can be a scalar or an array like type.
         
-        unit : str
-            Name of the unit (i.e kcal/mol).
+        unit : UnitLike
+            Name of the unit (i.e kcal/mol) if it's a pint quantity or an openmm.unit.Unit
+            object if its an openmm.unit quantity.
         
         form : {"unyt", "pint", "openmm.unit", "string"}, optional
             The form of the unit. This is the type that will be returned
@@ -340,10 +360,14 @@ def quantity(value: Union[int, float, ArrayLike],
     else:
         if unit is None:
             raise BadCallError('unit')
-        elif type(unit) is not str:
+        elif not isinstance(unit, str):
             unit = convert(unit, to_form=form, parser=parser)
 
         form = digest_form(form)
+        if form == "pint" and not isinstance(unit, str):
+            raise TypeError
+        elif form=="openmm.unit" and not isinstance(unit, openmm_unit.Unit):
+            raise TypeError
 
         try:
             output = dict_make_quantity[form](value, unit)
@@ -488,9 +512,49 @@ def convert(quantity_or_unit: Any,
 
     return output
 
-def get_standard_units(quantity_or_unit):
+def _standard_units_lstsq(solution: np.ndarray, standards: dict) -> str:
+    """ Auxiliary function for get_standard_units.
+        Returns standard units by using least squares method.
+    """
+    matrix = []
+    standard_units = []
 
-    # TODO: Bug in this function
+    for aux_unit, aux_dim_array in standards.items():
+        standard_units.append(convert(aux_unit, to_type='unit'))
+        matrix.append(aux_dim_array)
+
+    matrix = np.array(matrix)
+    x, _, _, _ = np.linalg.lstsq(matrix.T, solution, rcond=None)
+
+    x = x.round(4)
+
+    if np.allclose(np.dot(matrix.T, x), solution):
+        output = 1
+        for u, exponent in zip(standard_units, x):
+            if not np.isclose(0.0, exponent):
+                output *= u**exponent
+
+    return convert(output, to_form='string', to_type='unit')
+
+def get_standard_units(quantity_or_unit: QuantityOrUnit) -> str:
+    """ Returns standard unit of the quantity or unit passed. 
+    
+        Parameters
+        ----------
+        quantity_or_unit: Any
+            A quantity or unit
+        
+        Returns
+        -------
+        str
+            The standard unit.
+        
+        Raises
+        ------
+        NoStandardError
+            If no standard units were defined.
+    """
+
     dim = get_dimensionality(quantity_or_unit)
     solution = np.array([dim[unit] for unit in kernel.order_fundamental_units], dtype=float)
     n_dims_solution = len(kernel.order_fundamental_units) - np.sum(np.isclose(solution, 0.0))
@@ -499,87 +563,76 @@ def get_standard_units(quantity_or_unit):
 
     if n_dims_solution == 0:
 
+        if len(kernel.adimensional_standards) == 0:
+                raise NoStandardError
+
         for standard_unit, _ in kernel.adimensional_standards.items():
             if compatibility(quantity_or_unit, standard_unit):
-                output = standard_unit
-                break
+                return standard_unit
 
     elif n_dims_solution == 1:
 
         for standard_unit, dim_array in kernel.dimensional_fundamental_standards.items():
             if np.allclose(solution, dim_array):
-                output = standard_unit
-                break
+                return standard_unit
 
         if output is None:
-
-            matrix = []
-            standard_units = []
-
-            for aux_unit, aux_dim_array in kernel.tentative_base_standards.items():
-                standard_units.append(convert(aux_unit, to_type='unit'))
-                matrix.append(aux_dim_array)
-
-            matrix = np.array(matrix)
-
-            x, _, _, _ = np.linalg.lstsq(matrix.T, solution, rcond=None)
-
-            x = x.round(4)
-
-            if np.allclose(np.dot(matrix.T, x), solution):
-                output = 1
-                for u, exponent in zip(standard_units, x):
-                    if not np.isclose(0.0, exponent):
-                        output *= u**exponent
-
-                output = convert(output, to_form='string', to_type='unit')
+            
+            if len(kernel.tentative_base_standards) == 0:
+                raise NoStandardError
+            
+            return _standard_units_lstsq(solution, kernel.tentative_base_standards)
 
     else:
 
         for standard_units, dim_array in kernel.dimensional_combinations_standards.items():
             if np.allclose(solution, dim_array):
-                output = standard_units
-                break
-
+                return standard_units
+               
         if output is None:
 
-            matrix = []
-            standard_units = []
+            if len(kernel.dimensional_fundamental_standards) == 0:
+                raise NoStandardError
 
-            for aux_unit, aux_dim_array in kernel.dimensional_fundamental_standards.items():
-                standard_units.append(convert(aux_unit, to_type='unit'))
-                matrix.append(aux_dim_array)
-
-            matrix = np.array(matrix)
-
-            x, _, _, _ = np.linalg.lstsq(matrix.T, solution, rcond=None)
-
-            x = x.round(4)
-
-            if np.allclose(np.dot(matrix.T, x), solution):
-                output = 1
-                for u, exponent in zip(standard_units, x):
-                    if not np.isclose(0.0, exponent):
-                        output *= u**exponent
-
-                output = convert(output, to_form='string', to_type='unit')
+            return _standard_units_lstsq(solution, kernel.dimensional_fundamental_standards)
 
     return output
 
-def standardize(quantity_or_unit, to_form=None):
+def standardize(quantity_or_unit: QuantityOrUnit, 
+                to_form: Optional[str]=None) -> QuantityOrUnit:
+    """ Concert a quantity or unit to standard units.
 
+        Parameters
+        ----------
+        quantity_or_unit : QuantityOrUnit
+            The quantity or a unit that will be converted.
+        
+        to_form : str
+            The form to transform to
+        
+        Returns
+        -------
+        QuantityOrUnit
+            The quantity ot unit converted to standard units.
+
+        Raises
+        ------
+        NoStandardError
+            If no standard units were defined.
+
+    """
     to_form = digest_form(to_form)
 
     try:
         output = convert(quantity_or_unit, to_form=to_form)
         standard = get_standard_units(output)
         if standard is None:
-            raise NoStandardError()
+            raise NoStandardError
         output = convert(output, standard)
     except:
         standard = get_standard_units(quantity_or_unit)
         if standard is None:
-            raise NoStandardError()
+            raise NoStandardError
         output = convert(quantity_or_unit, to_unit=standard, to_form=to_form)
 
     return output

@@ -1,6 +1,4 @@
-# This file contains test for get_unit, get_value, get_dimensionality and
-# get_standard_units.
-
+# This file contains test for get_unit, get_value, and get_dimensionality
 import pyunitwizard as puw
 import pytest
 
@@ -29,8 +27,8 @@ def openmm_quantity():
 def test_get_value_pint(pint_quantity):
     assert puw.get_value(pint_quantity) == 2.5
 
-def test_get_value_openmm():
-    pass
+def test_get_value_openmm(openmm_quantity):
+    assert puw.get_value(openmm_quantity) == 2.5
 
 def test_get_value_unyt():
     pass
@@ -41,8 +39,11 @@ def test_get_unit_pint(pint_unit_registry, pint_quantity):
     unit_true = pint_unit_registry.Unit('nanometers/picoseconds')
     assert puw.get_unit(pint_quantity) == unit_true
 
-def test_get_unit_openmm():
-    pass
+def test_get_unit_openmm(openmm_quantity):
+    openmm_unit = puw.forms.api_openmm_unit.openmm_unit
+    unit = puw.get_unit(openmm_quantity)
+    assert isinstance(unit, openmm_unit.Unit)
+    assert str(unit) == "nanometer/picosecond"
 
 def test_get_unit_unyt():
     pass
@@ -62,15 +63,4 @@ def test_get_dimensionality_openmm(openmm_quantity):
                                                     '[Cd]': 0}
 
 def test_get_dimensionality_unyt():
-    pass
-
-### Tests for get standard units ####
-
-def test_get_standard_units_pint():
-    pass
-
-def test_get_standard_units_openmm():
-    pass
-
-def test_get_standard_units_unyt():
     pass
