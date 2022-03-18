@@ -1,14 +1,14 @@
-from pyunitwizard._private_tools.exceptions import NotImplementedParsingError
+from pyunitwizard._private_tools.exceptions import LibraryWithoutParserError
 import pyunitwizard as puw
 import pytest
 import openmm.unit as openmm_unit
 
 def test_similarity_parsing_error():
     
-    with pytest.raises(NotImplementedParsingError):
+    with pytest.raises(LibraryWithoutParserError):
         puw.configure.reset()
         puw.configure.load_library(['openmm.unit'])
-        output = puw.similarity('1 meter', '1 meter')
+        puw.similarity('1 meter', '1 meter')
 
 def test_similarity_string_quantity():
     puw.configure.reset()

@@ -77,7 +77,7 @@ def parse(string: str, parser: Optional[str]=None, to_form: Optional[str]=None):
 
             raise NotImplementedParsingError(parser, to_form)
 
-    elif parser is 'openmm.unit':
+    elif parser == 'openmm.unit':
 
         raise LibraryWithoutParserError('openmm.unit')
 
