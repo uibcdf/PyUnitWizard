@@ -1,18 +1,19 @@
-from importlib.util import find_spec
 from pyunitwizard import forms
 from pyunitwizard import kernel
 from pyunitwizard._private_tools.forms import digest_form
 from pyunitwizard._private_tools.lists_and_tuples import is_list_or_tuple
 from pyunitwizard.main import convert, get_dimensionality
 import numpy as np
+from importlib.util import find_spec
+from typing import List, Dict
 
 libraries = ['pint', 'openmm.unit']
 parsers = ['pint', 'openmm.unit']
 _aux_dict_modules = {'pint':'pint', 'openmm.unit':'openmm'}
 found = { ii: find_spec(_aux_dict_modules[ii]) is not None for ii in libraries}
 
-def reset():
-
+def reset() -> None:
+    """Resets all kernel variables."""
     kernel.loaded_libraries = []
     kernel.loaded_parsers = []
     kernel.default_form=None
@@ -23,27 +24,56 @@ def reset():
     kernel.adimensional_standards = {}
     kernel.tentative_base_standards = {}
 
-def get_libraries_loaded():
+def get_libraries_loaded() -> List[str]:
+    """ Returns loaded libraries.
 
+        Returns
+        -------
+        list of str
+            A list with the loaded libraries. 
+    """
     return kernel.loaded_libraries
 
-def get_libraries_supported():
+def get_libraries_supported() -> List[str]:
+    """ Returns supported libraries.
 
+        Returns
+        -------
+        list of str
+            A list with the loaded libraries. 
+    """
     return libraries
 
-def get_parsers_loaded():
+def get_parsers_loaded() -> List[str]:
+    """ Returns loaded parsers.
 
+        Returns
+        -------
+        list of str
+            A list with the loaded parsers. 
+    """
     return kernel.loaded_parsers
 
-def get_parsers_supported():
+def get_parsers_supported() -> List[str]:
+    """ Returns supported parsers.
 
+        Returns
+        -------
+        list of str
+            A list with the supported parsers. 
+    """
     return parsers
 
-def get_libraries_found():
+def get_libraries_found() -> List[str]:
+    """ Returns libraries found in the user system.
 
-    output = [ii for ii in libraries if found[ii]]
+        Returns
+        -------
+        list of str
+            A list with the found libraries. 
+    """
+    return [lib for lib in libraries if found[lib]]
 
-    return output
 
 def load_library(library_names):
 
@@ -71,31 +101,53 @@ def load_library(library_names):
 
     pass
 
-def get_default_form():
+def get_default_form() -> str:
+    """ Returns the default form of the quantities and units.
 
+        Returns
+        -------
+        str
+            The default form.
+    """
     return kernel.default_form
 
-def set_default_form(form):
+def set_default_form(form: str) -> None:
+    """ Sets the default form of the quantities and units.
 
+        Parameters
+        ----------
+        form : str
+            The new default form.
+    """
     form = digest_form(form)
     kernel.default_form = form
-    pass
 
-def get_default_parser():
+def get_default_parser() -> str:
+    """ Returns the default parser.
 
+        Returns
+        -------
+        str
+            The default form.
+    """
     return kernel.default_parser
 
-def set_default_parser(parser):
+def set_default_parser(parser: str) -> None:
+    """ Sets the default form of the quantities and units.
 
+        Parameters
+        ----------
+        form : str
+            The new default form.
+    """
     form = digest_form(parser)
     kernel.default_parser = parser
-    pass
 
-def get_standard_units():
+def get_standard_units() -> dict:
 
     return kernel.standards
 
-def set_standard_units(standard_units):
+def set_standard_units(standard_units) -> None:
 
     kernel.standards={}
     kernel.dimensional_fundamental_standards={}
@@ -162,7 +214,5 @@ def set_standard_units(standard_units):
                 for jj in range(ii, n_dimensions):
                     if candidate_array[jj]>0:
                         already[jj]=1
-
-    pass
 
 

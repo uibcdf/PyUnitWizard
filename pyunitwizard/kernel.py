@@ -1,4 +1,4 @@
-def initialize():
+def initialize() -> None:
 
     global loaded_libraries
     global loaded_parsers

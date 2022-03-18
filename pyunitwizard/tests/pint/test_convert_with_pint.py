@@ -1,121 +1,81 @@
-import pytest
 import pyunitwizard as puw
 import numpy as np
 
 ## from string
 
-def test_from_string_1():
+def test_convert_from_string_to_pint():  
     puw.configure.reset()
     puw.configure.load_library(['pint'])
-    ureg = puw.forms.api_pint.ureg
-    q = puw.convert('1 meter')
-    q_true = ureg.Quantity(1, 'meter')
-    assert q == q_true
 
-def test_from_string_2():
+    ureg = puw.forms.api_pint.ureg
+
+    quantity = puw.convert('1 meter')
+    assert quantity == ureg.Quantity(1, 'meter')
+
+    quantity = puw.convert('1 meter', to_unit='cm')
+    assert quantity == ureg.Quantity(100.0, 'centimeter')
+
+    quantity = puw.convert('1 meter', to_type='unit')
+    assert quantity == ureg.Unit('meter')
+
+    quantity = puw.convert('1 meter', to_unit='cm', to_type='unit')
+    assert quantity == ureg.Unit('centimeter')
+   
+def test_convert_from_string_to_string():
     puw.configure.reset()
     puw.configure.load_library(['pint'])
-    ureg = puw.forms.api_pint.ureg
-    q = puw.convert('1 meter', to_unit='cm')
-    q_true = ureg.Quantity(100.0, 'centimeter')
-    assert q == q_true
+   
+    quantity = puw.convert('1 meter', to_unit='cm', to_form='string')
+    assert quantity == '100.0 centimeter'
 
-def test_from_string_3():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
-    ureg = puw.forms.api_pint.ureg
-    q = puw.convert('1 meter', to_type='unit')
-    q_true = ureg.Unit('meter')
-    assert q == q_true
+    quantity = puw.convert('1 meter', to_unit='cm', to_form='string', to_type='unit')
+    assert quantity == 'centimeter'
 
-def test_from_string_4():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
-    ureg = puw.forms.api_pint.ureg
-    q = puw.convert('1 meter', to_unit='cm', to_type='unit')
-    q_true = ureg.Unit('centimeter')
-    assert q == q_true
+    quantity = puw.convert('1 meter', to_type='value')
+    assert quantity == 1
 
-def test_from_string_5():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
-    ureg = puw.forms.api_pint.ureg
-    q = puw.convert('1 meter', to_unit='cm', to_form='string')
-    q_true = '100.0 centimeter'
-    assert q == q_true
+    quantity = puw.convert('1 meter', to_unit='cm', to_type='value')
+    assert quantity == 100.0
 
-def test_from_string_6():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
-    ureg = puw.forms.api_pint.ureg
-    q = puw.convert('1 meter', to_unit='cm', to_form='string', to_type='unit')
-    q_true = 'centimeter'
-    assert q == q_true
-
-def test_from_string_7():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
-    ureg = puw.forms.api_pint.ureg
-    q = puw.convert('1 meter', to_type='value')
-    q_true = 1
-    assert q == q_true
-
-def test_from_string_8():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
-    ureg = puw.forms.api_pint.ureg
-    q = puw.convert('1 meter', to_unit='cm', to_type='value')
-    q_true = 100.0
-    assert q == q_true
-
-def test_from_string_9():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
-    ureg = puw.forms.api_pint.ureg
-    q = puw.convert('100 angstroms**3', to_form='string', to_type='unit')
-    q_true = 'angstrom ** 3'
-    assert q == q_true
-
-def test_from_string_10():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
-    ureg = puw.forms.api_pint.ureg
-    q = puw.quantity('100 angstroms**3')
-    q = puw.convert(q, to_form='string', to_type='unit')
-    q_true = 'angstrom ** 3'
-    assert q == q_true
-
+    quantity = puw.convert('100 angstroms**3', to_form='string', to_type='unit')
+    assert quantity == 'angstrom ** 3'
+    
+   
 ## to_pint
 
-def test_to_pint_1():
+def test_convert_from_pint_to_pint():
     puw.configure.reset()
     puw.configure.load_library(['pint'])
     ureg = puw.forms.api_pint.ureg
-    q = ureg.Quantity(2.5, 'nanometers/picoseconds')
-    q = puw.convert(q, to_unit='angstroms/picoseconds')
-    q_true = ureg.Quantity(25.0, 'angstroms/picoseconds')
-    assert q == q_true
-
+    quantity = ureg.Quantity(2.5, 'nanometers/picoseconds')
+    quantity = puw.convert(quantity, to_unit='angstroms/picoseconds')
+    assert quantity == ureg.Quantity(25.0, 'angstroms/picoseconds')
 
 ## to_openmm_unit
 
-def test_to_openmm_unit_1():
+def test_convert_from_pint_to_openmm_unit():
     puw.configure.reset()
     puw.configure.load_library(['pint','openmm.unit'])
     ureg = puw.forms.api_pint.ureg
     openmm_unit = puw.forms.api_openmm_unit.openmm_unit
-    q = ureg.Quantity(2.5, 'nanometers/picoseconds')
-    q = puw.convert(q, to_form='openmm.unit')
-    q_true = 2.5 * openmm_unit.nanometer/openmm_unit.picosecond
-    assert q == q_true
+    
+    quantity = ureg.Quantity(2.5, 'nanometers/picoseconds')
+    quantity = puw.convert(quantity, to_form='openmm.unit')
+    assert quantity == 2.5 * openmm_unit.nanometer/openmm_unit.picosecond
 
-def test_to_openmm_unit_2():
+def test_convert_from_pint_to_openmm_array():
     puw.configure.reset()
     puw.configure.load_library(['pint','openmm.unit'])
     ureg = puw.forms.api_pint.ureg
     openmm_unit = puw.forms.api_openmm_unit.openmm_unit
-    q = ureg.Quantity([[0,0], [0,0]], 'nanometers/picoseconds')
-    q = puw.convert(q, to_form='openmm.unit')
+
+    quantity = ureg.Quantity([2, 3, 7], 'meter')
+    quantity = puw.convert(quantity, to_form='openmm.unit')
+    quantity_true = np.array([2, 3, 7]) * openmm_unit.meter
+    assert np.all(quantity == quantity_true)
+
+    quantity = ureg.Quantity([[0,0], [0,0]], 'nanometers/picoseconds')
+    quantity = puw.convert(quantity, to_form='openmm.unit')
     q_true = [[0,0], [0,0]] * openmm_unit.nanometer/openmm_unit.picosecond
-    assert np.all(q == q_true)
+    assert np.all(quantity == q_true)
 
