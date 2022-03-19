@@ -231,7 +231,8 @@ def _dimensionality_dict_to_array(dimensionality: Dict[str, int]) -> np.ndarray:
 
 def compatibility(quantity_or_unit_1: QuantityOrUnit, 
                   quantity_or_unit_2: QuantityOrUnit) -> bool:
-    """ Check whether two quantities or units are compatible. 
+    """ Check whether two quantities or units are compatible.
+        This means that they have the same dimensionalities.
         
         Parameters
         ----------

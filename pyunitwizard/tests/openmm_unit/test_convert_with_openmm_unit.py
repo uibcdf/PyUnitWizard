@@ -1,11 +1,20 @@
 import pyunitwizard as puw
 import openmm.unit as openmm_unit
+import unyt
 
 def test_convert_from_openmm_to_pint():
     puw.configure.reset()
     puw.configure.load_library(['openmm.unit', 'pint'])
+
     quantity = puw.convert(1*openmm_unit.meter, to_form='pint')
     assert puw.get_form(quantity) == 'pint'
+    assert puw.get_value(quantity) == 1
+    assert puw.get_unit(quantity) == "meter"
+
+    quantity = puw.convert([1, 2]*openmm_unit.meter, to_form='pint')
+    assert puw.get_form(quantity) == 'pint'
+    assert puw.get_value(quantity) == [1, 2]
+    assert puw.get_unit(quantity) == "meter"
 
 def test_convert_from_openmm_to_openmm():
     puw.configure.reset()
@@ -27,6 +36,20 @@ def test_convert_from_openmm_to_openmm():
     quantity = puw.convert(1*openmm_unit.meter, to_unit=openmm_unit.centimeter, to_type='value')
     assert quantity == 100.0
 
+def test_convert_from_openmm_to_unyt():
+    puw.configure.reset()
+    puw.configure.load_library(['openmm.unit', 'unyt'])
+
+    quantity = puw.convert(1*openmm_unit.meter, to_form='unyt')
+    assert puw.get_form(quantity) == 'unyt'
+    assert puw.get_value(quantity) == 1
+    assert puw.get_unit(quantity) == unyt.m
+
+    quantity = puw.convert([1, 2]*openmm_unit.meter, to_form='unyt')
+    assert puw.get_form(quantity) == 'unyt'
+    assert puw.get_value(quantity) == [1, 2]
+    assert puw.get_unit(quantity) == unyt.m
+
 def test_convert_from_openmm_to_string():
     puw.configure.reset()
     puw.configure.load_library(['openmm.unit'])
@@ -36,5 +59,3 @@ def test_convert_from_openmm_to_string():
 
     quantity = puw.convert(1*openmm_unit.meter, to_unit=openmm_unit.centimeter, to_form='string', to_type='unit')
     assert quantity == 'centimeter'
-
-

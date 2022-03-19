@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/uibcdf/PyUnitWizard/branch/master/graph/badge.svg)](https://codecov.io/gh/uibcdf/PyUnitWizard/branch/master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-There are several Python libraries to work with physical quantities in the market, such as pint, unyt or openmm.unit. Imagine that your project or workflow requires the interaction with more than one of these tools, or that you are not sure if you will work with a different quantities library in the future. Wouldn't be having a unique API to work with different forms of physical quantities be a relief? PyUnitWizard just do that. It is the wizard you need in your code to change the form of your quantities with few effort.
+There are several Python libraries to work with physical quantities in the market, such as pint, unyt or openmm.unit. Imagine that your project or workflow requires the interaction with more than one of these tools, or that you are not sure if you will work with a different quantities library in the future. Wouldn't having a unique API to work with different forms of physical quantities be a relief? PyUnitWizard just does that. It is the wizard you need in your code to change the form of your quantities with no effort.
 
 ## Example
 
