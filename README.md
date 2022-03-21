@@ -73,5 +73,6 @@ repository](https://github.com/uibcdf/OpenExplorer/graphs/contributors).
 
 The main project authors and major contributors are:
 
+- Daniel Ibarrola Sánchez
 - Liliana M. Moreno Vargas
 - Diego Prada Gracia
