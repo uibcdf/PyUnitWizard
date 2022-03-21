@@ -32,7 +32,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
           platform_linux-64: true
           platform_osx-64: true
-          platform_win-64: true
           user: uibcdf
           label: auto
           token: ${{ secrets.ANACONDA_UIBCDF_TOKEN }}
