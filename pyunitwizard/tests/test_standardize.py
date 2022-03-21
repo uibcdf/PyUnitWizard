@@ -4,8 +4,7 @@ from pyunitwizard._private_tools.exceptions import NoStandardError
 import openmm.unit as openmm_unit
 import pytest
 import numpy as np
-
-from pyunitwizard.main import get_unit
+import unyt
 
 ### Tests for get standard units ####
 
@@ -41,7 +40,14 @@ def test_get_standard_units_openmm_quantity():
     assert standard_unit == "meter/second"
 
 def test_get_standard_units_unyt_quantity():
-    pass
+    puw.configure.reset()
+    puw.configure.load_library(['unyt'])
+    puw.configure.set_standard_units([unyt.m, unyt.s, unyt.J])
+
+    quantity = puw.quantity(value=5.0, unit=unyt.cm/unyt.ps, form='unyt')
+    standard_unit = puw.get_standard_units(quantity)
+    assert standard_unit == "m/s"
+
 
 ### Tests for standardize ###
 
@@ -76,4 +82,16 @@ def test_standardize_openmm_quantity():
     assert puw.get_unit(quantity) == "picosecond"
 
 def test_standardize_unyt_quantity():
-    pass
+    puw.configure.reset()
+    puw.configure.load_library(['pint', 'unyt'])
+    puw.configure.set_standard_units(['nm', 'ps', 'kcal', 'mole'])
+
+    quantity = puw.quantity(1.0, unyt.m, form="unyt")
+    quantity = puw.standardize(quantity)
+    assert np.allclose(puw.get_value(quantity), 1e9)
+    assert str(puw.get_unit(quantity)) == "nanometer"
+
+    quantity = puw.quantity([1e-12, 2e-12], unyt.s, form="unyt")
+    quantity = puw.standardize(quantity)
+    assert np.allclose(puw.get_value(quantity), [1.0, 2.0])
+    assert str(puw.get_unit(quantity)) == "picosecond"

@@ -1,6 +1,7 @@
 # This file contains test for get_unit, get_value, and get_dimensionality
 import pyunitwizard as puw
 import pytest
+import unyt
 
 puw.configure.reset()
 puw.configure.load_library(['pint', 'openmm.unit'])
@@ -21,6 +22,10 @@ def openmm_quantity():
     openmm_unit = puw.forms.api_openmm_unit.openmm_unit
     return 2.5 * openmm_unit.nanometer/openmm_unit.picoseconds
 
+@pytest.fixture
+def unyt_quantity():
+    """Returns a unyt quantity"""
+    return 2.5 * unyt.nm/unyt.ps
 
 #### Tests for get value ####
 
@@ -30,8 +35,8 @@ def test_get_value_pint(pint_quantity):
 def test_get_value_openmm(openmm_quantity):
     assert puw.get_value(openmm_quantity) == 2.5
 
-def test_get_value_unyt():
-    pass
+def test_get_value_unyt(unyt_quantity):
+    assert puw.get_value(unyt_quantity) == 2.5
 
 #### Tests for get unit ####
 
@@ -45,8 +50,10 @@ def test_get_unit_openmm(openmm_quantity):
     assert isinstance(unit, openmm_unit.Unit)
     assert str(unit) == "nanometer/picosecond"
 
-def test_get_unit_unyt():
-    pass
+def test_get_unit_unyt(unyt_quantity):
+    unit = puw.get_unit(unyt_quantity)
+    assert isinstance(unit, unyt.Unit)
+    assert str(unit) == "nm/ps"
 
 #### Tests for get dimensionality ####
 
@@ -62,5 +69,8 @@ def test_get_dimensionality_openmm(openmm_quantity):
                                                     '[mol]': 0, '[A]': 0, 
                                                     '[Cd]': 0}
 
-def test_get_dimensionality_unyt():
-    pass
+def test_get_dimensionality_unyt(unyt_quantity):
+    assert puw.get_dimensionality(unyt_quantity) == {'[L]': 1, '[M]': 0, 
+                                                    '[T]': -1, '[K]': 0, 
+                                                    '[mol]': 0, '[A]': 0, 
+                                                    '[Cd]': 0}

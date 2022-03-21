@@ -22,7 +22,7 @@ def get_form(quantity_or_unit: QuantityOrUnit) -> str:
         
         Returns
         -------
-        {"string", "pint", "openmm.unit"}
+        {"string", "pint", "openmm.unit", "unyt"}
             The form of the quantity
     """
     try:
@@ -231,7 +231,8 @@ def _dimensionality_dict_to_array(dimensionality: Dict[str, int]) -> np.ndarray:
 
 def compatibility(quantity_or_unit_1: QuantityOrUnit, 
                   quantity_or_unit_2: QuantityOrUnit) -> bool:
-    """ Check whether two quantities or units are compatible. 
+    """ Check whether two quantities or units are compatible.
+        This means that they have the same dimensionalities.
         
         Parameters
         ----------
@@ -475,7 +476,7 @@ def convert(quantity_or_unit: Any,
 
     else:
 
-        if to_form=='string':
+        if to_form == 'string':
 
             output = quantity_or_unit
 
@@ -495,7 +496,7 @@ def convert(quantity_or_unit: Any,
 
         else:
 
-            if form_in==to_form:
+            if form_in == to_form:
                 output = quantity_or_unit
             else:
                 output = dict_translate[form_in][to_form](quantity_or_unit)
@@ -504,7 +505,7 @@ def convert(quantity_or_unit: Any,
                 output = dict_convert[to_form](output, to_unit)
             if to_type == 'unit':
                 if is_unit(output):
-                    output=output
+                    output = output
                 else:
                     output = dict_get_unit[to_form](output)
             elif to_type == 'value':
@@ -607,7 +608,7 @@ def standardize(quantity_or_unit: QuantityOrUnit,
         quantity_or_unit : QuantityOrUnit
             The quantity or a unit that will be converted.
         
-        to_form : str
+        to_form : str, optional.
             The form to transform to
         
         Returns

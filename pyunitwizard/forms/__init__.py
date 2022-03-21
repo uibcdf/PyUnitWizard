@@ -19,14 +19,14 @@ dict_compatibility={}
 _base_package = __name__.replace('.base','')
 _forms_apis_modules = {'openmm.unit':'api_openmm_unit', 'pint':'api_pint', 'unyt':'api_unyt'}
 
-def load_library(library: list) -> None:
-    """ Loads libraries. This means that it updates all dictionaries defined above
-        with their respective values for each library loaded.
+def load_library(library: str) -> None:
+    """ Loads a library. This means that it updates all dictionaries defined above
+        with their respective values for the library.
 
         Parameters
         ----------
-        library : list of str
-            List with the name of the libraries.
+        library : str
+            Name of the libraries.
     """
     from pyunitwizard.kernel import loaded_libraries, loaded_parsers
     api = _import_module('.'+_forms_apis_modules[library], _base_package)

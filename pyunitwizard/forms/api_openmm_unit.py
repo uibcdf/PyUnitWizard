@@ -26,7 +26,7 @@ def is_quantity(quantity_or_unit: Any) -> bool:
         Returns
         -------
         bool
-            True if its an openmm.unit.Quantity
+            True if it's an openmm.unit.Quantity
     """
     return isinstance(quantity_or_unit, openmm_unit.Quantity)
 
@@ -233,7 +233,13 @@ def to_unyt(quantity: openmm_unit.Quantity):
         
         Returns
         -------
-        
+        unyt_array or unyt_quantity
+            The quantity.
     """
-    raise NotImplementedMethodError()
+    from .api_unyt import make_quantity as make_unyt_quantity
+
+    value = get_value(quantity)
+    unit_name = get_unit(quantity).get_symbol()
+
+    return make_unyt_quantity(value, unit_name)
 

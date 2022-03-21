@@ -1,9 +1,10 @@
 import numpy as np
 import pytest
 import pyunitwizard as puw
+from pyunitwizard.main import is_dimensionless
 
 puw.configure.reset()
-puw.configure.load_library(['pint'])
+puw.configure.load_library(['pint', 'openmm.unit', 'unyt'])
 
 #### Tests for puw.check() function ####
 
@@ -52,7 +53,6 @@ def test_check_multiple():
     quantity = puw.quantity([0,0,0], 'nm/ps')
     assert puw.check(quantity, dimensionality={'[L]':1, '[T]':-1}, value_type=np.ndarray, shape=(3,))
 
-
 @pytest.fixture
 def pint_quantity():
     """ Returns a pint quantity. """
@@ -66,6 +66,11 @@ def openmm_quantity():
     return  5 * openmm_unit.kilojoule/openmm_unit.mole
 
 @pytest.fixture
+def unyt_quantity():
+    unyt = puw.forms.api_unyt.unyt
+    return 5 * unyt.nm/unyt.ps
+
+@pytest.fixture
 def pint_unit():
     """ Returns a pint unit"""
     ureg = puw.forms.api_pint.ureg
@@ -77,19 +82,31 @@ def openmm_unit():
     openmm_unit = puw.forms.api_openmm_unit.openmm_unit
     return openmm_unit.meter
 
+@pytest.fixture
+def unyt_unit():
+    """Returns a unyt unit"""
+    unyt = puw.forms.api_unyt.unyt
+    return unyt.m
+
 #### Tests for puw.is_unit ####
 def test_is_unit_str():
     pass
 
-def test_is_unit_quantity(pint_quantity, openmm_quantity):
+def test_is_unit_quantity(pint_quantity, 
+        openmm_quantity,unyt_quantity):
+    
     assert not puw.is_unit(pint_quantity)
     assert not puw.is_unit(openmm_quantity)
+    assert not puw.is_unit(unyt_quantity)
 
 def test_is_unit_pint_unit(pint_unit):
     assert puw.is_unit(pint_unit)
 
 def test_is_unit_openmm_unit(openmm_unit):
     assert puw.is_unit(openmm_unit)
+
+def test_is_unit_unyt(unyt_unit):
+    assert puw.is_unit(unyt_unit)
 
 #### Tests for puw.is_quantity ####
 
@@ -102,11 +119,19 @@ def test_is_quantity_pint_quantity(pint_quantity):
 def test_is_quantity_openmm_quantity(openmm_quantity):
     assert puw.is_quantity(openmm_quantity)
 
-def test_is_quantity_unit(pint_unit, openmm_unit):
+def test_is_quantity_unyt_quantity(unyt_quantity):
+    assert puw.is_quantity(unyt_quantity)
+
+def test_is_quantity_unit(pint_unit, openmm_unit, unyt_unit):
     assert not puw.is_quantity(pint_unit)
     assert not puw.is_quantity(openmm_unit)
+    assert not puw.is_quantity(unyt_unit)
 
 #### Tests for is dimensionless ####
 
-def test_is_dimensionless():
-    pass
+def test_is_dimensionless(pint_quantity):
+    
+    quantity = puw.quantity(2, "radian")
+    assert is_dimensionless(quantity)
+
+    assert not is_dimensionless(pint_quantity)

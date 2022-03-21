@@ -1,4 +1,5 @@
 import pyunitwizard as puw
+import unyt
 
 def test_quantity_openmm_unit():
     puw.configure.reset()
@@ -14,4 +15,12 @@ def test_quantity_pint():
     puw.configure.load_library(['pint'])
 
     ureg = puw.forms.api_pint.ureg
-    assert puw.quantity(2.5, 'nanometers/picoseconds') == ureg.Quantity(2.5, 'nanometers/picoseconds')
+    assert puw.quantity(2.5, 
+        'nanometers/picoseconds') == ureg.Quantity(2.5, 'nanometers/picoseconds')
+
+def test_quantity_unyt():
+    puw.configure.reset()
+    puw.configure.load_library(['unyt'])
+
+    assert puw.quantity(1.0, 
+        unyt.J/unyt.s, form="unyt") == 1.0 * unyt.J/unyt.s

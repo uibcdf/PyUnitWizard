@@ -7,10 +7,13 @@ import numpy as np
 from importlib.util import find_spec
 from typing import List, Dict
 
-libraries = ['pint', 'openmm.unit']
-parsers = ['pint', 'openmm.unit']
-_aux_dict_modules = {'pint':'pint', 'openmm.unit':'openmm'}
-found = { ii: find_spec(_aux_dict_modules[ii]) is not None for ii in libraries}
+libraries = ['pint', 'openmm.unit', 'unyt']
+parsers   = ['pint', 'openmm.unit', 'unyt']
+_aux_dict_modules = {
+    'pint':'pint', 
+    'openmm.unit':'openmm',
+    'unyt': 'unyt'}
+found = {ii: find_spec(_aux_dict_modules[ii]) is not None for ii in libraries}
 
 def reset() -> None:
     """Resets all kernel variables."""
@@ -75,13 +78,19 @@ def get_libraries_found() -> List[str]:
     return [lib for lib in libraries if found[lib]]
 
 
-def load_library(library_names):
+def load_library(library_names: List[str]):
+    """ Loads libraries.
 
+        Parameters
+        ----------
+        library : list of str
+            List with the name of the libraries.
+    """
     if not is_list_or_tuple(library_names):
-        library_names=[library_names]
-
-    if type(library_names) is str:
-        library_names = list(library_names)
+        if isinstance(library_names, str):
+            library_names = [library_names]
+        else:
+            raise TypeError("Expected string or list of strings for library_names")
 
     for ii in range(len(library_names)):
         library_names[ii]=digest_form(library_names[ii])
@@ -99,7 +108,6 @@ def load_library(library_names):
                 kernel.default_parser = library_name
                 break
 
-    pass
 
 def get_default_form() -> str:
     """ Returns the default form of the quantities and units.
@@ -143,11 +151,26 @@ def set_default_parser(parser: str) -> None:
     form = digest_form(parser)
     kernel.default_parser = parser
 
-def get_standard_units() -> dict:
+def get_standard_units() -> Dict[str, Dict[str, int]]:
+    """ Returns a nested dictionary where each subdictionary corresponds
+        to the dimensionality of the standard units set in the
+        configuration.
 
+        Returns
+        -------
+        dict
+            Dictionary with standard units. 
+    """
     return kernel.standards
 
-def set_standard_units(standard_units) -> None:
+def set_standard_units(standard_units: List[str]) -> None:
+    """ Sets the standard units.
+
+        Parameters
+        ----------
+        standard_units : list of str
+            List with the standard units
+    """
 
     kernel.standards={}
     kernel.dimensional_fundamental_standards={}

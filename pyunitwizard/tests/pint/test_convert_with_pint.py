@@ -1,7 +1,9 @@
 import pyunitwizard as puw
 import numpy as np
+import openmm.unit as openmm_unit
+import unyt
 
-## from string
+## Test converting from string to pint ##
 
 def test_convert_from_string_to_pint():  
     puw.configure.reset()
@@ -41,7 +43,7 @@ def test_convert_from_string_to_string():
     assert quantity == 'angstrom ** 3'
     
    
-## to_pint
+## Test converting from pint to pint ##
 
 def test_convert_from_pint_to_pint():
     puw.configure.reset()
@@ -51,13 +53,12 @@ def test_convert_from_pint_to_pint():
     quantity = puw.convert(quantity, to_unit='angstroms/picoseconds')
     assert quantity == ureg.Quantity(25.0, 'angstroms/picoseconds')
 
-## to_openmm_unit
+## Test converting from pint to opemmm.unit ##
 
 def test_convert_from_pint_to_openmm_unit():
     puw.configure.reset()
     puw.configure.load_library(['pint','openmm.unit'])
     ureg = puw.forms.api_pint.ureg
-    openmm_unit = puw.forms.api_openmm_unit.openmm_unit
     
     quantity = ureg.Quantity(2.5, 'nanometers/picoseconds')
     quantity = puw.convert(quantity, to_form='openmm.unit')
@@ -67,7 +68,6 @@ def test_convert_from_pint_to_openmm_array():
     puw.configure.reset()
     puw.configure.load_library(['pint','openmm.unit'])
     ureg = puw.forms.api_pint.ureg
-    openmm_unit = puw.forms.api_openmm_unit.openmm_unit
 
     quantity = ureg.Quantity([2, 3, 7], 'meter')
     quantity = puw.convert(quantity, to_form='openmm.unit')
@@ -79,3 +79,27 @@ def test_convert_from_pint_to_openmm_array():
     q_true = [[0,0], [0,0]] * openmm_unit.nanometer/openmm_unit.picosecond
     assert np.all(quantity == q_true)
 
+## Test converting from pint to unyt ##
+def test_convert_from_pint_to_unyt():
+    puw.configure.reset()
+    puw.configure.load_library(['pint','unyt'])
+    ureg = puw.forms.api_pint.ureg
+    
+    quantity = ureg.Quantity(2.5, 'nanometers/picoseconds')
+    quantity = puw.convert(quantity, to_form='unyt')
+    assert quantity == 2.5 * unyt.nm/unyt.ps
+
+def test_convert_from_pint_to_unyt_array():
+    puw.configure.reset()
+    puw.configure.load_library(['pint','unyt'])
+    ureg = puw.forms.api_pint.ureg
+
+    quantity = ureg.Quantity([2, 3, 7], 'meter')
+    quantity = puw.convert(quantity, to_form='unyt')
+    quantity_true = np.array([2, 3, 7]) * unyt.m
+    assert np.all(quantity == quantity_true)
+
+    quantity = ureg.Quantity([[0,0], [0,0]], 'nanometers/picoseconds')
+    quantity = puw.convert(quantity, to_form='unyt')
+    q_true = [[0,0], [0,0]] * unyt.nm/unyt.ps
+    assert np.all(quantity == q_true)

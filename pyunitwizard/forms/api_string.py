@@ -209,3 +209,6 @@ def to_pint(quantity: str):
     from .api_pint import string_to_quantity as _string_to_quantity
 
     return _string_to_quantity(quantity)
+
+def to_unyt(quantity: str):
+    raise NotImplementedError
