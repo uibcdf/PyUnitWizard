@@ -58,29 +58,27 @@ def parse(string: str, parser: Optional[str]=None, to_form: Optional[str]=None):
     to_form = digest_to_form(to_form)
 
     if parser == 'pint':
-
         if to_form == 'pint':
-
             return _parse_with_pint(string)
 
         elif to_form == 'openmm.unit':
-
             pint_quantity = _parse_with_pint(string)
             return dict_translate['pint']['openmm.unit'](pint_quantity)
 
         elif to_form == 'string':
-
             pint_quantity = _parse_with_pint(string)
             return dict_to_string['pint'](pint_quantity)
+        
+        elif to_form == 'unyt':
+            pint_quantity = _parse_with_pint(string)
+            return dict_translate['pint']['unyt'](pint_quantity)
 
         else:
-
             raise NotImplementedParsingError(parser, to_form)
 
     elif parser == 'openmm.unit':
-
         raise LibraryWithoutParserError('openmm.unit')
-
+    elif parser == 'unyt':
+        raise LibraryWithoutParserError("unyt")
     else:
-
         raise NotImplementedParsingError(parser, to_form)

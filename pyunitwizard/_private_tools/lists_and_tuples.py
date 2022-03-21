@@ -1,6 +1,6 @@
 def is_list_or_tuple(obj) -> bool:
     """ Checks whether an object is a list or a tuple"""
-    if type(obj) in [list, tuple]:
+    if isinstance(obj, (list, tuple)):
         return True
     else:
         return False

@@ -1,4 +1,5 @@
 import pyunitwizard as puw
+import unyt
 
 def test_unit_with_openmm_unit():
     puw.configure.reset()
@@ -20,6 +21,5 @@ def test_unit_with_unyt():
     puw.configure.reset()
     puw.configure.load_library(['unyt'])
 
-    unyt = puw.forms.api_unyt.unyt
     unit = puw.unit(unyt.cal)
     assert unit == unyt.cal

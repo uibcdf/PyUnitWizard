@@ -1,6 +1,7 @@
 import pyunitwizard as puw
 import openmm.unit as openmm_unit
 import unyt
+import numpy as np
 
 def test_convert_from_openmm_to_pint():
     puw.configure.reset()
@@ -13,7 +14,7 @@ def test_convert_from_openmm_to_pint():
 
     quantity = puw.convert([1, 2]*openmm_unit.meter, to_form='pint')
     assert puw.get_form(quantity) == 'pint'
-    assert puw.get_value(quantity) == [1, 2]
+    assert np.all(puw.get_value(quantity) == np.array([1, 2]))
     assert puw.get_unit(quantity) == "meter"
 
 def test_convert_from_openmm_to_openmm():
@@ -47,7 +48,7 @@ def test_convert_from_openmm_to_unyt():
 
     quantity = puw.convert([1, 2]*openmm_unit.meter, to_form='unyt')
     assert puw.get_form(quantity) == 'unyt'
-    assert puw.get_value(quantity) == [1, 2]
+    assert np.all(puw.get_value(quantity) == np.array([1, 2]))
     assert puw.get_unit(quantity) == unyt.m
 
 def test_convert_from_openmm_to_string():

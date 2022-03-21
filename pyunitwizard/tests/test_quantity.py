@@ -1,4 +1,5 @@
 import pyunitwizard as puw
+import unyt
 
 def test_quantity_openmm_unit():
     puw.configure.reset()
@@ -21,6 +22,5 @@ def test_quantity_unyt():
     puw.configure.reset()
     puw.configure.load_library(['unyt'])
 
-    unyt = puw.forms.api_unyt.unyt
     assert puw.quantity(1.0, 
         unyt.J/unyt.s, form="unyt") == 1.0 * unyt.J/unyt.s

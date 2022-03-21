@@ -1,6 +1,7 @@
 import pyunitwizard as puw
 import unyt
 import openmm.unit as openmm_unit
+import numpy as np
 
 def test_convert_from_unyt_to_unyt():
     puw.configure.reset()
@@ -35,7 +36,7 @@ def test_convert_from_unyt_to_pint():
 
     quantity = puw.convert([1.0, 2.0]*unyt.m, to_form='pint')
     assert puw.get_form(quantity) == 'pint'
-    assert puw.get_value(quantity) == [1.0, 2.0]
+    assert np.all(puw.get_value(quantity) == [1.0, 2.0])
     assert puw.get_unit(quantity) == "meter"
 
 def test_convert_from_unyt_to_openmm():
@@ -49,7 +50,7 @@ def test_convert_from_unyt_to_openmm():
 
     quantity = puw.convert([1.0, 2.0]*unyt.m, to_form='openmm.unit')
     assert puw.get_form(quantity) == 'openmm.unit'
-    assert puw.get_value(quantity) == [1.0, 2.0]
+    assert np.all(puw.get_value(quantity) == [1.0, 2.0])
     assert puw.get_unit(quantity) == openmm_unit.meter
 
 def test_convert_from_unyt_to_string():
@@ -59,5 +60,5 @@ def test_convert_from_unyt_to_string():
     quantity = puw.convert(1*unyt.m, to_unit=unyt.cm, to_form='string')
     assert quantity == '100.0 cm'
 
-    quantity = puw.convert(1*unyt.m, to_unit=unyt.cm, to_form='string', to_type='unit')
-    assert quantity == 'centimeter'
+    unit = puw.convert(1*unyt.m, to_unit=unyt.cm, to_form='string', to_type='unit')
+    assert unit == 'cm'

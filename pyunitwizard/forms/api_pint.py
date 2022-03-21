@@ -236,7 +236,7 @@ def to_openmm_unit(quantity: pint.Quantity):
     pint_parser = PintParserHelper.from_string(quantity.units.__str__())
     tmp_quantity = 1
     for unit_name, exponent in pint_parser.items():
-        if unit_name in ['unified_atomic_mass_unit']:
+        if unit_name == 'unified_atomic_mass_unit':
             unit_name = 'amu'
         tmp_quantity *= getattr(openmm_unit, unit_name)**exponent
 
@@ -254,7 +254,10 @@ def to_unyt(quantity: pint.Quantity):
         
         Returns
         -------
-        
+        unyt_array or unyt_quantity
+            The unyt quantity
     """
-    raise NotImplementedMethodError()
+    from unyt import unyt_array
+
+    return unyt_array.from_pint(quantity)
 

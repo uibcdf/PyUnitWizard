@@ -1,10 +1,10 @@
 import pyunitwizard as puw
 
 def test_libraries_supported():
-    assert puw.configure.get_libraries_supported()==['pint', 'openmm.unit']
+    assert puw.configure.get_libraries_supported()==['pint', 'openmm.unit', 'unyt']
 
 def test_libraries_found():
-    assert puw.configure.get_libraries_found()==['pint', 'openmm.unit']
+    assert puw.configure.get_libraries_found()==['pint', 'openmm.unit', 'unyt']
 
 def test_load_library():
     puw.configure.reset()

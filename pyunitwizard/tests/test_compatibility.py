@@ -10,8 +10,8 @@ def test_compatibility_pint():
     q2 = puw.convert(q1, to_unit='angstroms/picoseconds', to_form="pint")
     assert puw.compatibility(q1, q2)
 
-    q1 = puw.quantity(2.5, 'joules/picoseconds', form="pint")
-    q2 = puw.convert(q1, to_unit='angstroms/picoseconds', to_form="pint")
+    q1 = puw.quantity(2.5, 'joules/picoseconds',    form="pint")
+    q2 = puw.quantity(2.8, 'angstroms/picoseconds', form="pint")
     assert not puw.compatibility(q1, q2)
 
 def test_compatibility_openmm():

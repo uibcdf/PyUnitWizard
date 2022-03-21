@@ -89,9 +89,9 @@ def test_standardize_unyt_quantity():
     quantity = puw.quantity(1.0, unyt.m, form="unyt")
     quantity = puw.standardize(quantity)
     assert np.allclose(puw.get_value(quantity), 1e9)
-    assert puw.get_unit(quantity) == "nm"
+    assert str(puw.get_unit(quantity)) == "nanometer"
 
     quantity = puw.quantity([1e-12, 2e-12], unyt.s, form="unyt")
     quantity = puw.standardize(quantity)
     assert np.allclose(puw.get_value(quantity), [1.0, 2.0])
-    assert puw.get_unit(quantity) == "ps"
+    assert str(puw.get_unit(quantity)) == "picosecond"
