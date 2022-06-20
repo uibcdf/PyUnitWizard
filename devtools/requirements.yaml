@@ -12,6 +12,7 @@ production:
     - *setup_channels
   dependencies: &production_dependencies
     - python
+    - pint
 
 test:
   channels: &test_channels
@@ -22,7 +23,6 @@ test:
     - pip
     - pytest-cov
     - codecov
-    - pint
     - openmm
     - unyt
 
@@ -37,7 +37,6 @@ docs:
     - myst-nb
     - openmm
     - unyt
-    - pint
 
 development:
   channels:

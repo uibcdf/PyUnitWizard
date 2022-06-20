@@ -3,3 +3,4 @@ channels:
 - default
 dependencies:
 - python
+- pint
