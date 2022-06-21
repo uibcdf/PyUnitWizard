@@ -71,7 +71,8 @@ Project based on the [Computational Molecular Science Python Cookiecutter](https
 A complete list of contributors can be found checking [the insights section of this
 repository](https://github.com/uibcdf/OpenExplorer/graphs/contributors).
 
-The main project authors and major contributors are:
+The main project authors and contributors are:
 
+- Daniel Ibarrola Sánchez
 - Liliana M. Moreno Vargas
 - Diego Prada Gracia

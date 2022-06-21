@@ -3,10 +3,10 @@ channels:
 - default
 dependencies:
 - python
+- pint
 - sphinx
 - sphinx_rtd_theme
 - sphinxcontrib-bibtex
 - myst-nb
 - openmm
 - unyt
-- pint
