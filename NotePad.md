@@ -21,7 +21,6 @@ Software: Practice and Experience
 ver: https://doi.org/10.1002/spe.2926
 
 
-
 Where are openmm.unit, unyt or Pint published?
 
 ## Ideas
