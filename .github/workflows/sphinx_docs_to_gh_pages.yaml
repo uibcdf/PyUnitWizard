@@ -1,9 +1,8 @@
 name: Sphinx docs to gh-pages
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: ['released']
 
   workflow_dispatch:
 
@@ -43,5 +42,5 @@ jobs:
            echo 'import pyunitwizard; print(pyunitwizard.__version__)' | python
 
       - name: Running the Sphinx to gh-pages Action
-        uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.1
+        uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0.0
 
