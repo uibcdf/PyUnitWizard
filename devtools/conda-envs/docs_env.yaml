@@ -4,9 +4,9 @@ channels:
 dependencies:
 - python
 - pint
+- openmm
 - sphinx
 - sphinx_rtd_theme
 - sphinxcontrib-bibtex
 - myst-nb
-- openmm
 - unyt

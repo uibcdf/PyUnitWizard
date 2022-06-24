@@ -4,11 +4,11 @@ channels:
 dependencies:
 - python
 - pint
+- openmm
 - pytest
 - pip
 - pytest-cov
 - codecov
-- openmm
 - unyt
 - sphinx
 - sphinx_rtd_theme

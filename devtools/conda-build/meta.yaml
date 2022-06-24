@@ -13,6 +13,7 @@ requirements:
   run:
   - python
   - pint
+  - openmm
 about:
   home: https://uibcdf.org
   license: MIT License
