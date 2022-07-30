@@ -1,5 +1,5 @@
 from typing import Dict, Union
-from pyunitwizard._private_tools.quantity_or_unit import ArrayLike
+from pyunitwizard._private.quantity_or_unit import ArrayLike
 
 form_name = 'string'
 paser = False

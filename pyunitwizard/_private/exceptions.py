@@ -18,7 +18,7 @@ class NotImplementedMethodError(NotImplementedError):
 
     Examples
     --------
-    >>> from pyunitwizard._private_tools.exceptions import NotImplementedMethodError
+    >>> from pyunitwizard._private.exceptions import NotImplementedMethodError
     >>> def method_name(a, b=True):
     ...    raise NotImplementedMethodError
     ...    pass
@@ -70,7 +70,7 @@ class NotImplementedClassError(NotImplementedError):
 
     Examples
     --------
-    >>> from pyunitwizard._private_tools.exceptions import NotImplementedClassError
+    >>> from pyunitwizard._private.exceptions import NotImplementedClassError
     >>> class ClassName():
     ...    def __init__(self):
     ...       raise NotImplementedClassError
@@ -125,7 +125,7 @@ class NotImplementedParsingError(NotImplementedError):
 
     Examples
     --------
-    >>> from pyunitwizard._private_tools.exceptions import NotImplementedParsingError
+    >>> from pyunitwizard._private.exceptions import NotImplementedParsingError
     >>> def method_name(string, parser='pint', to_form='new_form'):
     ...    if parser=='pint' and to_form='new_form':
     ...       raise NotImplementedParsingError('pint', 'new_form')
@@ -172,7 +172,7 @@ class BadCallError(ValueError):
 
     Examples
     --------
-    >>> from pyunitwizard._private_tools.exceptions import BadCallError
+    >>> from pyunitwizard._private.exceptions import BadCallError
     >>> def method_name(item, a=True):
     ...    if type(a) not in [int, float]:
     ...       raise BadCallError('a')
@@ -272,7 +272,7 @@ class UnknownFormError(ValueError):
 
     Examples
     --------
-    >>> from pyunitwizard._private_tools.exceptions import UnknownFormError
+    >>> from pyunitwizard._private.exceptions import UnknownFormError
     >>> from pyunitwizard import get_form
     >>> try:
     ...    _ = get_form(item)
@@ -328,7 +328,7 @@ class LibraryNotFoundError(NotImplementedError):
 
     Examples
     --------
-    >>> from pyunitwizard._private_tools.exceptions import LibraryNotFoundError
+    >>> from pyunitwizard._private.exceptions import LibraryNotFoundError
     >>> def method_name(item, argument='pint'):
     ...    if argument == 'pint':
     ...       try:
@@ -385,8 +385,8 @@ class LibraryWithoutParserError(NotImplementedError):
     Examples
     --------
     >>> import pyunitwizard as puw
-    >>> from pyunitwizard._private_tools.exceptions import LibraryWithoutParserError
-    >>> from pyunitwizard._private_tools.exceptions import LibraryWithoutParserError
+    >>> from pyunitwizard._private.exceptions import LibraryWithoutParserError
+    >>> from pyunitwizard._private.exceptions import LibraryWithoutParserError
     >>> def method_name(item, argument='pint'):
     ...    if argument == 'pint':
     ...       try:

@@ -1,14 +1,13 @@
-from ._private_tools.exceptions import *
-from ._private_tools.forms import digest_form, digest_to_form
-from ._private_tools.parsers import digest_parser
-from ._private_tools.quantity_or_unit import ArrayLike, QuantityOrUnit, QuantityLike, UnitLike
+from ._private.exceptions import *
+from ._private.forms import digest_form, digest_to_form
+from ._private.parsers import digest_parser
+from ._private.quantity_or_unit import ArrayLike, QuantityOrUnit, QuantityLike, UnitLike
 from .forms import dict_is_form, dict_is_unit, dict_is_quantity, dict_dimensionality, dict_compatibility
 from .forms import dict_get_unit, dict_get_value, dict_make_quantity
 from .forms import dict_convert, dict_translate, dict_to_string
 from .import kernel
 from .parse import parse as _parse
 import numpy as np
-import openmm.unit as openmm_unit
 from typing import  Any, Dict, Optional, Union
 
 
@@ -320,9 +319,9 @@ def _compatible_dimensionalities(dim1: Dict[str, int], dim2: Dict[str, int]) -> 
     else:
         return dim1 == dim2
 
-def quantity(value: Union[int, float, ArrayLike], 
-            unit: Optional[UnitLike]=None, 
-            form: Optional[str]=None, 
+def quantity(value: Union[int, float, ArrayLike],
+            unit: Optional[UnitLike]=None,
+            form: Optional[str]=None,
             parser: Optional[str]=None) -> QuantityLike:
     """ Returns a quantity.
 
@@ -365,10 +364,6 @@ def quantity(value: Union[int, float, ArrayLike],
             unit = convert(unit, to_form=form, parser=parser)
 
         form = digest_form(form)
-        if form == "pint" and not isinstance(unit, str):
-            raise TypeError
-        elif form=="openmm.unit" and not isinstance(unit, openmm_unit.Unit):
-            raise TypeError
 
         try:
             output = dict_make_quantity[form](value, unit)

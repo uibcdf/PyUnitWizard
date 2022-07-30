@@ -1,7 +1,7 @@
 from pyunitwizard import forms
 from pyunitwizard import kernel
-from pyunitwizard._private_tools.forms import digest_form
-from pyunitwizard._private_tools.lists_and_tuples import is_list_or_tuple
+from pyunitwizard._private.forms import digest_form
+from pyunitwizard._private.lists_and_tuples import is_list_or_tuple
 from pyunitwizard.main import convert, get_dimensionality
 import numpy as np
 from importlib.util import find_spec
