@@ -133,9 +133,6 @@ def make_quantity(value: Union[float, int, ArrayLike],
             The quantity.
     """
 
-    if not isinstance(unit, (str, pint.Unit)):
-        raise TypeError
-
     return Q_(value, unit)
 
 def get_value(quantity: pint.Quantity) -> Union[int, float, ArrayLike]:

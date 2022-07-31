@@ -134,9 +134,6 @@ def make_quantity(value: Union[int, float, ArrayLike],
             The quantity.
     """
 
-    if not isinstance(unit, openmm_unit.Unit):
-        raise TypeError
-
     return openmm_unit.Quantity(value, unit)
 
 def string_to_quantity(string):
