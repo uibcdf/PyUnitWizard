@@ -12,6 +12,7 @@ production:
     - *setup_channels
   dependencies: &production_dependencies
     - python
+    - pint
 
 test:
   channels: &test_channels
@@ -22,7 +23,6 @@ test:
     - pip
     - pytest-cov
     - codecov
-    - pint
     - openmm
     - unyt
 
@@ -35,7 +35,6 @@ docs:
     - sphinx_rtd_theme
     - sphinxcontrib-bibtex
     - myst-nb
-    - pint
     - openmm
     - unyt
 
