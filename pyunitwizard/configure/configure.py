@@ -1,19 +1,18 @@
 from pyunitwizard import forms
 from pyunitwizard import kernel
-from pyunitwizard._private_tools.forms import digest_form
-from pyunitwizard._private_tools.lists_and_tuples import is_list_or_tuple
+from pyunitwizard._private.forms import digest_form
+from pyunitwizard._private.lists_and_tuples import is_list_or_tuple
 from pyunitwizard.main import convert, get_dimensionality
 import numpy as np
 from importlib.util import find_spec
-from typing import List, Dict
+from typing import List, Dict, Union
 
 libraries = ['pint', 'openmm.unit', 'unyt']
 parsers   = ['pint', 'openmm.unit', 'unyt']
 _aux_dict_modules = {
-    'pint':'pint', 
+    'pint':'pint',
     'openmm.unit':'openmm',
     'unyt': 'unyt'}
-found = {ii: find_spec(_aux_dict_modules[ii]) is not None for ii in libraries}
 
 def reset() -> None:
     """Resets all kernel variables."""
@@ -33,7 +32,7 @@ def get_libraries_loaded() -> List[str]:
         Returns
         -------
         list of str
-            A list with the loaded libraries. 
+            A list with the loaded libraries.
     """
     return kernel.loaded_libraries
 
@@ -67,24 +66,14 @@ def get_parsers_supported() -> List[str]:
     """
     return parsers
 
-def get_libraries_found() -> List[str]:
-    """ Returns libraries found in the user system.
 
-        Returns
-        -------
-        list of str
-            A list with the found libraries. 
-    """
-    return [lib for lib in libraries if found[lib]]
-
-
-def load_library(library_names: List[str]):
-    """ Loads libraries.
+def load_library(library_names: Union[str, List[str]]):
+    """ Loads library or libraries.
 
         Parameters
         ----------
-        library : list of str
-            List with the name of the libraries.
+        library : str, list of str
+            Name of the library or list with the name of the libraries.
     """
     if not is_list_or_tuple(library_names):
         if isinstance(library_names, str):
@@ -96,7 +85,7 @@ def load_library(library_names: List[str]):
         library_names[ii]=digest_form(library_names[ii])
 
     for library in library_names:
-        if found[library] and (library not in kernel.loaded_libraries):
+        if library not in kernel.loaded_libraries:
             forms.load_library(library)
 
     if kernel.default_form is None:
@@ -237,5 +226,4 @@ def set_standard_units(standard_units: List[str]) -> None:
                 for jj in range(ii, n_dimensions):
                     if candidate_array[jj]>0:
                         already[jj]=1
-
 

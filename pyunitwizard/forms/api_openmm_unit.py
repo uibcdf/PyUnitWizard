@@ -1,5 +1,5 @@
-from pyunitwizard._private_tools.exceptions import *
-from pyunitwizard._private_tools.quantity_or_unit import ArrayLike
+from pyunitwizard._private.exceptions import *
+from pyunitwizard._private.quantity_or_unit import ArrayLike
 from typing import Any, Dict, Union
 
 try:
@@ -133,6 +133,7 @@ def make_quantity(value: Union[int, float, ArrayLike],
         openmm_unit.Quantity
             The quantity.
     """
+
     return openmm_unit.Quantity(value, unit)
 
 def string_to_quantity(string):

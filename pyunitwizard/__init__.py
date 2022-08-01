@@ -23,3 +23,21 @@ from . import kernel as _kernel
 
 _kernel.initialize()
 
+try:
+    import pint
+    configure.load_library('pint')
+except:
+    pass
+
+try:
+    import openmm.unit as openmm_unit
+    configure.load_library('openmm.unit')
+except:
+    pass
+
+try:
+    import unyt
+    configure.load_library('unyt')
+except:
+    pass
+

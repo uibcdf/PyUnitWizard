@@ -1,4 +1,4 @@
-from pyunitwizard._private_tools.exceptions import LibraryWithoutParserError
+from pyunitwizard._private.exceptions import LibraryWithoutParserError
 import pyunitwizard as puw
 import pytest
 import openmm.unit as openmm_unit

@@ -1,4 +1,4 @@
-from pyunitwizard._private_tools.exceptions import *
+from pyunitwizard._private.exceptions import *
 
 try:
     import pint
@@ -6,7 +6,7 @@ except:
     raise LibraryNotFoundError('pint')
 
 from typing import Any, Union, Dict
-from pyunitwizard._private_tools.quantity_or_unit import ArrayLike
+from pyunitwizard._private.quantity_or_unit import ArrayLike
 ## Create a unit UnitRegistry
 ## See: https://pint.readthedocs.io/en/stable/tutorial.html#using-pint-in-your-projects
 
@@ -116,7 +116,7 @@ def compatibility(quantity_or_unit_1: Union[pint.Quantity, pint.Unit],
     return tmp_unit_1.is_compatible_with(tmp_unit_2)
 
 def make_quantity(value: Union[float, int, ArrayLike], 
-                  unit_name: str) -> pint.Quantity:
+                  unit: str) -> pint.Quantity:
     """ Returns a pint quantity.
 
         Parmeters
@@ -132,7 +132,8 @@ def make_quantity(value: Union[float, int, ArrayLike],
         pint.Quantity
             The quantity.
     """
-    return Q_(value, unit_name)
+
+    return Q_(value, unit)
 
 def get_value(quantity: pint.Quantity) -> Union[int, float, ArrayLike]:
     """ Returns the value of the quantity.

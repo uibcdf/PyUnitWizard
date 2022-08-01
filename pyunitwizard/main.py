@@ -1,14 +1,13 @@
-from ._private_tools.exceptions import *
-from ._private_tools.forms import digest_form, digest_to_form
-from ._private_tools.parsers import digest_parser
-from ._private_tools.quantity_or_unit import ArrayLike, QuantityOrUnit, QuantityLike, UnitLike
+from ._private.exceptions import *
+from ._private.forms import digest_form, digest_to_form
+from ._private.parsers import digest_parser
+from ._private.quantity_or_unit import ArrayLike, QuantityOrUnit, QuantityLike, UnitLike
 from .forms import dict_is_form, dict_is_unit, dict_is_quantity, dict_dimensionality, dict_compatibility
 from .forms import dict_get_unit, dict_get_value, dict_make_quantity
 from .forms import dict_convert, dict_translate, dict_to_string
 from .import kernel
 from .parse import parse as _parse
 import numpy as np
-import openmm.unit as openmm_unit
 from typing import  Any, Dict, Optional, Union
 
 
@@ -229,7 +228,7 @@ def _dimensionality_dict_to_array(dimensionality: Dict[str, int]) -> np.ndarray:
 
     return np.array(dim_list, dtype=float)
 
-def compatibility(quantity_or_unit_1: QuantityOrUnit, 
+def compatibility(quantity_or_unit_1: QuantityOrUnit,
                   quantity_or_unit_2: QuantityOrUnit) -> bool:
     """ Check whether two quantities or units are compatible.
         This means that they have the same dimensionalities.
@@ -312,17 +311,18 @@ def _compatible_dimensionalities(dim1: Dict[str, int], dim2: Dict[str, int]) -> 
             Whether the dimensiomnalities are compatible.
 
     """
-    if len(dim1) != len(dim2):
-        dim1=_dimensionality_dict_to_array(dim1)
-        dim2=_dimensionality_dict_to_array(dim2)
 
-        return np.all(dim1 == dim2)
-    else:
-        return dim1 == dim2
+    for dim in ['[L]', '[M]', '[T]', '[K]', '[mol]', '[A]', '[Cd]']:
+        if dim not in dim1:
+            dim1[dim]=0
+        if dim not in dim2:
+            dim2[dim]=0
 
-def quantity(value: Union[int, float, ArrayLike], 
-            unit: Optional[UnitLike]=None, 
-            form: Optional[str]=None, 
+    return dim1 == dim2
+
+def quantity(value: Union[int, float, ArrayLike],
+            unit: Optional[UnitLike]=None,
+            form: Optional[str]=None,
             parser: Optional[str]=None) -> QuantityLike:
     """ Returns a quantity.
 
@@ -330,23 +330,24 @@ def quantity(value: Union[int, float, ArrayLike],
         ----------
         value : int, float or arraylike
             The value of the quantity. Can be a scalar or an array like type.
-        
+
         unit : UnitLike
-            Name of the unit (i.e kcal/mol) if it's a pint quantity or an openmm.unit.Unit
-            object if its an openmm.unit quantity.
-        
+            Unit in of the quantity in any of the accepted form.
+
         form : {"unyt", "pint", "openmm.unit", "string"}, optional
-            The form of the unit. This is the type that will be returned
-        
+            Output form of the quantity.
+
         parser : {"unyt", "pint", "openmm.unit"}, optional
             The parser to use.
-        
+
         Returns
         -------
         QuantityLike
             The quantity.
     """
     output = None
+
+    form = digest_form(form)
 
     if type(value) is str:
         if unit is None:
@@ -361,14 +362,8 @@ def quantity(value: Union[int, float, ArrayLike],
     else:
         if unit is None:
             raise BadCallError('unit')
-        elif not isinstance(unit, str):
-            unit = convert(unit, to_form=form, parser=parser)
 
-        form = digest_form(form)
-        if form == "pint" and not isinstance(unit, str):
-            raise TypeError
-        elif form=="openmm.unit" and not isinstance(unit, openmm_unit.Unit):
-            raise TypeError
+        unit = convert(unit, to_form=form, parser=parser)
 
         try:
             output = dict_make_quantity[form](value, unit)
@@ -535,7 +530,11 @@ def _standard_units_lstsq(solution: np.ndarray, standards: dict) -> str:
             if not np.isclose(0.0, exponent):
                 output *= u**exponent
 
-    return convert(output, to_form='string', to_type='unit')
+        return convert(output, to_form='string', to_type='unit')
+
+    else:
+
+        return None
 
 def get_standard_units(quantity_or_unit: QuantityOrUnit) -> str:
     """ Returns standard unit of the quantity or unit passed. 
@@ -555,7 +554,6 @@ def get_standard_units(quantity_or_unit: QuantityOrUnit) -> str:
         NoStandardError
             If no standard units were defined.
     """
-
     dim = get_dimensionality(quantity_or_unit)
     solution = np.array([dim[unit] for unit in kernel.order_fundamental_units], dtype=float)
     n_dims_solution = len(kernel.order_fundamental_units) - np.sum(np.isclose(solution, 0.0))
@@ -569,37 +567,46 @@ def get_standard_units(quantity_or_unit: QuantityOrUnit) -> str:
 
         for standard_unit, _ in kernel.adimensional_standards.items():
             if compatibility(quantity_or_unit, standard_unit):
-                return standard_unit
+                output = standard_unit
+                break
 
     elif n_dims_solution == 1:
 
         for standard_unit, dim_array in kernel.dimensional_fundamental_standards.items():
             if np.allclose(solution, dim_array):
-                return standard_unit
+                output = standard_unit
+                break
 
         if output is None:
-            
+
             if len(kernel.tentative_base_standards) == 0:
                 raise NoStandardError
-            
-            return _standard_units_lstsq(solution, kernel.tentative_base_standards)
+
+            output = _standard_units_lstsq(solution, kernel.tentative_base_standards)
 
     else:
 
         for standard_units, dim_array in kernel.dimensional_combinations_standards.items():
             if np.allclose(solution, dim_array):
                 return standard_units
-               
+
         if output is None:
 
             if len(kernel.dimensional_fundamental_standards) == 0:
                 raise NoStandardError
 
-            return _standard_units_lstsq(solution, kernel.dimensional_fundamental_standards)
+            output = _standard_units_lstsq(solution, kernel.dimensional_fundamental_standards)
+
+        if output is None:
+
+            if len(kernel.tentative_base_standards) == 0:
+                raise NoStandardError
+
+            output = _standard_units_lstsq(solution, kernel.tentative_base_standards)
 
     return output
 
-def standardize(quantity_or_unit: QuantityOrUnit, 
+def standardize(quantity_or_unit: QuantityOrUnit,
                 to_form: Optional[str]=None) -> QuantityOrUnit:
     """ Concert a quantity or unit to standard units.
 
