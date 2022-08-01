@@ -23,16 +23,23 @@ jobs:
     name: Test on ${{ matrix.cfg.os }}, Python ${{ matrix.cfg.python-version }}
     runs-on: ${{ matrix.cfg.os }}
     strategy:
+      fail-fast: false  # do not cancel all in-progress jobs if any job variation fails
       matrix:
         #os: ["macOS-latest", "ubuntu-latest"] # windows-latest (https://github.com/openmm/openmm/issues/3618#issuecomment-1166019901)
         #python-version: ["3.8", "3.9", "3.10"]
         cfg:
+          - { os: ubuntu-latest, python-version: "3.7"}
           - { os: ubuntu-latest, python-version: "3.8"}
           - { os: ubuntu-latest, python-version: "3.9"}
           - { os: ubuntu-latest, python-version: "3.10"}
+          - { os: macos-latest,  python-version: "3.7"}
           - { os: macos-latest,  python-version: "3.8"}
           - { os: macos-latest,  python-version: "3.9"}
-          #- { os: macos-latest,  python-version: "3.10"}
+          - { os: macos-latest,  python-version: "3.10"}
+          - { os: windows-latest,  python-version: "3.7"}
+          - { os: windows-latest,  python-version: "3.8"}
+          - { os: windows-latest,  python-version: "3.9"}
+          - { os: windows-latest,  python-version: "3.10"}
 
     steps:
     - uses: actions/checkout@v2
