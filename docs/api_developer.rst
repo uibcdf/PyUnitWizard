@@ -4,7 +4,7 @@ Developers
 Exceptions
 ----------
 
-.. currentmodule:: pyunitwizard._private_tools.exceptions
+.. currentmodule:: pyunitwizard._private.exceptions
 
 .. autosummary::
    :toctree: autosummary
