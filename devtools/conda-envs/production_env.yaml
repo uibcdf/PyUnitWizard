@@ -4,4 +4,3 @@ channels:
 dependencies:
 - python
 - pint
-- openmm
