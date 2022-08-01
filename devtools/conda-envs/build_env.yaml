@@ -7,3 +7,4 @@ dependencies:
 - numpy
 - anaconda-client
 - conda-build
+- boa
