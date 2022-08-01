@@ -26,6 +26,8 @@ jobs:
         with:
           python-version: 3.9
           environment-file: devtools/conda-envs/docs_env.yaml
+          mamba-version: "*"
+          use-mamba: true
           auto-update-conda: false
           auto-activate-base: false
           show-channel-urls: true
@@ -42,5 +44,5 @@ jobs:
            echo 'import pyunitwizard; print(pyunitwizard.__version__)' | python
 
       - name: Running the Sphinx to gh-pages Action
-        uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0.0
+        uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.1.0-beta
 
