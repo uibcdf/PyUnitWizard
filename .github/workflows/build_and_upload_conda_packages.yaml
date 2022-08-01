@@ -11,8 +11,9 @@ jobs:
     name: Conda deployment of package to platform ${{ matrix.platform }} with Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false  # do not cancel all in-progress jobs if any job variation fails
       matrix:
-        python-version: ["3.8", "3.9"] # 3.10 with errors
+        python-version: ["3.7", "3.8", "3.9", "3.10"] # 3.10 with errors
     steps:
       - uses: actions/checkout@v2
         with:
@@ -29,13 +30,15 @@ jobs:
           show-channel-urls: true
         
       - name: Build and upload the conda packages
-        uses: uibcdf/action-build-and-upload-conda-packages@v1.2.0
+        uses: uibcdf/action-build-and-upload-conda-packages@v1.3.0
         with:
           meta_yaml_dir: devtools/conda-build
           python-version: ${{ matrix.python-version }}
           mambabuild: false
+          skip-failures: true
           platform_linux-64: true
           platform_osx-64: true
+          platform_win-64: false
           user: uibcdf
           label: auto
           token: ${{ secrets.ANACONDA_UIBCDF_TOKEN }}
