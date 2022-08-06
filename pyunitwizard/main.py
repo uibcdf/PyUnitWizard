@@ -18,7 +18,7 @@ def get_form(quantity_or_unit: QuantityOrUnit) -> str:
         ---------
         quantity_or_unit : QuantityOrUnit
             A quanitity or a unit
-        
+
         Returns
         -------
         {"string", "pint", "openmm.unit", "unyt"}
@@ -30,7 +30,7 @@ def get_form(quantity_or_unit: QuantityOrUnit) -> str:
         try:
             return dict_is_form[quantity_or_unit]
         except KeyError:
-            raise UnknownFormError
+            raise NotImplementedFormError(type(quantity_or_unit))
 
 
 def is_quantity(quantity_or_unit: QuantityOrUnit, parser: Optional[str]=None) -> bool:

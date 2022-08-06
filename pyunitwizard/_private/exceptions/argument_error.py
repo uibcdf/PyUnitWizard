@@ -1,4 +1,4 @@
-from ..webs import __github_issues_web__
+from ..webs import github_issues_web
 from ..functions import caller_name
 
 class ArgumentError(Exception):
@@ -35,8 +35,6 @@ class ArgumentError(Exception):
 
     def __init__(self, argument=None, value=None, caller=None, message=None):
 
-    def __init__(self, argument, value=None, caller=None, message=None):
-
         if not caller:
             caller = caller_name()
 
@@ -45,17 +43,12 @@ class ArgumentError(Exception):
         if message:
             full_message += message
 
-        super().__init__(full_message)
+        api_doc = ''
 
         full_message += (
             f"Check {api_doc} for more information. "
-            f"If you still need help, open a new issue in {github_issues}."
+            f"If you still need help, open a new issue in {github_issues_web}."
         )
-
-        message += (
-                f". Check {api_doc} for more information. "
-                f"If you still need help, open a new issue in {__github_issues_web__}."
-                )
 
         super().__init__(message)
 
