@@ -323,7 +323,8 @@ def _compatible_dimensionalities(dim1: Dict[str, int], dim2: Dict[str, int]) -> 
 def quantity(value: Union[int, float, ArrayLike],
             unit: Optional[UnitLike]=None,
             form: Optional[str]=None,
-            parser: Optional[str]=None) -> QuantityLike:
+            parser: Optional[str]=None,
+            standardized: Optional[bool]=False) -> QuantityLike:
     """ Returns a quantity.
 
         Parameters
@@ -339,6 +340,9 @@ def quantity(value: Union[int, float, ArrayLike],
 
         parser : {"unyt", "pint", "openmm.unit"}, optional
             The parser to use.
+
+        standardized : bool, optional
+            Return a standardized quantity, default=False.
 
         Returns
         -------
@@ -369,6 +373,9 @@ def quantity(value: Union[int, float, ArrayLike],
             output = dict_make_quantity[form](value, unit)
         except:
             raise NotImplementedMethodError()
+
+    if standardized:
+        output = standardize(output)
 
     return output
 
