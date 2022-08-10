@@ -1,6 +1,6 @@
 # This file contains test for get_standard_units and standardize
 import pyunitwizard as puw
-from pyunitwizard._private.exceptions import NoStandardError
+from pyunitwizard._private.exceptions import NoStandardsError
 import openmm.unit as openmm_unit
 import pytest
 import numpy as np
@@ -12,11 +12,11 @@ def test_raises_no_standard_error():
     puw.configure.reset()
     puw.configure.load_library(['pint'])
 
-    with pytest.raises(NoStandardError):
+    with pytest.raises(NoStandardsError):
         quantity = puw.quantity(value=3.0, unit='radian', form='pint')
         puw.get_standard_units(quantity)
     
-    with pytest.raises(NoStandardError):
+    with pytest.raises(NoStandardsError):
         quantity = puw.quantity(value=3.0, unit='meter', form='pint')
         puw.get_standard_units(quantity)
 
