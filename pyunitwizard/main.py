@@ -558,7 +558,7 @@ def get_standard_units(quantity_or_unit: QuantityOrUnit) -> str:
         
         Raises
         ------
-        NoStandardError
+        NoStandardsError
             If no standard units were defined.
     """
     dim = get_dimensionality(quantity_or_unit)
@@ -570,7 +570,7 @@ def get_standard_units(quantity_or_unit: QuantityOrUnit) -> str:
     if n_dims_solution == 0:
 
         if len(kernel.adimensional_standards) == 0:
-                raise NoStandardError
+                raise NoStandardsError
 
         for standard_unit, _ in kernel.adimensional_standards.items():
             if compatibility(quantity_or_unit, standard_unit):
@@ -587,7 +587,7 @@ def get_standard_units(quantity_or_unit: QuantityOrUnit) -> str:
         if output is None:
 
             if len(kernel.tentative_base_standards) == 0:
-                raise NoStandardError
+                raise NoStandardsError
 
             output = _standard_units_lstsq(solution, kernel.tentative_base_standards)
 
@@ -600,14 +600,14 @@ def get_standard_units(quantity_or_unit: QuantityOrUnit) -> str:
         if output is None:
 
             if len(kernel.dimensional_fundamental_standards) == 0:
-                raise NoStandardError
+                raise NoStandardsError
 
             output = _standard_units_lstsq(solution, kernel.dimensional_fundamental_standards)
 
         if output is None:
 
             if len(kernel.tentative_base_standards) == 0:
-                raise NoStandardError
+                raise NoStandardsError
 
             output = _standard_units_lstsq(solution, kernel.tentative_base_standards)
 
@@ -632,7 +632,7 @@ def standardize(quantity_or_unit: QuantityOrUnit,
 
         Raises
         ------
-        NoStandardError
+        NoStandardsError
             If no standard units were defined.
 
     """
@@ -642,12 +642,12 @@ def standardize(quantity_or_unit: QuantityOrUnit,
         output = convert(quantity_or_unit, to_form=to_form)
         standard = get_standard_units(output)
         if standard is None:
-            raise NoStandardError
+            raise NoStandardsError
         output = convert(output, standard)
     except:
         standard = get_standard_units(quantity_or_unit)
         if standard is None:
-            raise NoStandardError
+            raise NoStandardsError
         output = convert(quantity_or_unit, to_unit=standard, to_form=to_form)
 
     return output
