@@ -18,7 +18,7 @@ def get_form(quantity_or_unit: QuantityOrUnit) -> str:
         ---------
         quantity_or_unit : QuantityOrUnit
             A quanitity or a unit
-        
+
         Returns
         -------
         {"string", "pint", "openmm.unit", "unyt"}
@@ -30,7 +30,7 @@ def get_form(quantity_or_unit: QuantityOrUnit) -> str:
         try:
             return dict_is_form[quantity_or_unit]
         except KeyError:
-            raise UnknownFormError
+            raise NotImplementedFormError(type(quantity_or_unit))
 
 
 def is_quantity(quantity_or_unit: QuantityOrUnit, parser: Optional[str]=None) -> bool:
@@ -323,7 +323,8 @@ def _compatible_dimensionalities(dim1: Dict[str, int], dim2: Dict[str, int]) -> 
 def quantity(value: Union[int, float, ArrayLike],
             unit: Optional[UnitLike]=None,
             form: Optional[str]=None,
-            parser: Optional[str]=None) -> QuantityLike:
+            parser: Optional[str]=None,
+            standardized: Optional[bool]=False) -> QuantityLike:
     """ Returns a quantity.
 
         Parameters
@@ -339,6 +340,9 @@ def quantity(value: Union[int, float, ArrayLike],
 
         parser : {"unyt", "pint", "openmm.unit"}, optional
             The parser to use.
+
+        standardized : bool, optional
+            Return a standardized quantity, default=False.
 
         Returns
         -------
@@ -369,6 +373,9 @@ def quantity(value: Union[int, float, ArrayLike],
             output = dict_make_quantity[form](value, unit)
         except:
             raise NotImplementedMethodError()
+
+    if standardized:
+        output = standardize(output)
 
     return output
 
