@@ -3,9 +3,6 @@ import pytest
 import pyunitwizard as puw
 from pyunitwizard.main import is_dimensionless
 
-puw.configure.reset()
-puw.configure.load_library(['pint', 'openmm.unit', 'unyt'])
-
 #### Tests for puw.check() function ####
 
 def test_check_no_parameters():

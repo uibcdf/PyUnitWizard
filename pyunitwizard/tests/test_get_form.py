@@ -2,9 +2,6 @@ import pyunitwizard as puw
 import openmm.unit as openmm_unit
 import unyt
 
-puw.configure.reset()
-puw.configure.load_library(['pint', 'openmm.unit', 'unyt'])
-
 def test_string():
     assert puw.get_form('1 meter')=='string'
 

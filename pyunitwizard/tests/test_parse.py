@@ -2,19 +2,13 @@ from pyunitwizard.parse import _parse_with_pint, parse
 import numpy as np
 import pyunitwizard as puw
 
-
-
 def test_parse_with_pint_scalar():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
 
     quantity = _parse_with_pint("5 meters")
     assert quantity.magnitude == 5
     assert str(quantity.units) == "meter"
 
 def test_parse_with_pint_array():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
 
     quantity = _parse_with_pint("[2] mole")
     assert np.allclose(quantity.magnitude, np.array([2]))
@@ -33,17 +27,12 @@ def test_parse_with_pint_array():
     assert str(quantity.units) == "joule"
 
 def test_parse_to_pint():
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
     
     quantity = parse("[2, 5, 7] joules", to_form="pint")
     assert np.allclose(quantity.magnitude, np.array([2, 5, 7]))
     assert str(quantity.units) == "joule"
 
 def test_parse_to_string():
-
-    puw.configure.reset()
-    puw.configure.load_library(['pint'])
 
     quantity = _parse_with_pint("5 meters")
     assert quantity.magnitude == 5
@@ -58,16 +47,12 @@ def test_parse_to_string():
     assert quantity == "[2 5 7] joule"
 
 def test_parse_to_openmm_scalar():
-    puw.configure.reset()
-    puw.configure.load_library(['pint', 'openmm.unit'])
 
     quantity = parse("5 meters", to_form="openmm.unit")
     assert quantity._value == 5
     assert str(quantity.unit) == "meter"
 
 def test_parse_to_openmm_array():
-    puw.configure.reset()
-    puw.configure.load_library(['pint', 'openmm.unit'])
 
     quantity = parse("[2, 5, 7] joules", to_form="openmm.unit")
     assert np.allclose(quantity._value, np.array([2, 5, 7]))
@@ -83,8 +68,6 @@ def test_parse_to_openmm_array():
 
 
 def test_parse_to_unyt():
-    puw.configure.reset()
-    puw.configure.load_library(['pint', 'unyt'])
 
     quantity = parse("5 meters", to_form="unyt")
     assert quantity.value == 5

@@ -165,6 +165,11 @@ def get_unit(quantity: pint.Quantity) -> pint.Unit:
     """
     return quantity.units
 
+def change_value(quantity: pint.Quantity,
+                 value: Union[int, float, ArrayLike]) -> pint.Quantity:
+
+    return make_quantity(value, get_unit(quantity))
+
 def string_to_quantity(string: str) -> pint.Quantity:
     """ Get a quantity from a string.
 

@@ -203,6 +203,11 @@ def get_unit(quantity: Union[unyt_array,
     """
     return quantity.units
 
+def change_value(quantity: Union[unyt_quantity, unyt_array],
+                 value: Union[int, float, ArrayLike]) -> Union[unyt_array, unyt_quantity]:
+
+    return make_quantity(value, get_unit(quantity))
+
 def to_pint(quantity: Union[unyt_array, 
                        unyt_quantity]):
     """ Transform a quantity from unyt to a pint quantity.

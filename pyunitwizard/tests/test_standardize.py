@@ -6,6 +6,9 @@ import pytest
 import numpy as np
 import unyt
 
+puw.configure.reset()
+puw.configure.load_library(['pint', 'openmm.unit', 'unyt'])
+
 ### Tests for get standard units ####
 
 def test_raises_no_standard_error():

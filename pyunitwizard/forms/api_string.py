@@ -153,6 +153,11 @@ def get_unit(quantity: str) -> str:
     tmp_unit = _get_unit(tmp_quantity_or_unit)
     return _convert(tmp_unit, to_form='string')
 
+def change_value(quantity: str,
+                 value: Union[int, float, ArrayLike]) -> str:
+
+    return make_quantity(value, get_unit(quantity))
+
 def string_to_quantity(string: str) -> str:
     """ Returns the same string. """
     return string

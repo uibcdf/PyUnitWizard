@@ -204,6 +204,11 @@ def get_unit(quantity: openmm_unit.Quantity) -> openmm_unit.Unit:
     """
     return quantity.unit
 
+def change_value(quantity: openmm_unit.Quantity,
+                 value: Union[int, float, ArrayLike]) -> openmm_unit.Quantity:
+
+    return make_quantity(value, get_unit(quantity))
+
 def to_pint(quantity: openmm_unit.Quantity):
     """ Transform a quantity from openmm.unit to a pint quantity.
         

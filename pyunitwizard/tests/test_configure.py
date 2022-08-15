@@ -27,3 +27,8 @@ def test_init_openmolecularsystems():
 
     assert True
 
+def test_all():
+    puw.configure.reset()
+    puw.configure.load_library(['pint', 'openmm.unit', 'unyt'])
+
+    assert True
