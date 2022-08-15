@@ -4,7 +4,7 @@ from ._private.parsers import digest_parser
 from ._private.quantity_or_unit import ArrayLike, QuantityOrUnit, QuantityLike, UnitLike
 from .forms import dict_is_form, dict_is_unit, dict_is_quantity, dict_dimensionality, dict_compatibility
 from .forms import dict_get_unit, dict_get_value, dict_make_quantity
-from .forms import dict_convert, dict_translate, dict_to_string
+from .forms import dict_convert, dict_translate, dict_to_string, dict_change_value
 from .import kernel
 from .parse import parse as _parse
 import numpy as np
@@ -141,8 +141,41 @@ def get_unit(quantity: QuantityLike,
     """
     return convert(quantity, to_form=to_form, parser=parser, to_type='unit')
 
-def similarity(quantity_or_unit_1: QuantityOrUnit, 
-               quantity_or_unit_2: QuantityOrUnit, 
+def get_value_and_unit(quantity: QuantityLike,
+              to_unit:  Optional[str]=None,
+              to_form: Optional[str]=None,
+              parser:   Optional[str]=None) -> tuple[Union[np.ndarray, float, int], UnitLike]:
+    """ Returns the value and unit of a quantity.
+
+        Parameters
+        ----------
+        to_unit : str, optional
+            Name of the unit to which the quantity will be converted (i.e kcal/mol).
+        
+        parser : {"unyt", "pint", "openmm.unit"}, optional
+            The parser to use.
+
+        Returns
+        -------
+        np.ndarray or float or int
+        UnitLike
+            The value and unit of the input quantity.
+
+    """
+
+    value = convert(quantity, to_unit=to_unit, parser=parser, to_type='value')
+    unit = convert(quantity, to_unit=to_unit, to_form=to_form, parser=parser, to_type='unit')
+
+    return value, unit
+
+def change_value(quantity: QuantityLike,
+                 value: Union[np.ndarray, float, int]) -> QuantityLike:
+
+    form = get_form(quantity)
+    return dict_change_value[form](quantity, value)
+
+def similarity(quantity_or_unit_1: QuantityOrUnit,
+               quantity_or_unit_2: QuantityOrUnit,
                relative_tolerance: float=1e-08) -> bool:
     """ Compares whether two quantities are similiar within a specified tolerance.
     

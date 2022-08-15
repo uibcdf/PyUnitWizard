@@ -3,9 +3,6 @@ import pyunitwizard as puw
 import pytest
 import unyt
 
-puw.configure.reset()
-puw.configure.load_library(['pint', 'openmm.unit'])
-
 @pytest.fixture
 def pint_unit_registry():
     """ Returns a pint unit registry"""
@@ -54,6 +51,30 @@ def test_get_unit_unyt(unyt_quantity):
     unit = puw.get_unit(unyt_quantity)
     assert isinstance(unit, unyt.Unit)
     assert str(unit) == "nm/ps"
+
+#### Tests for get value and unit ####
+
+def test_get_value_and_unit_pint(pint_unit_registry, pint_quantity):
+    unit_true = pint_unit_registry.Unit('nanometers/picoseconds')
+    value_true = 2.5
+    value, unit = puw.get_value_and_unit(pint_quantity)
+    assert value == value_true
+    assert unit == unit_true
+
+def test_get_value_and_unit_openmm(openmm_quantity):
+    openmm_unit = puw.forms.api_openmm_unit.openmm_unit
+    value, unit = puw.get_value_and_unit(openmm_quantity)
+    value_true = 2.5
+    assert isinstance(unit, openmm_unit.Unit)
+    assert str(unit) == "nanometer/picosecond"
+    assert value == value_true
+
+def test_get_value_and_unit_unyt(unyt_quantity):
+    value, unit = puw.get_value_and_unit(unyt_quantity)
+    value_true = 2.5
+    assert isinstance(unit, unyt.Unit)
+    assert str(unit) == "nm/ps"
+    assert value == value_true
 
 #### Tests for get dimensionality ####
 
