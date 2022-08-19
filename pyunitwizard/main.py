@@ -576,7 +576,10 @@ def _standard_units_lstsq(solution: np.ndarray, standards: dict) -> str:
 
         return None
 
-def get_standard_units(quantity_or_unit: QuantityOrUnit) -> str:
+def get_standard_units(quantity_or_unit: Optional[QuantityOrUnit]=None,
+                       dimensionality: Optional[dict]=None,
+                       form: Optional[str]=None,
+                       parser:  Optional[str]=None) -> UnitLike:
     """ Returns standard unit of the quantity or unit passed. 
     
         Parameters
@@ -594,8 +597,18 @@ def get_standard_units(quantity_or_unit: QuantityOrUnit) -> str:
         NoStandardsError
             If no standard units were defined.
     """
-    dim = get_dimensionality(quantity_or_unit)
-    solution = np.array([dim[unit] for unit in kernel.order_fundamental_units], dtype=float)
+
+    form = digest_form(form)
+    parser = digest_parser(parser)
+
+    if quantity_or_unit is not None:
+        dimensionality = get_dimensionality(quantity_or_unit)
+    else:
+        for unit in kernel.order_fundamental_units:
+            if unit not in dimensionality:
+                dimensionality[unit]=0
+
+    solution = np.array([dimensionality[unit] for unit in kernel.order_fundamental_units], dtype=float)
     n_dims_solution = len(kernel.order_fundamental_units) - np.sum(np.isclose(solution, 0.0))
 
     output = None
@@ -643,6 +656,8 @@ def get_standard_units(quantity_or_unit: QuantityOrUnit) -> str:
                 raise NoStandardsError
 
             output = _standard_units_lstsq(solution, kernel.tentative_base_standards)
+
+    output = convert(output, to_form=form, parser=parser, to_type='unit')
 
     return output
 
@@ -762,4 +777,5 @@ def check(quantity_or_unit: Any,
         return False
 
     return True
+
 

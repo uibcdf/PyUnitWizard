@@ -32,10 +32,9 @@ def test_get_standard_units_pint_quantity():
     standard_unit = puw.get_standard_units(quantity)
     assert standard_unit == "kcal"
 
-
 def test_get_standard_units_openmm_quantity():
     puw.configure.reset()
-    puw.configure.load_library(['openmm.unit'])
+    puw.configure.load_library(['pint','openmm.unit'])
     puw.configure.set_standard_units([openmm_unit.meter, openmm_unit.second, openmm_unit.joule])
 
     quantity = puw.quantity(value=5.0, unit=openmm_unit.centimeter/openmm_unit.picosecond, form='openmm.unit')
@@ -44,12 +43,24 @@ def test_get_standard_units_openmm_quantity():
 
 def test_get_standard_units_unyt_quantity():
     puw.configure.reset()
-    puw.configure.load_library(['unyt'])
+    puw.configure.load_library(['pint','unyt'])
     puw.configure.set_standard_units([unyt.m, unyt.s, unyt.J])
 
     quantity = puw.quantity(value=5.0, unit=unyt.cm/unyt.ps, form='unyt')
-    standard_unit = puw.get_standard_units(quantity)
-    assert standard_unit == "m/s"
+    standard_unit = puw.get_standard_units(quantity, form='string')
+    assert standard_unit == "meter / second"
+
+def test_get_standard_units_dimensionality():
+    puw.configure.reset()
+    puw.configure.load_library(['pint'])
+    puw.configure.set_standard_units(['nm', 'ps', 'kcal', 'mole'])
+
+    standard_unit = puw.get_standard_units(dimensionality={'[L]':1}, form='string')
+    assert standard_unit == "nanometer"
+
+    standard_unit = puw.get_standard_units(dimensionality={'[L]':1})
+    unit = puw.unit("nanometer", form="pint")
+    assert standard_unit == unit
 
 
 ### Tests for standardize ###
