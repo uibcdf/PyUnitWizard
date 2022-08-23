@@ -96,9 +96,10 @@ def is_unit(quantity_or_unit: QuantityOrUnit, parser: Optional[str]=None) -> boo
 
     return output
 
-def get_value(quantity: QuantityLike, 
-              to_unit:  Optional[str]=None, 
-              parser:   Optional[str]=None) -> Union[np.ndarray, float, int]:
+def get_value(quantity: QuantityLike,
+              to_unit:  Optional[str]=None,
+              parser:   Optional[str]=None,
+              standardized: Optional[bool]=False)-> Union[np.ndarray, float, int]:
     """ Returns the value of a quantity.
 
         Parameters
@@ -115,11 +116,17 @@ def get_value(quantity: QuantityLike,
             An array with the quantity value or a a float or an int if it's a scalar.
 
     """
+
+    if standardized:
+        quantity = standardize(quantity)
+        to_unit = None
+
     return convert(quantity, to_unit=to_unit, parser=parser, to_type='value')
 
 def get_unit(quantity: QuantityLike, 
              to_form: Optional[str]=None, 
-             parser:  Optional[str]=None) -> UnitLike:
+             parser:  Optional[str]=None,
+             standardized: Optional[bool]=False)-> UnitLike:
     """ Returns the unit of a quantity.
 
         Parameters
@@ -139,12 +146,17 @@ def get_unit(quantity: QuantityLike,
             The unit.
 
     """
+
+    if standardized:
+        quantity = standardize(quantity)
+
     return convert(quantity, to_form=to_form, parser=parser, to_type='unit')
 
 def get_value_and_unit(quantity: QuantityLike,
               to_unit:  Optional[str]=None,
               to_form: Optional[str]=None,
-              parser:   Optional[str]=None) -> tuple[Union[np.ndarray, float, int], UnitLike]:
+              parser:   Optional[str]=None,
+              standardized: Optional[str]=False) -> tuple[Union[np.ndarray, float, int], UnitLike]:
     """ Returns the value and unit of a quantity.
 
         Parameters
@@ -162,6 +174,10 @@ def get_value_and_unit(quantity: QuantityLike,
             The value and unit of the input quantity.
 
     """
+
+    if standardized:
+        quantity = standardize(quantity)
+        to_unit = None
 
     value = convert(quantity, to_unit=to_unit, parser=parser, to_type='value')
     unit = convert(quantity, to_unit=to_unit, to_form=to_form, parser=parser, to_type='unit')
