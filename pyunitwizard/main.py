@@ -8,7 +8,7 @@ from .forms import dict_convert, dict_translate, dict_to_string, dict_change_val
 from .import kernel
 from .parse import parse as _parse
 import numpy as np
-from typing import  Any, Dict, Optional, Union
+from typing import Any, Dict, Optional, Union, Tuple
 
 
 def get_form(quantity_or_unit: QuantityOrUnit) -> str:
@@ -156,7 +156,7 @@ def get_value_and_unit(quantity: QuantityLike,
               to_unit:  Optional[str]=None,
               to_form: Optional[str]=None,
               parser:   Optional[str]=None,
-              standardized: Optional[str]=False) -> tuple[Union[np.ndarray, float, int], UnitLike]:
+              standardized: Optional[str]=False) -> Tuple[Union[np.ndarray, float, int], UnitLike]:
     """ Returns the value and unit of a quantity.
 
         Parameters
