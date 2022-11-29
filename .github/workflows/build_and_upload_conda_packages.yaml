@@ -8,7 +8,7 @@ on:
 
 jobs:
   conda_deployment_with_new_tag:
-    name: Conda deployment of package to platform ${{ matrix.platform }} with Python ${{ matrix.python-version }}
+    name: Conda deployment of package to platform with Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false  # do not cancel all in-progress jobs if any job variation fails

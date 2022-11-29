@@ -34,6 +34,8 @@ docs:
     - sphinx
     - sphinx_rtd_theme
     - sphinxcontrib-bibtex
+    - sphinx-remove-toctrees
+    - sphinx-copybutton
     - myst-nb
     - openmm
     - unyt
@@ -57,5 +59,4 @@ conda-build:
     - anaconda-client
     - conda-build
     - boa
-
 

@@ -62,8 +62,21 @@ extensions = [
     'sphinx.ext.githubpages',
     'sphinxcontrib.bibtex',
     'sphinx.ext.extlinks',
+    'sphinx_remove_toctrees',
+    'sphinx_copybutton',
     'myst_nb'
 ]
+
+# Myst extensions and options
+
+myst_enable_extensions = [
+    'dollarmath',
+    'amsmath'
+]
+
+myst_heading_anchors = 3
+
+# Autosummary options
 
 autosummary_generate = True
 
@@ -117,6 +130,12 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**.ipynb_checkpoints']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'default'
+
+# Remove from toctrees
+remove_from_toctrees = []
+for directory in os.walk('api'):
+    if directory[0].endswith('/autosummary'):
+        remove_from_toctrees.append(directory[0]+'/*')
 
 # -- Options for HTML output -------------------------------------------------
 
