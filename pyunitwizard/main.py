@@ -401,7 +401,7 @@ def quantity(value: Union[int, float, ArrayLike],
     output = None
 
     form = digest_form(form)
-
+    
     if type(value) is str:
         if unit is None:
             output = convert(value, to_form=form, parser=parser)
@@ -416,7 +416,7 @@ def quantity(value: Union[int, float, ArrayLike],
         if unit is None:
             raise BadCallError('unit')
 
-        unit = convert(unit, to_form=form, parser=parser)
+        unit = convert(unit, to_form=form, parser=parser, to_type='unit')
 
         try:
             output = dict_make_quantity[form](value, unit)

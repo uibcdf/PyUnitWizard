@@ -54,7 +54,7 @@ _dimensions_translator={
     'luminous intensity' : '[Cd]'
 }
 
-def dimensionality(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.Quantity]) -> Dict[str, int]:
+def dimensionality(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.unit]) -> Dict[str, int]:
     """ Returns the dimensionality of the quantity or unit.
 
         Parameters
@@ -89,8 +89,8 @@ def dimensionality(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.Qua
 
     return dimensionality_dict
 
-def compatibility(quantity_or_unit_1: Union[openmm_unit.Quantity, openmm_unit.Quantity], 
-                  quantity_or_unit_2: Union[openmm_unit.Quantity, openmm_unit.Quantity]) -> bool:
+def compatibility(quantity_or_unit_1: Union[openmm_unit.Quantity, openmm_unit.unit], 
+                  quantity_or_unit_2: Union[openmm_unit.Quantity, openmm_unit.unit]) -> bool:
     """ Check whether two quantities or units are compatible.
 
         Parameters
@@ -140,7 +140,7 @@ def string_to_quantity(string):
 
     raise LibraryWithoutParserError('openmm.unit')
 
-def to_string(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.Quantity]) -> str:
+def to_string(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.unit]) -> str:
     """ Convert a quantity to string. 
 
         Parameters
