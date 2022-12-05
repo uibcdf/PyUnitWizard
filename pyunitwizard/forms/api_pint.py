@@ -170,35 +170,6 @@ def change_value(quantity: pint.Quantity,
 
     return make_quantity(value, get_unit(quantity))
 
-def string_to_quantity(string: str) -> pint.Quantity:
-    """ Get a quantity from a string.
-
-        Parameters
-        ----------
-        string : str
-            A string with the quantity.
-        
-        Returns
-        -------
-        pint.Quantity
-            The quantity.
-    """
-    return Q_(string)
-
-def to_string(quantity_or_item) -> str:
-    """ Convert a quantity to string. 
-
-        Parameters
-        -----------
-        quantity_or_item : pint.Quantity
-            A quanitity or a unit.
-
-        Returns
-        -------
-        str
-            The quantitity as a string.
-    """
-    return quantity_or_item.__str__()
 
 def convert(quantity: pint.Quantity, unit_name: str) -> pint.Quantity:
     """ Converts the quantity to a different unit.
@@ -218,7 +189,76 @@ def convert(quantity: pint.Quantity, unit_name: str) -> pint.Quantity:
     """
     return quantity.to(unit_name)
 
-def to_openmm_unit(quantity: pint.Quantity):
+
+## Parser
+
+def string_to_quantity(string: str) -> pint.Quantity:
+    """ Get a quantity from a string.
+
+        Parameters
+        ----------
+        string : str
+            A string with the quantity.
+        
+        Returns
+        -------
+        pint.Quantity
+            The quantity.
+    """
+    return Q_(string)
+
+def string_to_unit(string: str) -> pint.Unit:
+    """ Get a unit from a string.
+
+        Parameters
+        ----------
+        string : str
+            A string with the unit.
+        
+        Returns
+        -------
+        pint.Unit
+            The unit.
+    """
+    return U_(string)
+
+
+# To string
+
+def quantity_to_string(quantity_or_item) -> str:
+    """ Convert a quantity to string. 
+
+        Parameters
+        -----------
+        quantity_or_item : pint.Quantity
+            A quanitity or a unit.
+
+        Returns
+        -------
+        str
+            The quantitity as a string.
+    """
+    return quantity_or_item.__str__()
+
+def unit_to_string(unit_or_item) -> str:
+    """ Convert a unit to string. 
+
+        Parameters
+        -----------
+        unit_or_item : pint.Unit
+            A unit.
+
+        Returns
+        -------
+        str
+            The unit as a string.
+    """
+    return unit_or_item.__str__()
+
+
+## To openmm.unit
+
+def quantity_to_openmm_unit(quantity: pint.Quantity):
     """ Transform a quantity from a pint quantity to a openmm.unit quantity.
         
         Parameters
@@ -228,7 +268,7 @@ def to_openmm_unit(quantity: pint.Quantity):
         
         Returns
         -------
-        openmm.unit.Quantity
+        openmm_unit.Quantity
             The quantity.
     """
     from pint.util import ParserHelper as PintParserHelper
@@ -249,6 +289,37 @@ def to_openmm_unit(quantity: pint.Quantity):
     tmp_quantity *= value
 
     return tmp_quantity
+
+def unit_to_openmm_unit(unit: pint.Unit):
+    """ Transform a unit from a pint unit to a openmm.unit unit.
+        
+        Parameters
+        -----------
+        unit : pint.Unit
+            A unit.
+        
+        Returns
+        -------
+        openmm_unit.Unit
+            The unit.
+    """
+    from pint.util import ParserHelper as PintParserHelper
+    try:
+        import openmm.unit as openmm_unit
+    except:
+        raise LibraryNotFoundError('openmm')
+
+    pint_parser = PintParserHelper.from_string(unit.__str__())
+    tmp_ = 1
+    for unit_name, exponent in pint_parser.items():
+        if unit_name == 'unified_atomic_mass_unit':
+            unit_name = 'amu'
+        tmp_quantity *= getattr(openmm_unit, unit_name)**exponent
+
+    return tmp_unit
+
+
+
 
 def to_unyt(quantity: pint.Quantity):
     """ Transform a quantity from a pint quantity to a unyt quantity.
