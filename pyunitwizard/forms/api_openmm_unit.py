@@ -54,7 +54,7 @@ _dimensions_translator={
     'luminous intensity' : '[Cd]'
 }
 
-def dimensionality(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.unit]) -> Dict[str, int]:
+def dimensionality(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.Unit]) -> Dict[str, int]:
     """ Returns the dimensionality of the quantity or unit.
 
         Parameters
@@ -89,8 +89,8 @@ def dimensionality(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.uni
 
     return dimensionality_dict
 
-def compatibility(quantity_or_unit_1: Union[openmm_unit.Quantity, openmm_unit.unit], 
-                  quantity_or_unit_2: Union[openmm_unit.Quantity, openmm_unit.unit]) -> bool:
+def compatibility(quantity_or_unit_1: Union[openmm_unit.Quantity, openmm_unit.Unit], 
+                  quantity_or_unit_2: Union[openmm_unit.Quantity, openmm_unit.Unit]) -> bool:
     """ Check whether two quantities or units are compatible.
 
         Parameters
@@ -117,7 +117,7 @@ def compatibility(quantity_or_unit_1: Union[openmm_unit.Quantity, openmm_unit.un
 
 
 def make_quantity(value: Union[int, float, ArrayLike], 
-                  unit: openmm_unit.unit) -> openmm_unit.Quantity:
+                  unit: openmm_unit.Unit) -> openmm_unit.Quantity:
     """ Returns an openmm quantity.
 
         Parmeters
@@ -125,7 +125,7 @@ def make_quantity(value: Union[int, float, ArrayLike],
         value: int, float or ArrayLike
             The value of the quantity.
 
-        unit : openmm_unit.unit
+        unit : openmm_unit.Unit
             The unit.
         
         Returns
@@ -140,7 +140,7 @@ def string_to_quantity(string):
 
     raise LibraryWithoutParserError('openmm.unit')
 
-def to_string(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.unit]) -> str:
+def to_string(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.Unit]) -> str:
     """ Convert a quantity to string. 
 
         Parameters
