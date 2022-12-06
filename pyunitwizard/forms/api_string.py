@@ -158,14 +158,6 @@ def change_value(quantity: str,
 
     return make_quantity(value, get_unit(quantity))
 
-def string_to_quantity(string: str) -> str:
-    """ Returns the same string. """
-    return string
-
-def to_string(quantity_or_item: str) -> str:
-    """ Returns the same string. """
-    return quantity_or_item
-
 def convert(quantity: str, unit_name: str) -> str:
     """ Converts the quantity to a different unit.
 
@@ -189,16 +181,41 @@ def convert(quantity: str, unit_name: str) -> str:
     tmp_quantity_or_unit = _convert(tmp_quantity_or_unit, to_unit=unit_name, parser=default_parser)
     return _convert(tmp_quantity_or_unit, to_form='string')
 
-def to_openmm_unit(quantity: str):
+
+## Parser
+
+#def string_to_quantity(string: str) -> str:
+#    """ Returns the same string. """
+#    return string
+#
+#def string_to_unit(string: str) -> str:
+#    """ Returns the same string. """
+#    return string
+
+
+## To openmm.unit
+
+def quantity_to_openmm_unit(quantity: str):
 
     # This function will raise an error.
-    from .api_openmm_unit import string_to_quantity as _string_to_quantity
+    from .api_openmm_unit import string_to_quantity as string_to_openmm_unit_quantity
 
-    tmp_quantity_or_unit = _string_to_quantity(quantity)
+    tmp_quantity_or_unit = string_to_openmm_unit_quantity(quantity)
 
     return tmp_quantity_or_unit
 
-def to_pint(quantity: str):
+def unit_to_openmm_unit(unit: str):
+
+    from .api_openmm_unit import get_unit as get_openmm_unit_unit
+
+    quantity = quantity_to_openmm_unit(unit)
+
+    return get_openmm_unit_unit(quantity)
+
+
+## To pint
+
+def quantity_to_pint(quantity: str):
     """ Transform a quantity from a string quantity to a pint quantity.
         
         Parameters
@@ -215,5 +232,31 @@ def to_pint(quantity: str):
 
     return _string_to_quantity(quantity)
 
-def to_unyt(quantity: str):
+def unit_to_pint(unit: str):
+    """ Transform a quantity from a string quantity to a pint quantity.
+        
+        Parameters
+        -----------
+        quantity : str
+            A quanitity.
+        
+        Returns
+        -------
+        pint.Quantity
+            The quantity.
+    """
+    from .api_pint import get_unit as get_pint_unit
+
+    quantity = quantity_to_pint(unit)
+
+    return get_pint_unit(quantity)
+
+
+## To unyt
+
+def quantity_to_unyt(quantity: str):
     raise NotImplementedError
+
+def unit_to_unyt(quantity: str):
+    raise NotImplementedError
+

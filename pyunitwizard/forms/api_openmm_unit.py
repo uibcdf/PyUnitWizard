@@ -54,7 +54,7 @@ _dimensions_translator={
     'luminous intensity' : '[Cd]'
 }
 
-def dimensionality(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.Quantity]) -> Dict[str, int]:
+def dimensionality(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.Unit]) -> Dict[str, int]:
     """ Returns the dimensionality of the quantity or unit.
 
         Parameters
@@ -89,8 +89,8 @@ def dimensionality(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.Qua
 
     return dimensionality_dict
 
-def compatibility(quantity_or_unit_1: Union[openmm_unit.Quantity, openmm_unit.Quantity], 
-                  quantity_or_unit_2: Union[openmm_unit.Quantity, openmm_unit.Quantity]) -> bool:
+def compatibility(quantity_or_unit_1: Union[openmm_unit.Quantity, openmm_unit.Unit], 
+                  quantity_or_unit_2: Union[openmm_unit.Quantity, openmm_unit.Unit]) -> bool:
     """ Check whether two quantities or units are compatible.
 
         Parameters
@@ -117,7 +117,7 @@ def compatibility(quantity_or_unit_1: Union[openmm_unit.Quantity, openmm_unit.Qu
 
 
 def make_quantity(value: Union[int, float, ArrayLike], 
-                  unit: openmm_unit.unit) -> openmm_unit.Quantity:
+                  unit: openmm_unit.Unit) -> openmm_unit.Quantity:
     """ Returns an openmm quantity.
 
         Parmeters
@@ -125,7 +125,7 @@ def make_quantity(value: Union[int, float, ArrayLike],
         value: int, float or ArrayLike
             The value of the quantity.
 
-        unit : openmm_unit.unit
+        unit : openmm_unit.Unit
             The unit.
         
         Returns
@@ -136,24 +136,44 @@ def make_quantity(value: Union[int, float, ArrayLike],
 
     return openmm_unit.Quantity(value, unit)
 
-def string_to_quantity(string):
 
-    raise LibraryWithoutParserError('openmm.unit')
-
-def to_string(quantity_or_unit: Union[openmm_unit.Quantity, openmm_unit.Quantity]) -> str:
-    """ Convert a quantity to string. 
-
+def get_value(quantity: openmm_unit.Quantity) -> Union[int, float, ArrayLike]:
+    """ Returns the value of the quantity.
+        
         Parameters
         -----------
-        quantity_or_unit : openmm_unit.Quantity or openmm_unit.Quantity
+        quantity : openmm.unit.Quantity
             A quanitity or a unit.
-
+        
         Returns
         -------
-        str
-            The quantitity as a string.
+        int, float or ArrrayLike
+            The value.
     """
-    return quantity_or_unit.__str__()
+    return quantity._value
+
+
+def get_unit(quantity: openmm_unit.Quantity) -> openmm_unit.Unit:
+    """ Returns the units of the quantity.
+        
+        Parameters
+        -----------
+        quantity : openmm.unit.Quantity
+            A quanitity or a unit.
+        
+        Returns
+        -------
+        openmm.unit.Unit
+            The unit.
+    """
+    return quantity.unit
+
+
+def change_value(quantity: openmm_unit.Quantity,
+                 value: Union[int, float, ArrayLike]) -> openmm_unit.Quantity:
+
+    return make_quantity(value, get_unit(quantity))
+
 
 def convert(quantity: openmm_unit.Quantity, 
             unit: openmm_unit.Unit) -> openmm_unit.Quantity:
@@ -174,42 +194,54 @@ def convert(quantity: openmm_unit.Quantity,
     """
     return quantity.in_units_of(unit)
 
-def get_value(quantity: openmm_unit.Quantity) -> Union[int, float, ArrayLike]:
-    """ Returns the value of the quantity.
-        
+
+## Parser
+
+def string_to_quantity(string):
+
+    raise LibraryWithoutParserError('openmm.unit')
+
+def string_to_unit(string):
+
+    raise LibraryWithoutParserError('openmm.unit')
+
+
+## To string
+
+def quantity_to_string(quantity: openmm_unit.Quantity) -> str:
+    """ Convert a quantity to string. 
+
         Parameters
         -----------
-        quantity : openmm.unit.Quantity
-            A quanitity or a unit.
-        
+        quantity : openmm_unit.Quantity
+            A quanitity.
+
         Returns
         -------
-        int, float or ArrrayLike
-            The value.
+        str
+            The quantitity as a string.
     """
-    return quantity._value
+    return quantity.__str__()
 
-def get_unit(quantity: openmm_unit.Quantity) -> openmm_unit.Unit:
-    """ Returns the units of the quantity.
-        
+def unit_to_string(unit: openmm_unit.Unit) -> str:
+    """ Convert a unit to string. 
+
         Parameters
         -----------
-        quantity : openmm.unit.Quantity
-            A quanitity or a unit.
-        
+        unit : openmm_unit.Unit
+            A unit.
+
         Returns
         -------
-        openmm.unit.Unit
-            The unit.
+        str
+            The quantitity as a string.
     """
-    return quantity.unit
+    return unit.__str__()
 
-def change_value(quantity: openmm_unit.Quantity,
-                 value: Union[int, float, ArrayLike]) -> openmm_unit.Quantity:
 
-    return make_quantity(value, get_unit(quantity))
+## To Pint
 
-def to_pint(quantity: openmm_unit.Quantity):
+def quantity_to_pint(quantity: openmm_unit.Quantity):
     """ Transform a quantity from openmm.unit to a pint quantity.
         
         Parameters
@@ -225,11 +257,33 @@ def to_pint(quantity: openmm_unit.Quantity):
     from .api_pint import make_quantity as make_pint_quantity
 
     value = get_value(quantity)
-    unit_name = to_string(get_unit(quantity))
+    unit_name = unit_to_string(get_unit(quantity))
 
     return make_pint_quantity(value, unit_name)
 
-def to_unyt(quantity: openmm_unit.Quantity):
+def unit_to_pint(unit: openmm_unit.Unit):
+    """ Transform a unit from openmm.unit to a pint unit.
+        
+        Parameters
+        -----------
+        unit : openmm.unit.Unit
+            A unit.
+        
+        Returns
+        -------
+        pint.Unit
+            The unit.
+    """
+    from .api_pint import get_unit as get_pint_unit
+
+    quantity = quantity_to_pint(1.0*unit)
+
+    return get_pint_unit(quantity)
+
+
+## To Unyt
+
+def quantity_to_unyt(quantity: openmm_unit.Quantity):
     """ Transform a quantity from openmm.unit to a unyt quantity.
         
         Parameters
@@ -248,4 +302,23 @@ def to_unyt(quantity: openmm_unit.Quantity):
     unit_name = get_unit(quantity).get_symbol()
 
     return make_unyt_quantity(value, unit_name)
+
+def unit_to_unyt(unit: openmm_unit.Unit):
+    """ Transform a unit from openmm.unit to a unyt unit.
+        
+        Parameters
+        -----------
+        unit : openmm.unit.Unit
+            A unit.
+        
+        Returns
+        -------
+        unyt_unit
+            The unit.
+    """
+    from .api_unyt import get_unit as get_unyt_unit
+
+    quantity = quantity_to_unyt(1.0*unit)
+
+    return get_unyt_unit(quantity)
 

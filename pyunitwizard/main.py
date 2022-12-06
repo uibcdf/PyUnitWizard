@@ -4,7 +4,7 @@ from ._private.parsers import digest_parser
 from ._private.quantity_or_unit import ArrayLike, QuantityOrUnit, QuantityLike, UnitLike
 from .forms import dict_is_form, dict_is_unit, dict_is_quantity, dict_dimensionality, dict_compatibility
 from .forms import dict_get_unit, dict_get_value, dict_make_quantity
-from .forms import dict_convert, dict_translate, dict_to_string, dict_change_value
+from .forms import dict_convert, dict_translate_quantity, dict_translate_unit, dict_change_value
 from .import kernel
 from .parse import parse as _parse
 import numpy as np
@@ -401,7 +401,7 @@ def quantity(value: Union[int, float, ArrayLike],
     output = None
 
     form = digest_form(form)
-
+    
     if type(value) is str:
         if unit is None:
             output = convert(value, to_form=form, parser=parser)
@@ -416,7 +416,7 @@ def quantity(value: Union[int, float, ArrayLike],
         if unit is None:
             raise BadCallError('unit')
 
-        unit = convert(unit, to_form=form, parser=parser)
+        unit = convert(unit, to_form=form, parser=parser, to_type='unit')
 
         try:
             output = dict_make_quantity[form](value, unit)
@@ -504,12 +504,12 @@ def convert(quantity_or_unit: Any,
                     output=output
                 else:
                     output = dict_get_unit[parser](output)
-                output = dict_to_string[parser](output)
+                output = dict_translate_quantity[parser]['string'](output)
             elif to_type == 'value':
                 output = dict_get_value[parser](output)
                 output = str(output)
             else:
-                output = dict_to_string[parser](output)
+                output = dict_translate_quantity[parser]['string'](output)
 
         else:
 
@@ -533,27 +533,32 @@ def convert(quantity_or_unit: Any,
 
             if to_unit is not None:
                 output = dict_convert[form_in](output, to_unit)
+
             if to_type == 'unit':
                 if is_unit(output):
                     output=output
                 else:
                     output = dict_get_unit[form_in](output)
-                output = dict_to_string[form_in](output)
+                output = dict_translate_unit[form_in]['string'](output)
             elif to_type == 'value':
                 output = dict_get_value[form_in](output)
                 output = str(output)
             else:
-                output = dict_to_string[form_in](output)
+                output = dict_translate_quantity[form_in]['string'](output)
 
         else:
 
             if form_in == to_form:
                 output = quantity_or_unit
             else:
-                output = dict_translate[form_in][to_form](quantity_or_unit)
+                if is_unit(quantity_or_unit):
+                    output = dict_translate_unit[form_in][to_form](quantity_or_unit)
+                else:
+                    output = dict_translate_quantity[form_in][to_form](quantity_or_unit)
 
             if to_unit is not None:
                 output = dict_convert[to_form](output, to_unit)
+
             if to_type == 'unit':
                 if is_unit(output):
                     output = output

@@ -64,6 +64,11 @@ def test_convert_from_pint_to_openmm_unit():
     quantity = puw.convert(quantity, to_form='openmm.unit')
     assert quantity == 2.5 * openmm_unit.nanometer/openmm_unit.picosecond
 
+
+    unit_openmm = puw.unit('nm', form='openmm.unit')
+    unit_pint = puw.unit('nm', form='pint')
+    assert unit_openmm == puw.convert(unit_pint, to_form='openmm.unit')
+
 def test_convert_from_pint_to_openmm_array():
     puw.configure.reset()
     puw.configure.load_library(['pint','openmm.unit'])
