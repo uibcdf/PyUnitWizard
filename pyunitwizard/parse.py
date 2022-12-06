@@ -1,9 +1,7 @@
 from ._private.exceptions import *
 from ._private.forms import digest_to_form
 from ._private.parsers import digest_parser
-from .forms import dict_string_to_quantity
-from .forms import dict_to_string
-from .forms import dict_translate
+from .forms import dict_translate_quantity
 import ast
 from typing import Optional
 
@@ -27,9 +25,9 @@ def _parse_with_pint(string: str):
         value_string = string[:end_list]
         unit_string = string[end_list:]
 
-        return ast.literal_eval(value_string)*dict_string_to_quantity['pint'](unit_string)
+        return ast.literal_eval(value_string)*dict_translate_quantity['string']['pint'](unit_string)
     else:
-       return dict_string_to_quantity['pint'](string)
+       return dict_translate_quantity['string']['pint'](string)
 
 def parse(string: str, parser: Optional[str]=None, to_form: Optional[str]=None):
     """ Parses a string and returns a quantity.
@@ -63,15 +61,15 @@ def parse(string: str, parser: Optional[str]=None, to_form: Optional[str]=None):
 
         elif to_form == 'openmm.unit':
             pint_quantity = _parse_with_pint(string)
-            return dict_translate['pint']['openmm.unit'](pint_quantity)
+            return dict_translate_quantity['pint']['openmm.unit'](pint_quantity)
 
         elif to_form == 'string':
             pint_quantity = _parse_with_pint(string)
-            return dict_to_string['pint'](pint_quantity)
+            return dict_translate_quantity['pint']['string'](pint_quantity)
         
         elif to_form == 'unyt':
             pint_quantity = _parse_with_pint(string)
-            return dict_translate['pint']['unyt'](pint_quantity)
+            return dict_translate_quantity['pint']['unyt'](pint_quantity)
 
         else:
             raise NotImplementedParsingError(parser, to_form)

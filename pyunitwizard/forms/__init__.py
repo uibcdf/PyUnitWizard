@@ -10,10 +10,9 @@ dict_get_value={}
 dict_get_unit={}
 dict_change_value={}
 dict_make_quantity={}
-dict_translate={} # This contains a sub-dictionary for each loaded library. Contains functions such as to_pint
+dict_translate_quantity={} # This contains a sub-dictionary for each loaded library. Contains functions such as to_pint
+dict_translate_unit={} # This contains a sub-dictionary for each loaded library. Contains functions such as to_pint
 dict_convert={}
-dict_string_to_quantity={}
-dict_to_string={}
 dict_dimensionality={}
 dict_compatibility={}
 
@@ -40,32 +39,44 @@ def load_library(library: str) -> None:
     dict_change_value[library] = api.change_value
     dict_make_quantity[library] = api.make_quantity
     dict_convert[library] = api.convert
-    dict_translate[library] = {}
-    dict_string_to_quantity[library] = api.string_to_quantity
-    dict_to_string[library] = api.to_string
+    dict_translate_quantity[library] = {}
+    dict_translate_unit[library] = {}
     dict_dimensionality[library] = api.dimensionality
     dict_compatibility[library] = api.compatibility
 
-    dict_translate[library]['string'] = api.to_string
+    dict_translate_quantity[library]['string'] = api.quantity_to_string
+    dict_translate_unit[library]['string'] = api.unit_to_string
     api_string = _import_module('.api_string', _base_package)
-    dict_translate['string'][library]= getattr(api_string, 'to_'+library.replace('.','_'))
+    dict_translate_quantity['string'][library]= getattr(api_string, 'quantity_to_'+library.replace('.','_'))
+    dict_translate_unit['string'][library]= getattr(api_string, 'unit_to_'+library.replace('.','_'))
     del(api_string)
 
     for method in api.__dict__.keys():
-        if method.startswith('to_'):
-            out_form = method.replace('to_','').replace('_','.')
+        if method.startswith('quantity_to_'):
+            out_form = method.replace('quantity_to_','').replace('_','.')
             if out_form in loaded_libraries:
-                dict_translate[library][out_form] = getattr(api, method)
+                dict_translate_quantity[library][out_form] = getattr(api, method)
+        if method.startswith('unit_to_'):
+            out_form = method.replace('unit_to_','').replace('_','.')
+            if out_form in loaded_libraries:
+                dict_translate_unit[library][out_form] = getattr(api, method)
+
     if api.parser:
         loaded_parsers.append(library)
 
     for library_loaded in loaded_libraries:
         api = _import_module('.'+_forms_apis_modules[library_loaded], _base_package)
         for method in api.__dict__.keys():
-            if method.startswith('to_'):
-                out_form=method.replace('to_','').replace('_','.')
+            if method.startswith('quantity_to_'):
+                out_form=method.replace('quantity_to_','').replace('_','.')
                 if out_form == library:
-                    dict_translate[library_loaded][library]= getattr(api, method)
+                    dict_translate_quantity[library_loaded][library]= getattr(api, method)
+                    break
+        for method in api.__dict__.keys():
+            if method.startswith('unit_to_'):
+                out_form=method.replace('unit_to_','').replace('_','.')
+                if out_form == library:
+                    dict_translate_unit[library_loaded][library]= getattr(api, method)
                     break
 
     loaded_libraries.append(library)
@@ -85,9 +96,8 @@ dict_get_unit['string'] = api.get_unit
 dict_change_value['string'] = api.change_value
 dict_make_quantity['string'] = api.make_quantity
 dict_convert['string'] = api.convert
-dict_translate['string']={}
-dict_string_to_quantity['string'] = api.string_to_quantity
-dict_to_string['string'] = api.to_string
+dict_translate_quantity['string']={}
+dict_translate_unit['string']={}
 dict_dimensionality['string'] = api.dimensionality
 dict_compatibility['string'] = api.compatibility
 

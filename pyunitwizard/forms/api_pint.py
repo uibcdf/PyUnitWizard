@@ -303,31 +303,22 @@ def unit_to_openmm_unit(unit: pint.Unit):
         openmm_unit.Unit
             The unit.
     """
-    from pint.util import ParserHelper as PintParserHelper
-    try:
-        import openmm.unit as openmm_unit
-    except:
-        raise LibraryNotFoundError('openmm')
 
-    pint_parser = PintParserHelper.from_string(unit.__str__())
-    tmp_ = 1
-    for unit_name, exponent in pint_parser.items():
-        if unit_name == 'unified_atomic_mass_unit':
-            unit_name = 'amu'
-        tmp_quantity *= getattr(openmm_unit, unit_name)**exponent
+    from .api_openmm_unit import get_unit as get_openmm_unit_unit
 
-    return tmp_unit
+    quantity = quantity_to_openmm_unit(1.0*unit)
 
+    return get_openmm_unit_unit(quantity)
 
+## To Unyt
 
-
-def to_unyt(quantity: pint.Quantity):
+def quantity_to_unyt(quantity: pint.Quantity):
     """ Transform a quantity from a pint quantity to a unyt quantity.
         
         Parameters
         -----------
         quantity : pint.Quantity
-            A quanitity.
+            A quantity.
         
         Returns
         -------
@@ -337,4 +328,25 @@ def to_unyt(quantity: pint.Quantity):
     from unyt import unyt_array
 
     return unyt_array.from_pint(quantity)
+
+def unit_to_unyt(unit: pint.Unit):
+    """ Transform a unit from a pint unit to a unyt unit.
+        
+        Parameters
+        -----------
+        unit : pint.Unit
+            A unit.
+        
+        Returns
+        -------
+        unyt_array or unyt_quantity
+            The unyt quantity
+    """
+
+    from .api_unyt import get_unit as get_unyt_unit
+
+    quantity = quantity_to_unyt(1.0*unit)
+
+    return get_unyt_unit(quantity)
+
 

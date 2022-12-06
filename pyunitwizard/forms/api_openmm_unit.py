@@ -257,7 +257,7 @@ def quantity_to_pint(quantity: openmm_unit.Quantity):
     from .api_pint import make_quantity as make_pint_quantity
 
     value = get_value(quantity)
-    unit_name = to_string(get_unit(quantity))
+    unit_name = unit_to_string(get_unit(quantity))
 
     return make_pint_quantity(value, unit_name)
 

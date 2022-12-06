@@ -6,6 +6,7 @@ import numpy as np
 def test_convert_from_openmm_to_pint():
     puw.configure.reset()
     puw.configure.load_library(['openmm.unit', 'pint'])
+    puw.configure.set_default_parser('pint')
 
     quantity = puw.convert(1*openmm_unit.meter, to_form='pint')
     assert puw.get_form(quantity) == 'pint'
@@ -16,6 +17,10 @@ def test_convert_from_openmm_to_pint():
     assert puw.get_form(quantity) == 'pint'
     assert np.all(puw.get_value(quantity) == np.array([1, 2]))
     assert puw.get_unit(quantity) == "meter"
+
+    unit_openmm = puw.unit('nm', form='openmm.unit')
+    unit_pint = puw.unit('nm', form='pint')
+    assert unit_pint == puw.convert(unit_openmm, to_form='pint')
 
 def test_convert_from_openmm_to_openmm():
     puw.configure.reset()

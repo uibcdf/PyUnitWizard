@@ -5,7 +5,8 @@ from typing import Any, Dict, Union
 
 try:
     import unyt
-    from unyt import unyt_array, unyt_quantity, Unit
+    from unyt import unyt_array, unyt_quantity
+    from unyt import Unit as unyt_unit
 except:
     raise LibraryNotFoundError('unyt')
 
@@ -15,7 +16,7 @@ parser = True
 is_form = {
     unyt_array:    form_name,
     unyt_quantity: form_name,
-    Unit:          form_name,
+    unyt_unit:          form_name,
 }
 
 
@@ -45,11 +46,11 @@ def is_unit(quantity_or_unit: Any) -> bool:
         Returns
         -------
         bool
-            True if it is a unyt.Unit.
+            True if it is a unyt_unit.
     """
-    return isinstance(quantity_or_unit, Unit)
+    return isinstance(quantity_or_unit, unyt_unit)
 
-def dimensionality(quantity_or_unit: Union[unyt_array, unyt_quantity, Unit]
+def dimensionality(quantity_or_unit: Union[unyt_array, unyt_quantity, unyt_unit]
                   ) -> Dict[str, int]:
     """ Returns the dimensionality of the quantity or unit.
 
@@ -79,17 +80,17 @@ def dimensionality(quantity_or_unit: Union[unyt_array, unyt_quantity, Unit]
     return dimensionality_pint(temp_quantity)
     
 
-def compatibility(quantity_or_unit_1: Union[unyt_array, unyt_quantity, Unit], 
-                  quantity_or_unit_2: Union[unyt_array, unyt_quantity, Unit]
+def compatibility(quantity_or_unit_1: Union[unyt_array, unyt_quantity, unyt_unit], 
+                  quantity_or_unit_2: Union[unyt_array, unyt_quantity, unyt_unit]
                   ) -> bool:
     """ Check whether two quantities or units are compatible.
 
         Parameters
         ----------
-        quantity_or_unit_1 : unyt_array or unyt_quantity or Unit
+        quantity_or_unit_1 : unyt_array or unyt_quantity or unyt_unit
             A quanitity or a unit.
 
-        quantity_or_unit_2 : unyt_array or unyt_quantity or Unit
+        quantity_or_unit_2 : unyt_array or unyt_quantity or unyt_unit
             A quanitity or a unit.
 
         Returns
@@ -110,7 +111,7 @@ def compatibility(quantity_or_unit_1: Union[unyt_array, unyt_quantity, Unit],
     return unit_1.same_dimensions_as(unit_2)
 
 def make_quantity(value: Union[int, float, ArrayLike], 
-                  unit: Union[str, Unit]) -> Union[unyt_array, unyt_quantity]:
+                  unit: Union[str, unyt_unit]) -> Union[unyt_array, unyt_quantity]:
     """ Returns a unyt quantity.
 
         Parmeters
@@ -118,7 +119,7 @@ def make_quantity(value: Union[int, float, ArrayLike],
         value: int, float or ArrayLike
             The value of the quantity.
 
-        unit : Unit or str
+        unit : unyt_unit or str
             The unit.
         
         Returns
@@ -131,26 +132,42 @@ def make_quantity(value: Union[int, float, ArrayLike],
     else:
         return unyt_array(value, unit)
 
-def string_to_quantity(string):
-
-    raise LibraryWithoutParserError("Unyt library has no string parser")
-
-def to_string(quantity_or_unit: Union[unyt_array, 
-                                unyt_quantity,
-                                Unit]) -> str:
-    """ Convert a quantity to string. 
-
+def get_value(quantity: Union[unyt_array, 
+                        unyt_quantity]) -> Union[int, float, ArrayLike]:
+    """ Returns the value of the quantity.
+        
         Parameters
         -----------
-        quantity_or_unit : unyt_array or unyt_quantity or Unit
+        quantity : unyt_array or unyt_quantity
             A quanitity or a unit.
-
+        
         Returns
         -------
-        str
-            The quantitity as a string.
+        int, float or ArrrayLike
+            The value.
     """
-    return str(quantity_or_unit)
+    return quantity.value
+
+def get_unit(quantity: Union[unyt_array, 
+                       unyt_quantity]) -> unyt_unit:
+    """ Returns the units of the quantity.
+        
+        Parameters
+        -----------
+        quantity : unyt_array or unyt_quantity
+            A quanitity or a unit.
+        
+        Returns
+        -------
+        unyt_unit
+            The unit.
+    """
+    return quantity.units
+
+def change_value(quantity: Union[unyt_quantity, unyt_array],
+                 value: Union[int, float, ArrayLike]) -> Union[unyt_array, unyt_quantity]:
+
+    return make_quantity(value, get_unit(quantity))
 
 def convert(quantity: Union[unyt_array, unyt_quantity], 
             unit_name: str) -> Union[unyt_array, unyt_quantity]:
@@ -171,44 +188,55 @@ def convert(quantity: Union[unyt_array, unyt_quantity],
     """
     return quantity.to(unit_name)
 
-def get_value(quantity: Union[unyt_array, 
-                        unyt_quantity]) -> Union[int, float, ArrayLike]:
-    """ Returns the value of the quantity.
-        
+
+## Parser
+
+def string_to_quantity(string):
+
+    raise LibraryWithoutParserError("Unyt library has no string parser")
+
+def string_to_unit(string):
+
+    raise LibraryWithoutParserError("Unyt library has no string parser")
+
+
+## To string
+
+def quantity_to_string(quantity: Union[unyt_array, 
+                                unyt_quantity]) -> str:
+    """ Convert a quantity to string. 
+
         Parameters
         -----------
-        quantity : unyt_array or unyt_quantity
+        quantity: unyt_array or unyt_quantity
             A quanitity or a unit.
-        
+
         Returns
         -------
-        int, float or ArrrayLike
-            The value.
+        str
+            The quantitity as a string.
     """
-    return quantity.value
+    return str(quantity)
 
-def get_unit(quantity: Union[unyt_array, 
-                       unyt_quantity]) -> Unit:
-    """ Returns the units of the quantity.
-        
+def unit_to_string(unit: unyt_unit) -> str:
+    """ Convert a unit to string. 
+
         Parameters
         -----------
-        quantity : unyt_array or unyt_quantity
-            A quanitity or a unit.
-        
+        unit: unyt_unit
+            A unit.
+
         Returns
         -------
-        Unit
-            The unit.
+        str
+            The unit as a string.
     """
-    return quantity.units
+    return str(unit)
 
-def change_value(quantity: Union[unyt_quantity, unyt_array],
-                 value: Union[int, float, ArrayLike]) -> Union[unyt_array, unyt_quantity]:
 
-    return make_quantity(value, get_unit(quantity))
+## To Pint
 
-def to_pint(quantity: Union[unyt_array, 
+def quantity_to_pint(quantity: Union[unyt_array, 
                        unyt_quantity]):
     """ Transform a quantity from unyt to a pint quantity.
         
@@ -225,7 +253,29 @@ def to_pint(quantity: Union[unyt_array,
     from .api_pint import ureg
     return quantity.to_pint(unit_registry=ureg)
 
-def to_openmm_unit(quantity: Union[unyt_array, unyt_quantity]):
+def unit_to_pint(unit: unyt_unit):
+    """ Transform a unit from unyt to a pint unit.
+        
+        Parameters
+        -----------
+        unit : unyt_unit
+            A unit.
+        
+        Returns
+        -------
+        pint.Unit
+            The unit.
+    """
+    from .api_pint import get_unit as get_pint_unit
+
+    quantity = quantity_to_pint(1.0*unit)
+
+    return get_pint_unit(quantity)
+
+
+## To openmm.unit
+
+def quantity_to_openmm_unit(quantity: Union[unyt_array, unyt_quantity]):
     """ Transform a quantity from unyt to an openmm.unit quantity.
         
         Parameters
@@ -239,7 +289,27 @@ def to_openmm_unit(quantity: Union[unyt_array, unyt_quantity]):
             The quantity.
     """
     # Convert to pint quantity first and then to openmm. Temporary solution
-    from .api_pint import to_openmm_unit as pint_to_openmm
+    from .api_pint import quantity_to_openmm_unit as pint_quantity_to_openmm
 
-    return pint_to_openmm(quantity.to_pint())
+    return pint_quantity_to_openmm(quantity.to_pint())
+
+def unit_to_openmm_unit(unit: unyt_unit):
+    """ Transform a unit from unyt to a openmm.unit unit.
+        
+        Parameters
+        -----------
+        unit : unyt_unit
+            A unit.
+        
+        Returns
+        -------
+        openmm_unit.Unit
+            The unit.
+    """
+    from .api_openmm_unit import get_unit as get_openmm_unit_unit
+
+    quantity = quantity_to_openmm_unit(1.0*unit)
+
+    return get_openmm_unit_unit(quantity)
+
 
