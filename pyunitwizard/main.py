@@ -799,4 +799,24 @@ def check(quantity_or_unit: Any,
 
     return True
 
+def concatenate(quantities, to_unit=None, to_form=None, to_object='tuple', standardized=False):
+
+    if to_unit is None:
+        output_unit = get_unit(quantities[0])
+    else:
+        output_unit = to_unit
+
+    output_value = []
+
+    for aux_quantity in quantities:
+        output_value.append(get_value(aux_quantity, to_unit=output_unit))
+        
+    if to_object=='list':
+        return quantity(output_value, output_unit, form=to_form, standardized=standardized)
+    elif to_object=='tuple':
+        return quantity(tuple(output_value), output_unit, form=to_form, standardized=standardized)
+    elif to_object=='numpy.ndarray':
+        return quantity(np.array(output_value), output_unit, form=to_form, standardized=standardized)
+    else:
+        raise ValueError
 
