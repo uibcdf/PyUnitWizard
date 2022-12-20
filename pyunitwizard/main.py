@@ -799,7 +799,7 @@ def check(quantity_or_unit: Any,
 
     return True
 
-def concatenate(quantities, to_unit=None, to_form=None, to_object='tuple', standardized=False):
+def concatenate(quantities, to_unit=None, to_form=None, to_value_type='tuple', standardized=False):
 
     if to_unit is None:
         output_unit = get_unit(quantities[0])
@@ -811,11 +811,11 @@ def concatenate(quantities, to_unit=None, to_form=None, to_object='tuple', stand
     for aux_quantity in quantities:
         output_value.append(get_value(aux_quantity, to_unit=output_unit))
         
-    if to_object=='list':
+    if to_value_type=='list':
         return quantity(output_value, output_unit, form=to_form, standardized=standardized)
-    elif to_object=='tuple':
+    elif to_value_type=='tuple':
         return quantity(tuple(output_value), output_unit, form=to_form, standardized=standardized)
-    elif to_object=='numpy.ndarray':
+    elif to_value_type=='numpy.ndarray':
         return quantity(np.array(output_value), output_unit, form=to_form, standardized=standardized)
     else:
         raise ValueError
