@@ -26,8 +26,8 @@ jobs:
         with:
           python-version: 3.9
           environment-file: devtools/conda-envs/docs_env.yaml
-          mamba-version: "*"
-          use-mamba: true
+          #mamba-version: "*"
+          #use-mamba: true
           auto-update-conda: false
           auto-activate-base: false
           show-channel-urls: true

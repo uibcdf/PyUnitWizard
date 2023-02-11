@@ -23,8 +23,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           environment-file: devtools/conda-envs/build_env.yaml
-          mamba-version: "*"
-          use-mamba: true
+          #mamba-version: "*"
+          #use-mamba: true
           auto-activate-base: false
           auto-update-conda: false
           show-channel-urls: true
