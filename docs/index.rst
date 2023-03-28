@@ -40,6 +40,7 @@ Libraries supported
    contents/user/Dimensionality.ipynb
    contents/user/Convert.ipynb
    contents/user/Strings.ipynb
+   contents/user/Lists_and_arrays.ipynb
    contents/user/Standardize.ipynb
    contents/user/Check.ipynb
    contents/user/In_Your_Library.ipynb

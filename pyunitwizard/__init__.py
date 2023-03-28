@@ -15,6 +15,7 @@ from .main import unit, quantity, get_form, is_quantity, is_unit, concatenate
 from .main import get_value, get_unit, get_value_and_unit, change_value
 from .main import convert
 from .main import get_standard_units, standardize, get_dimensionality, compatibility, similarity, check
+from .main import concatenate, stack
 from . import configure
 from . import kernel as _kernel
 

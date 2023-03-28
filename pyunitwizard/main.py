@@ -799,24 +799,78 @@ def check(quantity_or_unit: Any,
 
     return True
 
-def concatenate(quantities, to_unit=None, to_form=None, type_value='tuple', standardized=False):
+def concatenate(sequence, to_unit=None, to_form=None, type_value='tuple', standardized=False):
+
+    sequence_of_sequences = False
+
+    if isinstance(sequence, (list, tuple, np.ndarray)):
+        if isinstance(sequence[0], (list, tuple, np.ndarray)):
+            sequence_of_sequences = True
+
+    if not sequence_of_sequences:
+
+        if to_unit is None:
+            output_unit = get_unit(sequence[0])
+        else:
+            output_unit = to_unit
+
+        output_value = []
+
+        for aux_quantity in sequence:
+            output_value.append(get_value(aux_quantity, to_unit=output_unit))
+
+        if type_value=='list':
+            return quantity(output_value, output_unit, form=to_form, standardized=standardized)
+        elif type_value=='tuple':
+            return quantity(tuple(output_value), output_unit, form=to_form, standardized=standardized)
+        elif type_value=='numpy.ndarray':
+            return quantity(np.array(output_value), output_unit, form=to_form, standardized=standardized)
+        else:
+            raise ValueError
+
+    else:
+
+        if to_unit is None:
+            output_unit = get_unit(sequence[0][0])
+        else:
+            output_unit = to_unit
+
+        output_value = []
+
+        for aux_seq in sequence:
+            for aux_quantity in aux_seq:
+                output_value.append(get_value(aux_quantity, to_unit=output_unit))
+
+        if type_value=='list':
+            return quantity(output_value, output_unit, form=to_form, standardized=standardized)
+        elif type_value=='tuple':
+            return quantity(tuple(output_value), output_unit, form=to_form, standardized=standardized)
+        elif type_value=='numpy.ndarray':
+            return quantity(np.array(output_value), output_unit, form=to_form, standardized=standardized)
+        else:
+            raise ValueError
+
+def stack(sequence, to_unit=None, to_form=None, type_value='tuple', standardized=False):
 
     if to_unit is None:
-        output_unit = get_unit(quantities[0])
+        output_unit = get_unit(sequence[0][0])
     else:
         output_unit = to_unit
 
     output_value = []
 
-    for aux_quantity in quantities:
-        output_value.append(get_value(aux_quantity, to_unit=output_unit))
-        
+    for aux_seq in sequence:
+        aux_list = []
+        for aux_quantity in aux_seq:
+            aux_list.append(get_value(aux_quantity, to_unit=output_unit))
+        output_value.append(aux_list)
+
     if type_value=='list':
-        return quantity(output_value, output_unit, form=to_form, standardized=standardized)
+        return quantity(output_value.tolist(), output_unit, form=to_form, standardized=standardized)
     elif type_value=='tuple':
-        return quantity(tuple(output_value), output_unit, form=to_form, standardized=standardized)
+        return quantity(tuple(output_value.tolist()), output_unit, form=to_form, standardized=standardized)
     elif type_value=='numpy.ndarray':
-        return quantity(np.array(output_value), output_unit, form=to_form, standardized=standardized)
+        return quantity(output_value, output_unit, form=to_form, standardized=standardized)
     else:
         raise ValueError
 
