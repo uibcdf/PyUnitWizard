@@ -82,9 +82,8 @@ def is_unit(quantity_or_unit: QuantityOrUnit, parser: Optional[str]=None) -> boo
     """
     if isinstance(quantity_or_unit, str):
         try:
-            quantity_or_unit = convert(quantity_or_unit, to_type='unit', parser=parser)
-            form = get_form(quantity_or_unit)
-            output = dict_is_quantity[form](quantity_or_unit)
+            quantity_or_unit = convert(quantity_or_unit, parser=parser)
+            output = (get_value(quantity_or_unit)==1)
         except:
             return False
     else:
@@ -191,8 +190,15 @@ def change_value(quantity: QuantityLike,
     return dict_change_value[form](quantity, value)
 
 def similarity(quantity_or_unit_1: QuantityOrUnit,
-               quantity_or_unit_2: QuantityOrUnit,
-               relative_tolerance: float=1e-08) -> bool:
+              quantity_or_unit_2: QuantityOrUnit,
+              relative_tolerance: float=1e-08) -> bool:
+
+    return are_close(quantity_or_unit_1, quantity_or_unit_2, rtol=relative_tolerance)
+
+def are_close(quantity_1: QuantityLike,
+              quantity_2: QuantityLike,
+              rtol: float=1e-05,
+              atol: float=1e-08) -> bool:
     """ Compares whether two quantities are similiar within a specified tolerance.
     
         Parameters
@@ -211,19 +217,72 @@ def similarity(quantity_or_unit_1: QuantityOrUnit,
         bool
             Whether the quantities or units are similar.
     """
-    is_compatible = compatibility(quantity_or_unit_1, quantity_or_unit_2)
+    compatible = are_compatible(quantity_1, quantity_2)
 
-    if is_compatible:
+    if compatible:
 
-        form_1 = get_form(quantity_or_unit_1)
-        if form_1 == 'string':
-            quantity_or_unit_1 = convert(quantity_or_unit_1)
-            form_1 = get_form(quantity_or_unit_1)
-        quantity_or_unit_2 = convert(quantity_or_unit_2, to_form=form_1)
-        ratio = quantity_or_unit_1 / quantity_or_unit_2
-        return (abs(ratio - 1.0) < relative_tolerance)
+        value_1, unit_1 = get_value_and_unit(quantity_1)
+        value_2 = get_value(quantity_2, to_unit=unit_1)
+
+        if isinstance(value_1, (list, tuple, np.ndarray)):
+
+            return np.allclose(value_1, value_2, rtol=rtol, atol=atol)
+
+        else:
+            
+            check_atol = (abs(value_1-value_2) < atol)
+            check_rtol = (abs(value_1/value_2 - 1.0) < rtol)
+
+            return (check_atol and check_rtol)
 
     return False
+
+def are_equal(quantity_or_unit_1: QuantityOrUnit,
+              quantity_or_unit_2: QuantityOrUnit) -> bool:
+    """ Compares whether two quantities are similiar within a specified tolerance.
+    
+        Parameters
+        ----------
+        quantity_or_unit_1 : QuantityOrUnit
+            A quantity or a unit
+        
+        quantity_or_unit_2 : QuantityOrUnit
+            A quantity or a unit
+
+        relative_tolerance : float
+            The relative tolerance to compare the quantities.
+
+        Returns
+        -------
+        bool
+            Whether the quantities or units are similar.
+    """
+    compatible = are_compatible(quantity_or_unit_1, quantity_or_unit_2)
+
+    if compatible:
+
+        if is_quantity(quantity_or_unit_1) and is_quantity(quantity_or_unit_2):
+
+            value_1, unit_1 = get_value_and_unit(quantity_or_unit_1)
+            value_2 = get_value(quantity_or_unit_2, to_unit=unit_1)
+
+            if isinstance(value_1, (list, tuple, np.ndarray)):
+
+                return np.all(np.equal(value_1, value_2))
+
+            else:
+                
+                return value_1==value_2
+
+        elif is_unit(quantity_or_unit_1) and is_unit(quantity_or_unit_2):
+
+            unit_1 = convert(quantity_or_unit_1)
+            unit_2 = convert(quantity_or_unit_2)
+
+            return unit_1==unit_2
+
+    return False
+
 
 def get_dimensionality(quantity_or_unit: QuantityOrUnit) -> Dict[str, int]:
     """ Returns the dimensionality of the quantity or unit.
@@ -277,7 +336,13 @@ def _dimensionality_dict_to_array(dimensionality: Dict[str, int]) -> np.ndarray:
 
     return np.array(dim_list, dtype=float)
 
+
 def compatibility(quantity_or_unit_1: QuantityOrUnit,
+                  quantity_or_unit_2: QuantityOrUnit) -> bool:
+
+    return are_compatible(quantity_or_unit_1, quantity_or_unit_2)
+
+def are_compatible(quantity_or_unit_1: QuantityOrUnit,
                   quantity_or_unit_2: QuantityOrUnit) -> bool:
     """ Check whether two quantities or units are compatible.
         This means that they have the same dimensionalities.
@@ -640,7 +705,7 @@ def get_standard_units(quantity_or_unit: Optional[QuantityOrUnit]=None,
                 raise NoStandardsError
 
         for standard_unit, _ in kernel.adimensional_standards.items():
-            if compatibility(quantity_or_unit, standard_unit):
+            if are_compatible(quantity_or_unit, standard_unit):
                 output = standard_unit
                 break
 
@@ -760,7 +825,7 @@ def check(quantity_or_unit: Any,
 
         if unit is not None:
             aux_unit = get_unit(quantity_or_unit)
-            if not similarity(aux_unit, unit):
+            if not are_equal(aux_unit, unit):
                 return False
         if value_type is not None:
             aux_value = get_value(quantity_or_unit)
@@ -786,7 +851,7 @@ def check(quantity_or_unit: Any,
     elif is_unit(quantity_or_unit):
 
         if unit is not None:
-            if not similarity(quantity_or_unit, unit):
+            if not are_equal(quantity_or_unit, unit):
                 return False
         if dimensionality is not None:
             aux_dimensionality = get_dimensionality(quantity_or_unit)

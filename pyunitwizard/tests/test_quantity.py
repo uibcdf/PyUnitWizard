@@ -6,7 +6,7 @@ def test_quantity_openmm_unit():
     openmm_unit = puw.forms.api_openmm_unit.openmm_unit
     quantity = puw.quantity('10 kilojoule/mole', form='openmm.unit')
     q_true = 10 * openmm_unit.kilojoule/openmm_unit.mole
-    assert puw.similarity(quantity, q_true)
+    assert puw.are_close(quantity, q_true)
 
 def test_quantity_pint():
 
