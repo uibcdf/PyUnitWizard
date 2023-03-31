@@ -930,6 +930,60 @@ def stack(sequence, to_unit=None, to_form=None, type_value='tuple', standardized
             aux_list.append(get_value(aux_quantity, to_unit=output_unit))
         output_value.append(aux_list)
 
+    output_value = np.stack(output_value)
+
+    if type_value=='list':
+        return quantity(output_value.tolist(), output_unit, form=to_form, standardized=standardized)
+    elif type_value=='tuple':
+        return quantity(tuple(output_value.tolist()), output_unit, form=to_form, standardized=standardized)
+    elif type_value=='numpy.ndarray':
+        return quantity(output_value, output_unit, form=to_form, standardized=standardized)
+    else:
+        raise ValueError
+
+def hstack(sequence, to_unit=None, to_form=None, type_value='tuple', standardized=False):
+
+    if to_unit is None:
+        output_unit = get_unit(sequence[0][0])
+    else:
+        output_unit = to_unit
+
+    output_value = []
+
+    for aux_seq in sequence:
+        aux_list = []
+        for aux_quantity in aux_seq:
+            aux_list.append(get_value(aux_quantity, to_unit=output_unit))
+        output_value.append(aux_list)
+
+    output_value = np.hstack(output_value)
+
+    if type_value=='list':
+        return quantity(output_value.tolist(), output_unit, form=to_form, standardized=standardized)
+    elif type_value=='tuple':
+        return quantity(tuple(output_value.tolist()), output_unit, form=to_form, standardized=standardized)
+    elif type_value=='numpy.ndarray':
+        return quantity(output_value, output_unit, form=to_form, standardized=standardized)
+    else:
+        raise ValueError
+
+def vstack(sequence, to_unit=None, to_form=None, type_value='tuple', standardized=False):
+
+    if to_unit is None:
+        output_unit = get_unit(sequence[0][0])
+    else:
+        output_unit = to_unit
+
+    output_value = []
+
+    for aux_seq in sequence:
+        aux_list = []
+        for aux_quantity in aux_seq:
+            aux_list.append(get_value(aux_quantity, to_unit=output_unit))
+        output_value.append(aux_list)
+
+    output_value = np.vstack(output_value)
+
     if type_value=='list':
         return quantity(output_value.tolist(), output_unit, form=to_form, standardized=standardized)
     elif type_value=='tuple':
