@@ -68,7 +68,7 @@ jobs:
       with:
         environment-file: devtools/conda-envs/test_env.yaml
         environment-name: test
-        channels: uibcdf, conda-forge, ambermd, defaults
+        channels: uibcdf, conda-forge, defaults
 
         extra-specs: |
           python==${{ matrix.cfg.python-version }}
@@ -78,8 +78,8 @@ jobs:
       # conda setup requires this special shell
       shell: bash -l {0}
       run: |
-        python setup.py develop
 
+        python setup.py develop
     - name: Info conda
       shell: bash -l {0}
       run: |
