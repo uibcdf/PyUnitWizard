@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false  # do not cancel all in-progress jobs if any job variation fails
       matrix:
-        python-version: ["3.8", "3.9"] # 3.10 with errors
+        python-version: ["3.8", "3.9", "3.10"] # 3.10 with errors
     steps:
       
       - uses: actions/checkout@v3
