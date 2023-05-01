@@ -34,7 +34,7 @@ jobs:
       - name: Installing the library
         shell: bash -l {0}
         run: |
-          python setup.py develop
+          python -m pip install . --no-deps
 
       - name: Info conda
         shell: bash -l {0}
