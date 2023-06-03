@@ -96,6 +96,23 @@ def test_are_equal_unyt_quantity():
     equal = puw.are_equal(quantity_1, quantity_2)
     assert not equal
 
+def test_are_equal_string():
+    puw.configure.reset()
+    puw.configure.load_library(['pint'])
+
+    equal = puw.are_equal('0.0 degrees', '0.0 radians')
+    assert equal
+
+    equal = puw.are_equal('4 mm', '0.4 cm')
+    assert equal
+
+    equal = puw.are_equal('4 mm', '0.41 cm')
+    assert not equal
+
+    equal = puw.are_equal('4 m', '4 cm')
+    assert not equal
+
+
 
 
 

@@ -85,11 +85,11 @@ def compatibility(quantity_or_unit_1: str, quantity_or_unit_2: str) -> bool:
             True if they are compatible.
     """
     from pyunitwizard.kernel import default_form, default_parser
-    from pyunitwizard import convert as _convert, compatibility as _compatibility
+    from pyunitwizard import convert as _convert, are_compatible as _are_compatible
 
     tmp_quantity_or_unit_1 = _convert(quantity_or_unit_1, to_form=default_form, parser=default_parser)
     tmp_quantity_or_unit_2 = _convert(quantity_or_unit_2, to_form=default_form, parser=default_parser)
-    return _compatibility(tmp_quantity_or_unit_1, tmp_quantity_or_unit_2)
+    return _are_compatible(tmp_quantity_or_unit_1, tmp_quantity_or_unit_2)
 
 def make_quantity(value: Union[int, float, ArrayLike], 
                   unit_name: str) -> str:

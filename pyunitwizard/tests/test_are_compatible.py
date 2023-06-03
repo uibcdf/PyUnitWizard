@@ -40,3 +40,13 @@ def test_are_compatible_unyt():
     q1 = puw.quantity(2.5, unyt.J/unyt.second, form="unyt")
     q2 = puw.quantity(3.0, unyt.m/unyt.second,  form="unyt")
     assert not puw.are_compatible(q1, q2)
+
+def test_are_compatible_string():
+
+    puw.configure.reset()
+    puw.configure.load_library(['pint'])
+
+    assert puw.are_compatible('0.0 degrees', '0.0 radians')
+
+    assert not puw.are_compatible('2.5 J/s', '3.0 m/s')
+
