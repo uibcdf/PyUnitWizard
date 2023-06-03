@@ -63,14 +63,20 @@ jobs:
     #    auto-activate-base: false
     #    show-channel-urls: true
 
+
     - name: Setup conda env
-      uses: mamba-org/provision-with-micromamba@main
+      uses: mamba-org/setup-micromamba@v1
       with:
         environment-file: devtools/conda-envs/test_env.yaml
         environment-name: test
-        channels: uibcdf, conda-forge, defaults
+        condarc: |
+          channels:
+            - uibcdf
+            - conda-forge
+            - defaults
+          channel_priority: strict
 
-        extra-specs: |
+        create-args: >-
           python==${{ matrix.cfg.python-version }}
 
     - name: Install package

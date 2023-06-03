@@ -21,7 +21,6 @@ test:
   dependencies: &test_dependencies
     - *production_dependencies
     - pytest
-    - pip
     - pytest-cov
     - codecov
     - openmm
@@ -60,5 +59,4 @@ conda-build:
     - *setup_dependencies
     - anaconda-client
     - conda-build
-    - boa
 
