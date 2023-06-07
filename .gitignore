@@ -113,7 +113,3 @@ record.txt
 *.mod
 *.swp
 
-# In This Library
-jupyter_execute/*
-devtools/snippets/
-
