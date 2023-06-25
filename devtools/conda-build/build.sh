@@ -1,3 +1,5 @@
 echo "Building"
-$PYTHON -m pip install --no-deps .
+echo $PYTHON
+python -v
+python -m pip install --no-deps .
 echo "Done"
