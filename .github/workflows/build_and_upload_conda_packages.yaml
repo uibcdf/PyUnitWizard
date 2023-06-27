@@ -14,31 +14,27 @@ jobs:
       fail-fast: false  # do not cancel all in-progress jobs if any job variation fails
       matrix:
         python-version: ["3.8", "3.9", "3.10"] # 3.10 with errors
+
     steps:
       
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-            #- name: Conda environment creation and activation
-            #  uses: conda-incubator/setup-miniconda@v2
-            #  with:
-            #    python-version: ${{ matrix.python-version }}
-            #    environment-file: devtools/conda-envs/build_env.yaml
-            #    #mamba-version: "*"
-            #    #use-mamba: true
-            #    auto-activate-base: false
-            #    auto-update-conda: false
-            #    show-channel-urls: true
 
       - name: Setup conda env
-        uses: mamba-org/provision-with-micromamba@main
+        uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: devtools/conda-envs/build_env.yaml
           environment-name: build
-          channels: uibcdf, conda-forge, ambermd, defaults
+          condarc: |
+            channels:
+              - uibcdf
+              - conda-forge
+              - defaults
+            channel_priority: strict
 
-          extra-specs: |
-            python==${{ matrix.python-version }}
+          create-args: >-
+            python=${{ matrix.python-version }}
 
       - name: Info conda
         shell: bash -l {0}

@@ -39,6 +39,7 @@ docs:
     - myst-nb
     - openmm
     - unyt
+    - jupyterlab
 
 
 development:
@@ -48,7 +49,6 @@ development:
     - *production_dependencies
     - *test_dependencies
     - *docs_dependencies
-    - jupyterlab
     - pyyaml
     - mamba
 
