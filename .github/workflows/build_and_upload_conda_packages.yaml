@@ -48,10 +48,10 @@ jobs:
           meta_yaml_dir: devtools/conda-build
           python-version: ${{ matrix.python-version }}
           mambabuild: false
+          user: uibcdf
+          label: auto
           platform_linux-64: true
           platform_osx-64: true
           platform_win-64: false
-          user: uibcdf
-          label: auto
           token: ${{ secrets.ANACONDA_UIBCDF_TOKEN }}
 
