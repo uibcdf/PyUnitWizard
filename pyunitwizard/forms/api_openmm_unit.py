@@ -192,6 +192,7 @@ def convert(quantity: openmm_unit.Quantity,
         openmm.unit.Quantity
             The converted quantity.
     """
+
     return quantity.in_units_of(unit)
 
 

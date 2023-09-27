@@ -622,6 +622,7 @@ def convert(quantity_or_unit: Any,
                     output = dict_translate_quantity[form_in][to_form](quantity_or_unit)
 
             if to_unit is not None:
+                to_unit = convert(to_unit, to_form=to_form)
                 output = dict_convert[to_form](output, to_unit)
 
             if to_type == 'unit':
