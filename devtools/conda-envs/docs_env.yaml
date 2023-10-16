@@ -12,3 +12,4 @@ dependencies:
 - myst-nb
 - openmm
 - unyt
+- jupyterlab

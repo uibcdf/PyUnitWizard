@@ -22,14 +22,18 @@ jobs:
           uname -a
 
       - name: Setup conda env
-        uses: mamba-org/provision-with-micromamba@main
+        uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: devtools/conda-envs/docs_env.yaml
           environment-name: docs
-          channels: uibcdf, conda-forge, defaults
-
-          extra-specs: |
-            python=="3.10"
+          condarc: |
+            channels:
+              - uibcdf
+              - conda-forge
+              - defaults
+            channel_priority: strict
+          create-args: >-
+            python=3.10
 
       - name: Installing the library
         shell: bash -l {0}
@@ -52,5 +56,5 @@ jobs:
           echo "::endgroup::"
 
       - name: Running the Sphinx to gh-pages Action
-        uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.1.0
+        uses: uibcdf/action-sphinx-docs-to-gh-pages@v2.0.0
 
