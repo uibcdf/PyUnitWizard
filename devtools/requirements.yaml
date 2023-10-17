@@ -22,6 +22,7 @@ test:
     - *production_dependencies
     - pytest
     - pytest-cov
+    - pytest-xdist
     - codecov
     - openmm
     - unyt
