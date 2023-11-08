@@ -113,3 +113,6 @@ record.txt
 *.mod
 *.swp
 
+# In this library
+pyunitwizard/_version.py
+
