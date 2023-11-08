@@ -3,6 +3,7 @@ from pyunitwizard import kernel
 from pyunitwizard._private.forms import digest_form
 from pyunitwizard._private.lists_and_tuples import is_list_or_tuple
 from pyunitwizard.main import convert, get_dimensionality
+from pyunitwizard import _constants, _constants_synonyms
 import numpy as np
 from importlib.util import find_spec
 from typing import List, Dict, Union
@@ -227,3 +228,7 @@ def set_standard_units(standard_units: List[str]) -> None:
                     if candidate_array[jj]>0:
                         already[jj]=1
 
+def add_constant(constant_name, value, unit) -> None:
+
+    _constants[constant_name]=[value, unit]
+    pass

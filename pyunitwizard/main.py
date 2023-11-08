@@ -10,7 +10,6 @@ from .parse import parse as _parse
 import numpy as np
 from typing import Any, Dict, Optional, Union, Tuple
 
-
 def get_form(quantity_or_unit: QuantityOrUnit) -> str:
     """ Returns the form of a quantity as a string.
 
@@ -993,4 +992,45 @@ def vstack(sequence, to_unit=None, to_form=None, type_value='tuple', standardize
         return quantity(output_value, output_unit, form=to_form, standardized=standardized)
     else:
         raise ValueError
+
+def get_constant(constant_name: str,
+                to_unit:  Optional[str]=None,
+                to_form: Optional[str]=None,
+                standardized: Optional[bool]=False)-> QuantityLike:
+
+    from pyunitwizard import _constants
+    from pyunitwizard import _constants_synonyms
+
+    if constant_name in _constants_synonyms:
+        constant_name = _constants_synonyms[constant_name]
+
+    try:
+
+        value, unit = _constants[constant_name]
+        output = quantity(value, unit, form=to_form, standardized=standardized)
+        if to_unit is not None:
+            output = convert(output, to_unit=to_unit)
+
+        return output
+
+    except:
+
+        raise ValueError
+
+def show_constants()-> dict:
+
+    from pyunitwizard import _constants
+    from pyunitwizard import _constants_synonyms
+
+    output = {}
+
+    for constant_name, constant_value in _constants.items():
+        names = [constant_name]
+        value = f'{constant_value[0]} {constant_value[1]}'
+        for ii, jj in _constants_synonyms.items():
+            if jj==constant_name:
+                names.append(ii)
+        output[tuple(names)]=value
+
+    return output
 
