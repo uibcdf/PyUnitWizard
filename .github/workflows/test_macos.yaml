@@ -31,7 +31,7 @@ jobs:
           channel_priority: strict
 
         create-args: >-
-          python="3.11"
+          python=3.11
 
     - name: Info conda
       shell: bash -l {0}
