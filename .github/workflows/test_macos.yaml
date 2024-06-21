@@ -22,7 +22,7 @@ jobs:
     - name: Install micromamba
       uses: mamba-org/setup-micromamba@v1
       with:
-        environment-name: test
+        environment-name: Test MacOs Python 3.11
         condarc: |
           channels:
             - uibcdf
@@ -36,11 +36,11 @@ jobs:
     - name: Info conda
       shell: bash -l {0}
       run: |
+        micromamba activate test
         micromamba info
         micromamba list
 
     - name: Test installation
       run: |
-        micromamba activate test
-        conda install pyunitwizard
+        conda install pyunitwizard -c uibcdf
         python -c "import pyunitwizard; print(pyunitwizard.__version__)"
