@@ -1,12 +1,12 @@
 
-name: Test installation on macOS
+name: Test installation on MacOS
 
 on:
   workflow_dispatch:
 
 
 jobs:
-  Python 3.11:
+  Python_3.11:
     runs-on: macos-latest
 
     steps:
