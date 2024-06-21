@@ -21,6 +21,10 @@ jobs:
       with:
         fetch-depth: 0    
 
+    - name: Rename source directory to avoid conflict
+      run: |
+        mv pyunitwizard pyunitwizard_src
+
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
