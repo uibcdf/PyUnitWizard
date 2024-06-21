@@ -42,5 +42,5 @@ jobs:
 
     - name: Test installation
       run: |
-        micromamba install pyunitwizard
+        micromamba install -n test pyunitwizard
         python -c "import pyunitwizard; print(pyunitwizard.__version__)"
