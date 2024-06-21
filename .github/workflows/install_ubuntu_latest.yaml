@@ -22,6 +22,7 @@ jobs:
         fetch-depth: 0    
 
     - name: Rename source directory to avoid conflict
+      shell: bash -l {0}
       run: |
         mv pyunitwizard pyunitwizard_src
 
@@ -47,12 +48,13 @@ jobs:
     - name: Info conda
       shell: bash -l {0}
       run: |
+        micromamba activate test
         micromamba info
         micromamba list
         micromamba search pyunitwizard --channel uibcdf
 
     - name: Test installation
+      shell: bash -l {0}
       run: |
         micromamba install -n test pyunitwizard
-        micromamba activate test
         python -c "import pyunitwizard; print(pyunitwizard.__version__)"
