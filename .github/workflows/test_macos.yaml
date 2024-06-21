@@ -40,7 +40,7 @@ jobs:
         micromamba activate test
         micromamba info
         micromamba list
-        micromamba search --channel uibcdf
+        micromamba search pyunitwizard --channel uibcdf
 
     - name: Test installation
       run: |
