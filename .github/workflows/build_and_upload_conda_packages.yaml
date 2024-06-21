@@ -52,6 +52,7 @@ jobs:
           label: auto
           platform_linux-64: true
           platform_osx-64: true
-          platform_win-64: false
+          platform_osx-arm64: true
+          platform_win-64: true
           token: ${{ secrets.ANACONDA_UIBCDF_TOKEN }}
 
