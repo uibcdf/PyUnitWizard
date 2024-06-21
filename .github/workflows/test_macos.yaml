@@ -6,7 +6,7 @@ on:
 
 
 jobs:
-  Python_3.11:
+  test:
     runs-on: macos-latest
 
     steps:
