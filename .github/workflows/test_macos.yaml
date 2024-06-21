@@ -8,6 +8,7 @@ on:
 jobs:
   test:
     runs-on: macos-latest
+    name: Test wit Python 3.11
 
     steps:
     - uses: actions/checkout@v4
@@ -39,6 +40,8 @@ jobs:
         micromamba activate test
         micromamba info
         micromamba list
+        micromamba clean
+        micromamba repoquery
 
     - name: Test installation
       run: |
