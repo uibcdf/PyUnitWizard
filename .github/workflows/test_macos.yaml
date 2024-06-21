@@ -1,5 +1,5 @@
 
-name: Test pyunitwizard installation on macOS
+name: Test installation on macOS
 
 on:
   workflow_dispatch:
