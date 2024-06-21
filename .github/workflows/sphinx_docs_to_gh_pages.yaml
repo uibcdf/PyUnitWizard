@@ -33,7 +33,7 @@ jobs:
               - defaults
             channel_priority: strict
           create-args: >-
-            python=3.10
+            python=3.11
 
       - name: Installing the library
         shell: bash -l {0}
@@ -56,5 +56,5 @@ jobs:
           echo "::endgroup::"
 
       - name: Running the Sphinx to gh-pages Action
-        uses: uibcdf/action-sphinx-docs-to-gh-pages@v2.0.0
+        uses: uibcdf/action-sphinx-docs-to-gh-pages@v2.1.0
 
