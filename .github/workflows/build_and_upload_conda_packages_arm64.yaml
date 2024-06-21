@@ -1,4 +1,4 @@
-name: Build and upload conda packages ARM64
+name: Build/upload conda packages ARM64
 
 on:
   release:
