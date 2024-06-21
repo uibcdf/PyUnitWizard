@@ -42,5 +42,5 @@ jobs:
 
     - name: Test installation
       run: |
-        conda install pyunitwizard -c uibcdf
+        micromamba install pyunitwizard
         python -c "import pyunitwizard; print(pyunitwizard.__version__)"
