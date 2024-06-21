@@ -47,7 +47,6 @@ jobs:
     - name: Info conda
       shell: bash -l {0}
       run: |
-        micromamba activate test
         micromamba info
         micromamba list
         micromamba search pyunitwizard --channel uibcdf
@@ -55,4 +54,5 @@ jobs:
     - name: Test installation
       run: |
         micromamba install -n test pyunitwizard
+        micromamba activate test
         python -c "import pyunitwizard; print(pyunitwizard.__version__)"
