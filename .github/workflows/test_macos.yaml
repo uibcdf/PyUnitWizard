@@ -40,10 +40,8 @@ jobs:
         micromamba activate test
         micromamba info
         micromamba list
-        micromamba clean
-        micromamba repoquery
 
     - name: Test installation
       run: |
-        micromamba install -n test pyunitwizard
+        micromamba install -n test pyunitwizard --update-all
         python -c "import pyunitwizard; print(pyunitwizard.__version__)"
