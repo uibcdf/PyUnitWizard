@@ -1,0 +1,46 @@
+
+name: Test pyunitwizard installation on macOS
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  test:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0    
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.11
+
+    - name: Install micromamba
+      uses: mamba-org/setup-micromamba@v1
+      with:
+        environment-name: test
+        condarc: |
+          channels:
+            - uibcdf
+            - conda-forge
+            - defaults
+          channel_priority: strict
+
+        create-args: >-
+          python="3.11"
+
+    - name: Info conda
+      shell: bash -l {0}
+      run: |
+        micromamba info
+        micromamba list
+
+    - name: Test installation
+      run: |
+        micromamba activate test
+        conda install pyunitwizard
+        python -c "import pyunitwizard; print(pyunitwizard.__version__)"
