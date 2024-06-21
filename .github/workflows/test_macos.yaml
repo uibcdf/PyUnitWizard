@@ -6,7 +6,7 @@ on:
 
 
 jobs:
-  test:
+  test MacOS Python 3.11:
     runs-on: macos-latest
 
     steps:
@@ -22,7 +22,7 @@ jobs:
     - name: Install micromamba
       uses: mamba-org/setup-micromamba@v1
       with:
-        environment-name: Test MacOs Python 3.11
+        environment-name: test
         condarc: |
           channels:
             - uibcdf
