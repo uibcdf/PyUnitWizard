@@ -6,6 +6,7 @@ dependencies:
 - pint
 - pytest
 - pytest-cov
+- pytest-xdist
 - codecov
 - openmm
 - unyt
