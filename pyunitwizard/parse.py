@@ -5,6 +5,28 @@ from .forms import dict_translate_quantity
 import ast
 from typing import Optional
 
+def _find_closing_bracket_position(string):
+    stack = 0
+    for i, char in enumerate(string):
+        if char == '[':
+            stack += 1
+        elif char == ']':
+            stack -= 1
+            if stack == 0:
+                return i
+    raise ValueError  # If there is no closing bracket
+
+def _find_closing_parenthesis_position(string):
+    stack = 0
+    for i, char in enumerate(string):
+        if char == '(':
+            stack += 1
+        elif char == ')':
+            stack -= 1
+            if stack == 0:
+                return i
+    raise ValueError  # If there is no closing parenthesis
+
 def _parse_with_pint(string: str):
     """ Parses a string and returns a pint quantity.
 
@@ -19,13 +41,22 @@ def _parse_with_pint(string: str):
             A pint quantity.
     """
     # Check if it's a non scalar quantity
-    if string.startswith('[') or string.startswith('('):
+    if string.startswith('['):
 
-        end_list = max(string.rfind(')')+1, string.rfind(']')+1)
-        value_string = string[:end_list]
-        unit_string = string[end_list:]
+        end_list = _find_closing_bracket_position(string)
+        value_string = string[:(end_list+1)]
+        unit_string = string[(end_list+1):]
 
         return ast.literal_eval(value_string)*dict_translate_quantity['string']['pint'](unit_string)
+
+    elif string.startswith('('):
+
+        end_list = _find_closing_parenthesis_position(string)
+        value_string = string[:(end_list+1)]
+        unit_string = string[(end_list+1):]
+
+        return ast.literal_eval(value_string)*dict_translate_quantity['string']['pint'](unit_string)
+
     else:
        return dict_translate_quantity['string']['pint'](string)
 

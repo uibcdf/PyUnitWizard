@@ -22,9 +22,9 @@ def test_parse_with_pint_array():
     assert np.allclose(quantity.magnitude, np.array([3, 2, 1]))
     assert str(quantity.units) == "meter"
 
-    quantity = _parse_with_pint("[[2, 5, 7], [7, 8, 9]] joules")
+    quantity = _parse_with_pint("[[2, 5, 7], [7, 8, 9]] kilojoules/(mol*nanometer)")
     assert np.allclose(quantity.magnitude, np.array([[2, 5, 7], [7, 8, 9]]))
-    assert str(quantity.units) == "joule"
+    assert str(quantity.units) == "kilojoule / mole / nanometer"
 
 def test_parse_to_pint():
     
