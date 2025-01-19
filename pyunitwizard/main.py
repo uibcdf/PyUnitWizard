@@ -237,7 +237,8 @@ def are_close(quantity_1: QuantityLike,
     return False
 
 def are_equal(quantity_or_unit_1: QuantityOrUnit,
-              quantity_or_unit_2: QuantityOrUnit) -> bool:
+              quantity_or_unit_2: QuantityOrUnit,
+              same_form=False) -> bool:
     """ Compares whether two quantities are similiar within a specified tolerance.
     
         Parameters
@@ -256,6 +257,13 @@ def are_equal(quantity_or_unit_1: QuantityOrUnit,
         bool
             Whether the quantities or units are similar.
     """
+
+    if same_form:
+        form_1 = get_form(quantity_or_unit_1)
+        form_2 = get_form(quantity_or_unit_2)
+        if form_1!=form_2:
+            return False
+
     compatible = are_compatible(quantity_or_unit_1, quantity_or_unit_2)
 
     if compatible:
@@ -864,173 +872,4 @@ def check(quantity_or_unit: Any,
 
     return True
 
-def concatenate(sequence, to_unit=None, to_form=None, type_value='tuple', standardized=False):
-
-    sequence_of_sequences = False
-
-    if isinstance(sequence, (list, tuple, np.ndarray)):
-        if isinstance(sequence[0], (list, tuple, np.ndarray)):
-            sequence_of_sequences = True
-
-    if not sequence_of_sequences:
-
-        if to_unit is None:
-            output_unit = get_unit(sequence[0])
-        else:
-            output_unit = to_unit
-
-        output_value = []
-
-        for aux_quantity in sequence:
-            output_value.append(get_value(aux_quantity, to_unit=output_unit))
-
-        if type_value=='list':
-            return quantity(output_value, output_unit, form=to_form, standardized=standardized)
-        elif type_value=='tuple':
-            return quantity(tuple(output_value), output_unit, form=to_form, standardized=standardized)
-        elif type_value=='numpy.ndarray':
-            return quantity(np.array(output_value), output_unit, form=to_form, standardized=standardized)
-        else:
-            raise ValueError
-
-    else:
-
-        if to_unit is None:
-            output_unit = get_unit(sequence[0][0])
-        else:
-            output_unit = to_unit
-
-        output_value = []
-
-        for aux_seq in sequence:
-            for aux_quantity in aux_seq:
-                output_value.append(get_value(aux_quantity, to_unit=output_unit))
-
-        if type_value=='list':
-            return quantity(output_value, output_unit, form=to_form, standardized=standardized)
-        elif type_value=='tuple':
-            return quantity(tuple(output_value), output_unit, form=to_form, standardized=standardized)
-        elif type_value=='numpy.ndarray':
-            return quantity(np.array(output_value), output_unit, form=to_form, standardized=standardized)
-        else:
-            raise ValueError
-
-def stack(sequence, to_unit=None, to_form=None, type_value='tuple', standardized=False):
-
-    if to_unit is None:
-        output_unit = get_unit(sequence[0][0])
-    else:
-        output_unit = to_unit
-
-    output_value = []
-
-    for aux_seq in sequence:
-        aux_list = []
-        for aux_quantity in aux_seq:
-            aux_list.append(get_value(aux_quantity, to_unit=output_unit))
-        output_value.append(aux_list)
-
-    output_value = np.stack(output_value)
-
-    if type_value=='list':
-        return quantity(output_value.tolist(), output_unit, form=to_form, standardized=standardized)
-    elif type_value=='tuple':
-        return quantity(tuple(output_value.tolist()), output_unit, form=to_form, standardized=standardized)
-    elif type_value=='numpy.ndarray':
-        return quantity(output_value, output_unit, form=to_form, standardized=standardized)
-    else:
-        raise ValueError
-
-def hstack(sequence, to_unit=None, to_form=None, type_value='tuple', standardized=False):
-
-    if to_unit is None:
-        output_unit = get_unit(sequence[0][0])
-    else:
-        output_unit = to_unit
-
-    output_value = []
-
-    for aux_seq in sequence:
-        aux_list = []
-        for aux_quantity in aux_seq:
-            aux_list.append(get_value(aux_quantity, to_unit=output_unit))
-        output_value.append(aux_list)
-
-    output_value = np.hstack(output_value)
-
-    if type_value=='list':
-        return quantity(output_value.tolist(), output_unit, form=to_form, standardized=standardized)
-    elif type_value=='tuple':
-        return quantity(tuple(output_value.tolist()), output_unit, form=to_form, standardized=standardized)
-    elif type_value=='numpy.ndarray':
-        return quantity(output_value, output_unit, form=to_form, standardized=standardized)
-    else:
-        raise ValueError
-
-def vstack(sequence, to_unit=None, to_form=None, type_value='tuple', standardized=False):
-
-    if to_unit is None:
-        output_unit = get_unit(sequence[0][0])
-    else:
-        output_unit = to_unit
-
-    output_value = []
-
-    for aux_seq in sequence:
-        aux_list = []
-        for aux_quantity in aux_seq:
-            aux_list.append(get_value(aux_quantity, to_unit=output_unit))
-        output_value.append(aux_list)
-
-    output_value = np.vstack(output_value)
-
-    if type_value=='list':
-        return quantity(output_value.tolist(), output_unit, form=to_form, standardized=standardized)
-    elif type_value=='tuple':
-        return quantity(tuple(output_value.tolist()), output_unit, form=to_form, standardized=standardized)
-    elif type_value=='numpy.ndarray':
-        return quantity(output_value, output_unit, form=to_form, standardized=standardized)
-    else:
-        raise ValueError
-
-def get_constant(constant_name: str,
-                to_unit:  Optional[str]=None,
-                to_form: Optional[str]=None,
-                standardized: Optional[bool]=False)-> QuantityLike:
-
-    from pyunitwizard import _constants
-    from pyunitwizard import _constants_synonyms
-
-    if constant_name in _constants_synonyms:
-        constant_name = _constants_synonyms[constant_name]
-
-    try:
-
-        value, unit = _constants[constant_name]
-        output = quantity(value, unit, form=to_form, standardized=standardized)
-        if to_unit is not None:
-            output = convert(output, to_unit=to_unit)
-
-        return output
-
-    except:
-
-        raise ValueError
-
-def show_constants()-> dict:
-
-    from pyunitwizard import _constants
-    from pyunitwizard import _constants_synonyms
-
-    output = {}
-
-    for constant_name, constant_value in _constants.items():
-        names = [constant_name]
-        value = f'{constant_value[0]} {constant_value[1]}'
-        for ii, jj in _constants_synonyms.items():
-            if jj==constant_name:
-                names.append(ii)
-        output[tuple(names)]=value
-
-    return output
 

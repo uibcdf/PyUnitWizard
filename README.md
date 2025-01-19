@@ -1,12 +1,22 @@
 # PyUnitWizard
 
-[![GitHub Actions Build Status](https://github.com/uibcdf/PyUnitWizard/workflows/CI/badge.svg)](https://github.com/uibcdf/PyUnitWizard/actions?query=workflow%3ACI)
-[![codecov](https://codecov.io/gh/uibcdf/PyUnitWizard/branch/master/graph/badge.svg)](https://codecov.io/gh/uibcdf/PyUnitWizard/branch/master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-blue.svg)](https://www.python.org/downloads/) 
+[![Documentation](https://github.com/uibcdf/PyUnitWizard/actions/workflows/sphinx_docs_to_gh_pages.yaml/badge.svg)](https://github.com/uibcdf/PyUnitWizard/actions/workflows/sphinx_docs_to_gh_pages.yaml)
+[![CI](https://github.com/uibcdf/PyUnitWizard/actions/workflows/CI.yaml/badge.svg)](https://github.com/uibcdf/PyUnitWizard/actions/workflows/CI.yaml)
+[![codecov](https://codecov.io/github/uibcdf/PyUnitWizard/graph/badge.svg?token=9ZMA4YZLOR)](https://codecov.io/github/uibcdf/PyUnitWizard)
 [![Install with conda](https://img.shields.io/badge/Install%20with-conda-brightgreen.svg)](https://conda.anaconda.org/uibcdf/pyunitwizard)
+[![Installation on ubuntu-latest](https://github.com/uibcdf/PyUnitWizard/actions/workflows/install_ubuntu_latest.yaml/badge.svg)](https://github.com/uibcdf/PyUnitWizard/actions/workflows/install_ubuntu_latest.yaml)
+[![Installation on macos-latest](https://github.com/uibcdf/PyUnitWizard/actions/workflows/install_macos_latest.yaml/badge.svg)](https://github.com/uibcdf/PyUnitWizard/actions/workflows/install_macos_latest.yaml)
 
-There are several Python libraries to work with physical quantities in the market, such as pint, unyt or openmm.unit. Imagine that your project or workflow requires the interaction with more than one of these tools, or that you are not sure if you will work with a different quantities library in the future. Wouldn't having a unique API to work with different forms of physical quantities be a relief? PyUnitWizard just does that. It is the wizard you need in your code to change the form of your quantities with no effort.
+
+There are several Python libraries to work with physical quantities in the
+market, such as pint, unyt or openmm.unit. Imagine that your project or
+workflow requires the interaction with more than one of these tools, or that
+you are not sure if you will work with a different quantities library in the
+future. Wouldn't having a unique API to work with different forms of physical
+quantities be a relief? PyUnitWizard just does that. It is the wizard you need
+in your code to change the form of your quantities with no effort.
 
 ## Example
 
