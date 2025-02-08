@@ -57,7 +57,7 @@ jobs:
           mambabuild: false
           user: uibcdf
           label: main
-          conda_build_args: --pkg-format tarbz2
+          conda_build_args: --package-format tar.bz2
           platform_linux-64: true
           platform_osx-64: true
           platform_osx-arm64: true
