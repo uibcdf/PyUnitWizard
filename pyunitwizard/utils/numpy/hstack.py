@@ -1,5 +1,8 @@
-def hstack(sequence, to_unit=None, to_form=None, value_type='tuple', standardized=False):
+import numpy as np
+from pyunitwizard import quantity, get_unit, get_value
 
+def hstack(sequence, to_unit=None, to_form=None, value_type='tuple', standardized=False):
+    
     if to_unit is None:
         output_unit = get_unit(sequence[0][0])
     else:
